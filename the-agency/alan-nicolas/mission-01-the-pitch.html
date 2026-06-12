@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MISSION 01 — THE PITCH | AGB Intelligence Division</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ab: #050505; --cn: #07111F; --bw: #F4EFE7;
+  --ig: #C6A15B; --tc: #1A1A1A;
+  --gb: rgba(198,161,91,0.15); --gbd: rgba(198,161,91,0.3);
+  --tm: rgba(244,239,231,0.55); --ts: rgba(244,239,231,0.78);
+  --danger: #C6453A; --ok: #3A8A5A;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--ab);color:var(--bw);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);pointer-events:none;z-index:0;}
+.cls{background:var(--danger);color:#fff;text-align:center;padding:8px 24px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;position:sticky;top:0;z-index:100;}
+.doc{max-width:920px;margin:0 auto;padding:0 24px 100px;position:relative;z-index:1;}
+
+/* HEADER */
+.dh{border-bottom:1px solid var(--gbd);padding:56px 0 40px;margin-bottom:0;}
+.dh-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--ig);text-transform:uppercase;margin-bottom:20px;display:flex;gap:28px;flex-wrap:wrap;}
+.dh h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);font-weight:700;line-height:1.15;margin-bottom:6px;}
+.dh .sub{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ig);letter-spacing:.15em;text-transform:uppercase;margin-bottom:28px;}
+
+/* PROFILE CARD */
+.pc{background:var(--cn);border:1px solid var(--gbd);border-top:3px solid var(--ig);padding:28px;margin:32px 0;display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:600px){.pc{grid-template-columns:1fr;}}
+.pf label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--ig);text-transform:uppercase;display:block;margin-bottom:5px;}
+.pf .v{font-family:'Playfair Display',serif;font-size:17px;}
+.pf .vm{font-family:'IBM Plex Mono',monospace;font-size:13px;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--gb);border:1px solid var(--gbd);padding:5px 12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--ig);}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ig);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* SECTIONS */
+.sec{margin-top:60px;}
+.sh{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(198,161,91,.2);}
+.sn{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ig);letter-spacing:.1em;}
+.st{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:600;}
+.stag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--tm);text-transform:uppercase;margin-left:auto;}
+
+/* INTEL BOX */
+.ib{background:rgba(198,161,91,.07);border:1px solid var(--gbd);border-left:3px solid var(--ig);padding:18px 22px;margin:20px 0;}
+.ib .il{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--ig);text-transform:uppercase;margin-bottom:8px;}
+.ib p{font-size:13px;color:var(--ts);line-height:1.7;}
+
+/* OBJECTIVES */
+.obj-list{list-style:none;display:grid;gap:8px;margin-top:12px;}
+.obj-list li{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;background:var(--tc);border-left:2px solid var(--gbd);font-size:13px;color:var(--ts);}
+.obj-list li .bloom{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ig);letter-spacing:.12em;text-transform:uppercase;min-width:72px;padding-top:2px;}
+
+/* PARAMS */
+.params{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+@media(max-width:600px){.params{grid-template-columns:1fr;}}
+.param{background:var(--cn);border:1px solid var(--gbd);padding:16px;text-align:center;}
+.param .pl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--ig);text-transform:uppercase;margin-bottom:6px;}
+.param .pv{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--bw);}
+
+/* VOCAB CARDS */
+.vocab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+@media(max-width:700px){.vocab-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:440px){.vocab-grid{grid-template-columns:1fr;}}
+.vcard{height:160px;perspective:700px;cursor:pointer;}
+.vcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s;}
+.vcard.flipped .vcard-inner{transform:rotateY(180deg);}
+.vfront,.vback{position:absolute;inset:0;backface-visibility:hidden;padding:16px;background:var(--tc);border:1px solid var(--gbd);}
+.vback{background:var(--cn);transform:rotateY(180deg);border-color:var(--ig);}
+.vword{font-family:'IBM Plex Mono',monospace;font-size:1rem;color:var(--bw);font-weight:500;margin-bottom:4px;}
+.vpron{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ig);letter-spacing:.1em;margin-bottom:8px;}
+.vhint{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tm);letter-spacing:.08em;}
+.vdef{font-size:11px;color:var(--ts);line-height:1.5;margin-bottom:6px;}
+.vex{font-size:11px;color:var(--ig);font-style:italic;line-height:1.4;margin-bottom:6px;}
+.vwarn{font-size:10px;color:var(--danger);font-family:'IBM Plex Mono',monospace;}
+
+/* FALSE COGNATES */
+.trap-grid{display:grid;gap:12px;margin-top:16px;}
+.trap{background:var(--tc);border:1px solid rgba(255,255,255,.06);padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:540px){.trap{grid-template-columns:1fr;}}
+.trap-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--tm);text-transform:uppercase;margin-bottom:6px;}
+.trap-word{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:8px;}
+.wrong{color:var(--danger);}
+.right{color:var(--ok);}
+.trap-ex{font-size:12px;line-height:1.5;color:var(--ts);}
+.trap-ex s{color:var(--danger);}
+.trap-note{font-size:11px;color:var(--tm);margin-top:6px;font-style:italic;}
+
+/* ARCHITECTURE */
+.arch{display:grid;gap:2px;margin-top:20px;}
+.arch-row{display:grid;grid-template-columns:180px 1fr;gap:0;background:var(--tc);}
+@media(max-width:600px){.arch-row{grid-template-columns:1fr;}}
+.arch-label{background:var(--cn);padding:18px 20px;border-right:1px solid var(--gbd);}
+.arch-label .al{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--ig);text-transform:uppercase;margin-bottom:6px;}
+.arch-label .an{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--bw);}
+.arch-content{padding:18px 20px;}
+.arch-content .sentence{font-family:'Playfair Display',serif;font-size:1rem;color:var(--bw);margin-bottom:8px;font-style:italic;}
+.arch-content .pattern{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ig);line-height:1.5;}
+
+/* DRILLS */
+.drill-group{margin-bottom:40px;}
+.dg-title{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--ig);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06);}
+.drill{background:var(--tc);border:1px solid rgba(255,255,255,.06);padding:20px;margin-bottom:10px;}
+.drill-num{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ig);letter-spacing:.15em;margin-bottom:10px;}
+.drill-q{font-size:14px;color:var(--bw);margin-bottom:14px;line-height:1.6;}
+.drill-q em{color:var(--ig);font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:12px;}
+.opts{display:flex;flex-wrap:wrap;gap:8px;}
+.opt{padding:8px 14px;border:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--ts);cursor:pointer;transition:all .15s;background:var(--ab);font-family:'IBM Plex Mono',monospace;}
+.opt:hover{border-color:var(--gbd);color:var(--bw);}
+.opt.correct{border-color:var(--ok);color:var(--ok);background:rgba(58,138,90,.12);}
+.opt.wrong{border-color:var(--danger);color:var(--danger);background:rgba(198,69,58,.1);}
+.drill-fb{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:10px;padding:8px 12px;display:none;}
+.drill-fb.show{display:block;}
+.drill-fb.ok{background:rgba(58,138,90,.1);border-left:2px solid var(--ok);color:var(--ok);}
+.drill-fb.err{background:rgba(198,69,58,.08);border-left:2px solid var(--danger);color:var(--danger);}
+
+/* SCRAMBLE DRILLS */
+.scramble-wrap{margin-top:8px;}
+.chips-pool{display:flex;flex-wrap:wrap;gap:6px;min-height:36px;margin-bottom:10px;}
+.chip{padding:7px 12px;background:var(--cn);border:1px solid var(--gbd);font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--bw);cursor:pointer;transition:all .15s;}
+.chip:hover{background:var(--gb);}
+.chip.used{opacity:.25;pointer-events:none;}
+.answer-zone{min-height:44px;border:1px dashed rgba(198,161,91,.3);padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px;background:rgba(0,0,0,.3);}
+.answer-zone .chip{cursor:pointer;}
+.scramble-btns{display:flex;gap:8px;}
+.sbtn{padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border:1px solid;transition:all .15s;}
+.sbtn.check{background:var(--ig);color:var(--ab);border-color:var(--ig);}
+.sbtn.check:hover{background:#e8c882;}
+.sbtn.reset{background:transparent;color:var(--tm);border-color:rgba(255,255,255,.12);}
+.sbtn.reset:hover{border-color:var(--gbd);color:var(--bw);}
+
+/* TRANSFORMATION DRILLS */
+.transform-drill{background:var(--tc);border:1px solid rgba(255,255,255,.06);padding:20px;margin-bottom:10px;}
+.td-wrong{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--danger);margin-bottom:12px;padding:10px 14px;background:rgba(198,69,58,.08);border-left:2px solid var(--danger);}
+.td-input{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);color:var(--bw);padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;transition:border .2s;}
+.td-input:focus{border-color:var(--gbd);}
+.td-input.correct-inp{border-color:var(--ok);}
+.td-input.wrong-inp{border-color:var(--danger);}
+.td-reveal{margin-top:8px;padding:8px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ok);background:rgba(58,138,90,.08);border-left:2px solid var(--ok);display:none;}
+.td-reveal.show{display:block;}
+.reveal-btn{margin-top:8px;padding:7px 14px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--tm);cursor:pointer;transition:all .15s;}
+.reveal-btn:hover{border-color:var(--gbd);color:var(--bw);}
+
+/* THREE PITCHES */
+.pitch-block{border:1px solid;padding:24px;margin-bottom:16px;}
+.pitch-block.weak{border-color:var(--danger);}
+.pitch-block.better{border-color:#C6A15B66;}
+.pitch-block.best{border-color:var(--ig);}
+.pitch-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;}
+.pitch-block.weak .pitch-label{color:var(--danger);}
+.pitch-block.better .pitch-label{color:rgba(198,161,91,.7);}
+.pitch-block.best .pitch-label{color:var(--ig);}
+.pitch-text{font-family:'Playfair Display',serif;font-size:1rem;line-height:1.8;color:var(--bw);margin-bottom:16px;}
+.vc-heard{background:rgba(0,0,0,.4);padding:14px 16px;border-left:2px solid;}
+.pitch-block.weak .vc-heard{border-color:var(--danger);}
+.pitch-block.better .vc-heard{border-color:rgba(198,161,91,.5);}
+.pitch-block.best .vc-heard{border-color:var(--ig);}
+.vc-heard .vl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--tm);text-transform:uppercase;margin-bottom:6px;}
+.vc-heard p{font-size:12px;color:var(--ts);line-height:1.6;font-style:italic;}
+
+/* OBJECTION */
+.obj-block{background:var(--cn);border:1px solid var(--gbd);padding:22px;margin-bottom:14px;}
+.obj-q{font-family:'Playfair Display',serif;font-size:1rem;color:var(--bw);margin-bottom:12px;font-style:italic;}
+.obj-q::before{content:'"';color:var(--ig);}
+.obj-q::after{content:'"';color:var(--ig);}
+.obj-template{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ig);line-height:1.6;margin-bottom:12px;padding:10px 14px;background:var(--gb);border:1px solid var(--gbd);}
+.obj-fill{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);color:var(--bw);padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;resize:vertical;min-height:70px;transition:border .2s;}
+.obj-fill:focus{border-color:var(--gbd);}
+.model-btn{margin-top:8px;padding:7px 14px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--tm);cursor:pointer;transition:all .15s;}
+.model-btn:hover{border-color:var(--gbd);color:var(--bw);}
+.model-answer{margin-top:10px;padding:12px 16px;background:var(--gb);border:1px solid var(--gbd);font-size:12px;color:var(--ts);line-height:1.6;display:none;}
+.model-answer.show{display:block;}
+
+/* TIMER */
+.timer-wrap{background:var(--cn);border:1px solid var(--gbd);padding:40px;text-align:center;margin-top:20px;}
+.timer-display{font-family:'IBM Plex Mono',monospace;font-size:5rem;letter-spacing:.08em;margin-bottom:24px;transition:color .3s;}
+.timer-display.gold{color:var(--ig);}
+.timer-display.red{color:var(--danger);}
+.timer-display.default{color:var(--bw);}
+.timer-btns{display:flex;justify-content:center;gap:12px;margin-bottom:32px;}
+.tbtn{padding:12px 28px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border:1px solid;transition:all .15s;}
+.tbtn.start{background:var(--ig);color:var(--ab);border-color:var(--ig);}
+.tbtn.start:hover{background:#e8c882;}
+.tbtn.reset-t{background:transparent;color:var(--tm);border-color:rgba(255,255,255,.12);}
+.tbtn.reset-t:hover{border-color:var(--gbd);color:var(--bw);}
+.rubric{text-align:left;max-width:520px;margin:0 auto;}
+.rubric-title{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--ig);text-transform:uppercase;margin-bottom:12px;}
+.ritem{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;color:var(--ts);cursor:pointer;}
+.ritem input[type=checkbox]{display:none;}
+.rbox{width:14px;height:14px;min-width:14px;border:1px solid var(--gbd);display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.ritem.checked .rbox{background:var(--ig);border-color:var(--ig);}
+.ritem.checked .rbox::after{content:'✓';font-size:9px;color:var(--ab);}
+
+/* INTERFERENCE */
+.interf{background:var(--tc);border:1px solid rgba(255,255,255,.06);padding:20px;margin-bottom:10px;}
+.interf-title{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--ig);text-transform:uppercase;margin-bottom:10px;}
+.int-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+@media(max-width:540px){.int-pair{grid-template-columns:1fr;}}
+.int-w{font-size:13px;color:var(--danger);padding:8px 12px;background:rgba(198,69,58,.08);border-left:2px solid var(--danger);}
+.int-r{font-size:13px;color:var(--ok);padding:8px 12px;background:rgba(58,138,90,.08);border-left:2px solid var(--ok);}
+.int-why{font-size:11px;color:var(--tm);font-style:italic;line-height:1.5;margin-bottom:10px;}
+.int-drill{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ig);margin-top:6px;}
+
+/* PROGRESS */
+.prog-wrap{background:var(--cn);border:1px solid var(--gbd);padding:28px;margin-top:20px;}
+.prog-bar-wrap{background:rgba(255,255,255,.05);height:6px;margin-bottom:20px;}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--ig),#e8c882);transition:width .4s;}
+.prog-pct{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--ig);text-align:center;margin-bottom:4px;}
+.prog-label{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tm);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;}
+.prog-items{display:grid;gap:6px;}
+.pi{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--ab);border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:border .15s;font-size:13px;color:var(--ts);}
+.pi:hover{border-color:var(--gbd);}
+.pi.done{border-color:rgba(58,138,90,.3);}
+.pi.done .pbox{background:var(--ok);border-color:var(--ok);}
+.pi.done .pbox::after{content:'✓';font-size:9px;color:#fff;}
+.pbox{width:14px;height:14px;min-width:14px;border:1px solid var(--gbd);display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.pi-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ig);margin-left:auto;letter-spacing:.1em;}
+
+/* IPVA */
+.ipva{background:var(--cn);border:1px solid var(--gbd);border-top:3px solid var(--ig);padding:28px;margin-top:20px;}
+.ipva-title{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--ig);text-transform:uppercase;margin-bottom:20px;}
+.ipva-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.ipva-dim{font-size:13px;color:var(--ts);}
+.ipva-dim small{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tm);letter-spacing:.1em;margin-top:2px;}
+.ipva-input{width:64px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.12);color:var(--bw);padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;text-align:center;outline:none;transition:border .15s;}
+.ipva-input:focus{border-color:var(--ig);}
+.ipva-total{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--ig);text-align:center;margin:20px 0 6px;}
+.ipva-verdict{text-align:center;padding:12px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;border:1px solid;}
+.ipva-verdict.pass{color:var(--ok);border-color:var(--ok);background:rgba(58,138,90,.1);}
+.ipva-verdict.qualified{color:var(--ig);border-color:var(--ig);background:var(--gb);}
+.ipva-verdict.revise{color:var(--danger);border-color:var(--danger);background:rgba(198,69,58,.08);}
+
+/* SPACED REP */
+.sr-table{width:100%;border-collapse:collapse;margin-top:16px;}
+.sr-table th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--ig);text-transform:uppercase;text-align:left;padding:10px 14px;border-bottom:1px solid var(--gbd);}
+.sr-table td{font-size:13px;color:var(--ts);padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);}
+.sr-table tr:first-child td{border-top:2px solid var(--ig);}
+.sr-table td:first-child{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ig);}
+
+/* FOOTER */
+.footer{margin-top:80px;padding-top:28px;border-top:1px solid var(--gbd);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.fb{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--ig);text-transform:uppercase;}
+.fm{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tm);}
+.print-btn{position:fixed;bottom:28px;right:20px;background:var(--ig);color:var(--ab);border:none;padding:11px 18px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;z-index:50;transition:all .2s;}
+.print-btn:hover{background:#e8c882;}
+.divider{display:flex;align-items:center;gap:14px;margin:44px 0;color:var(--tm);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06);}
+@media print{.cls,.print-btn{display:none;} body{background:#fff;color:#000;}}
+</style>
+</head>
+<body>
+
+<div class="cls">⬛ CLASSIFIED — AGB INTELLIGENCE DIVISION — MISSION 01 — OPERATIVE: ALAN NICOLAS ⬛</div>
+
+<div class="doc">
+
+<!-- HEADER -->
+<header class="dh">
+  <div class="dh-meta">
+    <span>AGB // INTEL DIV</span>
+    <span>MISSION-01</span>
+    <span>EPIC-ENG-001</span>
+    <span>THE PITCH</span>
+    <span>JUNE 2026</span>
+  </div>
+  <h1 class="st" style="font-size:clamp(2rem,5vw,3rem);font-family:'Playfair Display',serif;font-weight:700;line-height:1.15;margin-bottom:6px;">Mission 01<br>The Pitch</h1>
+  <p class="sub" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ig);letter-spacing:.15em;text-transform:uppercase;margin-bottom:0;">// Vision Statement Architecture — Silicon Valley Edition</p>
+</header>
+
+<!-- PROFILE CARD -->
+<div class="pc">
+  <div>
+    <div class="pf" style="margin-bottom:18px"><label>// operative</label><div class="v">Alan Nicolas</div></div>
+    <div class="pf" style="margin-bottom:18px"><label>// epic</label><div class="vm">EPIC-ENG-001 — The Pitch</div></div>
+    <div class="pf"><label>// target environment</label><div class="vm">Silicon Valley — VC / Accelerator / Demo Day</div></div>
+  </div>
+  <div>
+    <div class="pf" style="margin-bottom:18px"><label>// handler</label><div class="v">Gabriel Bourne — AGB</div></div>
+    <div class="pf" style="margin-bottom:18px"><label>// mission status</label><div class="badge"><span class="dot"></span>ACTIVE — SPRINT 01</div></div>
+    <div class="pf"><label>// pass threshold</label><div class="vm">IPVA 80 / 100</div></div>
+  </div>
+</div>
+
+<!-- SECTION 0: MISSION BRIEFING -->
+<section class="sec">
+  <div class="sh"><span class="sn">00</span><h2 class="st">Mission Briefing</h2><span class="stag">ROSENSHINE — REVIEW FIRST</span></div>
+  <div class="ib"><div class="il">// operational context</div><p>AIOX is your weapon. Silicon Valley is the target. The only thing standing between your product and the capital it deserves is the 90 seconds before a VC decides whether to keep listening. This mission builds that 90 seconds — architected, drilled, and pressure-tested — so it fires without hesitation when it counts.</p></div>
+  <ul class="obj-list">
+    <li><span class="bloom">IDENTIFY</span> The 4-sentence vision statement architecture and the function of each sentence</li>
+    <li><span class="bloom">DECODE</span> 15 high-frequency investor vocabulary items with correct pronunciation and usage</li>
+    <li><span class="bloom">CONSTRUCT</span> A complete AIOX vision statement using the pattern + your own words</li>
+    <li><span class="bloom">DISTINGUISH</span> Weak, better, and best versions of a pitch — and diagnose why each lands differently</li>
+    <li><span class="bloom">DELIVER</span> A spontaneous 90-second pitch under simulated VC pressure, self-assessed against the rubric</li>
+  </ul>
+  <div class="params">
+    <div class="param"><div class="pl">// duration</div><div class="pv">60 min</div></div>
+    <div class="param"><div class="pl">// ipva pass</div><div class="pv">80+</div></div>
+    <div class="param"><div class="pl">// retry policy</div><div class="pv">Max 3×</div></div>
+  </div>
+  <div class="ib" style="margin-top:16px"><div class="il">// critical success factors</div><p>Three things you must master before this mission is complete: <strong style="color:var(--bw)">(1)</strong> The 4-sentence architecture — memorised as a structure, not a script. <strong style="color:var(--bw)">(2)</strong> Present simple tense fluency — 90% of pitch language lives here; no present continuous for general truths. <strong style="color:var(--bw)">(3)</strong> Zero translation hesitations — if the Portuguese is forming first, the VC is already gone.</p></div>
+</section>
+
+<!-- SECTION 1: VOCAB INTEL CARDS -->
+<section class="sec">
+  <div class="sh"><span class="sn">01</span><h2 class="st">Vocabulary Intel</h2><span class="stag">CLICK TO FLIP</span></div>
+  <p style="color:var(--tm);font-size:13px;margin-bottom:16px;font-family:'IBM Plex Mono',monospace;">15 words. Every one of them will appear in your pitch, your VC meetings, and your due diligence calls. Click each card to reveal definition, usage, and Portuguese interference note.</p>
+  <div class="vocab-grid" id="vocabGrid">
+    <!-- Cards injected by JS -->
+  </div>
+</section>
+
+<!-- SECTION 2: FALSE COGNATE TRAPS -->
+<section class="sec">
+  <div class="sh"><span class="sn">02</span><h2 class="st">False Cognate Trap Field</h2><span class="stag">PORTUGUESE INTERFERENCE</span></div>
+  <div class="ib"><div class="il">// intel note</div><p>These five words destroy Brazilian founder pitches. They look like Portuguese, they sound close enough to feel safe — and they mean something completely different. A VC who hears these errors doesn't correct you. They just stop believing you.</p></div>
+  <div class="trap-grid">
+    <div class="trap">
+      <div>
+        <div class="trap-label">// the word</div>
+        <div class="trap-word wrong">Eventually</div>
+        <div class="trap-ex"><s>"We will eventually scale to 100 clients."</s></div>
+        <div class="trap-note">NOT "eventualmente" (= soon/in the end)</div>
+      </div>
+      <div>
+        <div class="trap-label">// correct usage</div>
+        <div class="trap-word right">Eventually = one day / possibly</div>
+        <div class="trap-ex" style="color:var(--ok);">"We plan to scale to 100 clients within 12 months."<br><span style="color:var(--tm)">"Eventually, every dev team will need this." ✓</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <div>
+        <div class="trap-label">// the word</div>
+        <div class="trap-word wrong">Actually</div>
+        <div class="trap-ex"><s>"Actually we have 50 active clients."</s> (when meaning "currently")</div>
+        <div class="trap-note">NOT "atualmente" (= currently/at this time)</div>
+      </div>
+      <div>
+        <div class="trap-label">// correct usage</div>
+        <div class="trap-word right">Actually = na verdade / de fato</div>
+        <div class="trap-ex" style="color:var(--ok);">"We currently have 50 clients." ✓<br>"We actually outperform LangChain on this." ✓ (to contrast)</div>
+      </div>
+    </div>
+    <div class="trap">
+      <div>
+        <div class="trap-label">// the word</div>
+        <div class="trap-word wrong">Pretend</div>
+        <div class="trap-ex"><s>"We pretend to expand into the US market."</s></div>
+        <div class="trap-note">NOT "pretender" (= to intend/plan)</div>
+      </div>
+      <div>
+        <div class="trap-label">// correct usage</div>
+        <div class="trap-word right">Pretend = fingir</div>
+        <div class="trap-ex" style="color:var(--ok);">"We intend to expand into the US market." ✓<br>"We plan to open a US entity by Q1." ✓</div>
+      </div>
+    </div>
+    <div class="trap">
+      <div>
+        <div class="trap-label">// the word</div>
+        <div class="trap-word wrong">Realize</div>
+        <div class="trap-ex"><s>"We will realize this expansion in 2026."</s></div>
+        <div class="trap-note">NOT "realizar" (= to execute/carry out)</div>
+      </div>
+      <div>
+        <div class="trap-label">// correct usage</div>
+        <div class="trap-word right">Realize = perceber/entender</div>
+        <div class="trap-ex" style="color:var(--ok);">"We will execute this expansion in 2026." ✓<br>"We realized the market was bigger than we thought." ✓</div>
+      </div>
+    </div>
+    <div class="trap">
+      <div>
+        <div class="trap-label">// the word</div>
+        <div class="trap-word wrong">Compromise</div>
+        <div class="trap-ex"><s>"We are compromised to this vision."</s></div>
+        <div class="trap-note">NOT "comprometido" (= committed/dedicated)</div>
+      </div>
+      <div>
+        <div class="trap-label">// correct usage</div>
+        <div class="trap-word right">Compromise = acordo / concessão</div>
+        <div class="trap-ex" style="color:var(--ok);">"We are committed to this vision." ✓<br>"We don't compromise on quality." ✓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: ARCHITECTURE BRIEF -->
+<section class="sec">
+  <div class="sh"><span class="sn">03</span><h2 class="st">The Architecture Brief</h2><span class="stag">4-SENTENCE FRAMEWORK</span></div>
+  <div class="ib"><div class="il">// framework principle — no invention</div><p>A VC hears 10 pitches a day. The ones they remember follow a structure: Problem → Solution → Why Now → Why You. Not because it's a formula — because it's the only logical order that builds belief. Each sentence does exactly one job. Nothing else.</p></div>
+  <div class="arch">
+    <div class="arch-row">
+      <div class="arch-label"><div class="al">// sentence 01</div><div class="an">The Problem</div></div>
+      <div class="arch-content">
+        <div class="sentence">"Most companies are adding AI tools on top of broken processes — they're just getting faster garbage."</div>
+        <div class="pattern">PATTERN: "[Industry] is/are [verb+ing] [X] on top of [Y] — they [consequence]."</div>
+      </div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-label"><div class="al">// sentence 02</div><div class="an">The Solution</div></div>
+      <div class="arch-content">
+        <div class="sentence">"AIOX is the first CLI-first framework that lets technical teams deploy specialized AI agents through a single, constitutional operating system."</div>
+        <div class="pattern">PATTERN: "[Product] is the [superlative] [category] that [does X] through [named mechanism]."</div>
+      </div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-label"><div class="al">// sentence 03</div><div class="an">Why Now</div></div>
+      <div class="arch-content">
+        <div class="sentence">"In the next 18 months, every serious tech company will run on AI agents. The question is whether those agents work together or against each other."</div>
+        <div class="pattern">PATTERN: "In the next [timeframe], [trend]. The question is [binary choice]."</div>
+      </div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-label"><div class="al">// sentence 04</div><div class="an">Why You</div></div>
+      <div class="arch-content">
+        <div class="sentence">"I built this to solve my own problem as a founder. Two years later, it's become the operating system for AI-native companies."</div>
+        <div class="pattern">PATTERN: "I built this to [personal motivation]. [Time] later, it [evidence/validation]."</div>
+      </div>
+    </div>
+  </div>
+  <div class="ib" style="margin-top:16px"><div class="il">// extended version — for panels and keynotes</div><p style="font-style:italic;color:var(--bw);">"We give developers back the power to create — without being trapped inside someone else's AI ecosystem."</p></div>
+</section>
+
+<!-- SECTION 4: PATTERN DRILLS -->
+<section class="sec">
+  <div class="sh"><span class="sn">04</span><h2 class="st">Pattern Drills</h2><span class="stag">DLI METHOD — 15 DRILLS</span></div>
+
+  <div class="drill-group">
+    <div class="dg-title">// GROUP A — Substitution Drills (5)</div>
+
+    <div class="drill">
+      <div class="drill-num">DRILL A-01</div>
+      <div class="drill-q">Choose the correct word to complete Sentence 1 of the AIOX pitch:<br><br>"Most companies are adding AI tools on top of <em>___</em> processes."</div>
+      <div class="opts">
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  Not quite — "complex" describes the process but doesn\'t explain why the AI tools make things worse.')">complex</div>
+        <div class="opt" onclick="checkOpt(this,'correct','✓  Correct — "broken" is the word that makes the insight land. AI on top of broken = still broken.')">broken</div>
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  "existing" is neutral — it doesn\'t create the tension. The point is the processes are broken.')">existing</div>
+      </div>
+      <div class="drill-fb"></div>
+    </div>
+
+    <div class="drill">
+      <div class="drill-num">DRILL A-02</div>
+      <div class="drill-q">Which phrase correctly completes Sentence 2?<br><br>"AIOX is the first CLI-first framework that lets technical teams <em>___</em> specialized AI agents."</div>
+      <div class="opts">
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  "utilize" is too formal and vague — no mechanism. Also sounds like a consultant wrote it.')">utilize</div>
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  "create" suggests agents are built from scratch each time — that\'s not the product.')">create</div>
+        <div class="opt" onclick="checkOpt(this,'correct','✓  Correct — "deploy" is the precise technical term. It implies infrastructure, speed, and repeatability.')">deploy</div>
+      </div>
+      <div class="drill-fb"></div>
+    </div>
+
+    <div class="drill">
+      <div class="drill-num">DRILL A-03</div>
+      <div class="drill-q">Which opening is correct for the Why Now sentence?<br><br>"<em>___</em> 18 months, every serious tech company will run on AI agents."</div>
+      <div class="opts">
+        <div class="opt" onclick="checkOpt(this,'correct','✓  Correct — "In the next" sets up the time-bounded urgency. This is the standard VC timeframe phrase.')">In the next</div>
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  "During the next" is grammatically possible but sounds unnatural in a pitch context.')">During the next</div>
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  "In the following" is written English — too formal and slow for a spoken pitch.')">In the following</div>
+      </div>
+      <div class="drill-fb"></div>
+    </div>
+
+    <div class="drill">
+      <div class="drill-num">DRILL A-04</div>
+      <div class="drill-q">Complete the binary question at the end of the Why Now sentence:<br><br>"The question is whether those agents work together <em>___</em>."</div>
+      <div class="opts">
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  "or they don\'t" is informal and loses the implied stakes. The binary needs to feel consequential.')">or they don't</div>
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  "or they fail" adds drama but changes the meaning — AIOX\'s point is about coordination, not failure.')">or they fail</div>
+        <div class="opt" onclick="checkOpt(this,'correct','✓  Correct — "against each other" is the clean binary. Coordination vs. chaos. That\'s the market bet.')">or against each other</div>
+      </div>
+      <div class="drill-fb"></div>
+    </div>
+
+    <div class="drill">
+      <div class="drill-num">DRILL A-05</div>
+      <div class="drill-q">Which phrase correctly completes the Why You sentence?<br><br>"I built this to solve my own problem as a founder. Two years later, it's become <em>___</em>."</div>
+      <div class="opts">
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  "very popular" is weak. VCs don\'t care about popularity — they care about defensibility.')">very popular</div>
+        <div class="opt" onclick="checkOpt(this,'correct','✓  Correct — "the operating system for AI-native companies" names the category and claims the infrastructure position.')">the operating system for AI-native companies</div>
+        <div class="opt" onclick="checkOpt(this,'wrong','✗  "a well-known framework" — "well-known" sounds insecure. Never describe yourself as well-known in a pitch.')">a well-known framework</div>
+      </div>
+      <div class="drill-fb"></div>
+    </div>
+  </div>
+
+  <div class="drill-group">
+    <div class="dg-title">// GROUP B — Sentence Assembly Drills (5) — click words in correct order</div>
+    <div id="scramble-drills"></div>
+  </div>
+
+  <div class="drill-group">
+    <div class="dg-title">// GROUP C — Transformation Drills — fix the broken sentence</div>
+    <div id="transform-drills"></div>
+  </div>
+</section>
+
+<!-- SECTION 5: THREE PITCHES -->
+<section class="sec">
+  <div class="sh"><span class="sn">05</span><h2 class="st">Three Pitches — Field Analysis</h2><span class="stag">WEAK / BETTER / BEST</span></div>
+  <div class="ib"><div class="il">// handler note</div><p>Read each pitch aloud. After each one, read "What the VC heard" — the psychological interpretation. The operative's job is to understand not just what was said, but what was received.</p></div>
+
+  <div class="pitch-block weak">
+    <div class="pitch-label">// PITCH 01 — WEAK</div>
+    <div class="pitch-text">"AIOX is... it's like, it's a framework for... how to say... for companies that want to use artificial intelligence with agents. We have many features. It's CLI first. We think it will be very big in the future."</div>
+    <div class="vc-heard"><div class="vl">// what the vc heard</div><p>"Founder can't explain their own product in English. Translating in real time — you can hear the gaps. 'How to say' signals unpreparedness. 'Many features' means no prioritisation. 'We think it will be very big' = no evidence, no urgency, no conviction. Pass."</p></div>
+  </div>
+
+  <div class="pitch-block better">
+    <div class="pitch-label">// PITCH 02 — BETTER</div>
+    <div class="pitch-text">"AIOX helps companies deploy AI agents using a CLI-first approach. Most companies struggle with fragmented AI tools. We solve this with a constitutional framework. I think this is a big opportunity because AI agents are growing fast."</div>
+    <div class="vc-heard"><div class="vl">// what the vc heard</div><p>"Clear enough. Gets to the point. But 'I think' signals personal doubt in a market claim — say 'this is a category-defining moment', not 'I think'. 'Growing fast' is noise — every founder says this. No personal founder story. No binary urgency. I understand the product but I'm not moved. Forgettable."</p></div>
+  </div>
+
+  <div class="pitch-block best">
+    <div class="pitch-label">// PITCH 03 — BEST</div>
+    <div class="pitch-text">"Most companies are adding AI tools on top of broken processes — they're just getting faster garbage. AIOX is the first CLI-first framework that lets technical teams deploy specialized AI agents through a single, constitutional operating system. In the next 18 months, every serious tech company will run on AI agents. The question is whether those agents work together or against each other. I built this to solve my own problem as a founder. Two years later, it's become the operating system for AI-native companies."</div>
+    <div class="vc-heard"><div class="vl">// what the vc heard</div><p>"Founder lives inside the problem. 'Faster garbage' is a memorable image — I'll repeat that. Named mechanism: constitutional operating system. Created urgency with a binary I can't ignore. Founder-market fit is earned through the story, not claimed. Clear category: operating system for AI-native companies. That's a fundable frame. Tell me more about traction."</p></div>
+  </div>
+</section>
+
+<!-- SECTION 6: OBJECTION PROTOCOLS -->
+<section class="sec">
+  <div class="sh"><span class="sn">06</span><h2 class="st">Objection Protocols</h2><span class="stag">FSI METHOD — PRESSURE SIMULATION</span></div>
+  <div class="ib"><div class="il">// rules of engagement</div><p>Three sentences maximum. Never deflect. Never apologise. Answer the objection directly, then pivot to evidence. Write your response using the template, then reveal the model answer and compare.</p></div>
+
+  <div class="obj-block">
+    <div class="obj-q">Why would a company use AIOX instead of just building their own agent system?</div>
+    <div class="obj-template">// template<br>"The difference is [specific differentiator]. Our clients typically [evidence/outcome]. Building your own means [cost/risk they're not seeing]."</div>
+    <textarea class="obj-fill" placeholder="Write your 3-sentence response here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">▸ REVEAL MODEL ANSWER</button>
+    <div class="model-answer">"The difference is governance. When you build your own, agents go rogue — there's no quality gate, no handoff protocol, no done-state. Our clients deploy production-ready agents in hours instead of months, and they don't wake up to hallucinated commits at 3am."</div>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-q">The AI space is very crowded. What makes you different from LangChain, AutoGPT, CrewAI?</div>
+    <div class="obj-template">// template<br>"Those tools [what they do / their limitation]. We're different because [specific differentiator — one mechanism]. Think of us as [analogy that makes it click]."</div>
+    <textarea class="obj-fill" placeholder="Write your 3-sentence response here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">▸ REVEAL MODEL ANSWER</button>
+    <div class="model-answer">"LangChain and CrewAI are orchestration libraries — they connect agents, but they don't govern them. We're different because AIOX has a constitutional layer: non-negotiable rules that prevent agents from hallucinating, inventing, or going off-script. Think of it as Git for AI agents — every action is versioned, every decision is traceable."</div>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-q">Brazil-based team — how do you handle the US market?</div>
+    <div class="obj-template">// template<br>"[Address it directly — don't deflect]. Our [evidence of US readiness / existing US presence or plan]. And honestly, [reframe it as an advantage]."</div>
+    <textarea class="obj-fill" placeholder="Write your 3-sentence response here..."></textarea>
+    <button class="model-btn" onclick="toggleModel(this)">▸ REVEAL MODEL ANSWER</button>
+    <div class="model-answer">"Straight answer: we're incorporated in the US and the product is fully in English. We already have users in six countries — including US-based engineering teams. And honestly, the best infrastructure bets of the last decade came from outside Silicon Valley — Stripe's founders were Irish, Notion came from a two-person team in Asia."</div>
+  </div>
+</section>
+
+<!-- SECTION 7: 90-SECOND TIMER -->
+<section class="sec">
+  <div class="sh"><span class="sn">07</span><h2 class="st">90-Second Pitch — Live Simulation</h2><span class="stag">FSI HIGH-PRESSURE</span></div>
+  <div class="ib"><div class="il">// handler instruction</div><p>Tell the operative: "I'm a VC. You have 90 seconds. The moment you say 'how to say' or pause to translate — I'm looking at my phone. Go." Press START. Don't interrupt. Don't help. Let it run. This is the baseline.</p></div>
+  <div class="timer-wrap">
+    <div class="timer-display default" id="timerDisplay">1:30</div>
+    <div class="timer-btns">
+      <button class="tbtn start" id="timerStartBtn" onclick="timerControl()">▸ START</button>
+      <button class="tbtn reset-t" onclick="timerReset()">↺ RESET</button>
+    </div>
+    <div class="rubric">
+      <div class="rubric-title">// self-assessment debrief</div>
+      <div class="ritem" onclick="toggleRubric(this)"><input type="checkbox"><div class="rbox"></div>I stated the problem without hesitation</div>
+      <div class="ritem" onclick="toggleRubric(this)"><input type="checkbox"><div class="rbox"></div>I named the mechanism: CLI-first / constitutional framework</div>
+      <div class="ritem" onclick="toggleRubric(this)"><input type="checkbox"><div class="rbox"></div>I used "In the next [X] months" for Why Now</div>
+      <div class="ritem" onclick="toggleRubric(this)"><input type="checkbox"><div class="rbox"></div>I gave personal founder evidence for Why You</div>
+      <div class="ritem" onclick="toggleRubric(this)"><input type="checkbox"><div class="rbox"></div>I did NOT say "how to say" or pause to translate</div>
+      <div class="ritem" onclick="toggleRubric(this)"><input type="checkbox"><div class="rbox"></div>I did NOT use "actually" to mean "currently"</div>
+      <div class="ritem" onclick="toggleRubric(this)"><input type="checkbox"><div class="rbox"></div>I did NOT say "I think it will be very big"</div>
+      <div class="ritem" onclick="toggleRubric(this)"><input type="checkbox"><div class="rbox"></div>I finished under 90 seconds</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8: INTERFERENCE PATTERNS -->
+<section class="sec">
+  <div class="sh"><span class="sn">08</span><h2 class="st">Portuguese Interference Field</h2><span class="stag">ERROR TRIAGE</span></div>
+  <div class="ib"><div class="il">// intel note</div><p>These are not random mistakes. They are predictable L1 transfer patterns — the exact points where Portuguese grammar overwrites English grammar under pressure. Knowing the pattern is 70% of fixing it.</p></div>
+  <div id="interf-drills"></div>
+</section>
+
+<!-- SECTION 9: PROGRESS TRACKER -->
+<section class="sec">
+  <div class="sh"><span class="sn">09</span><h2 class="st">Mission Progress</h2><span class="stag">CLICK TO MARK COMPLETE</span></div>
+  <div class="prog-wrap">
+    <div class="prog-bar-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+    <div class="prog-pct" id="progPct">0%</div>
+    <div class="prog-label">Mission Completion</div>
+    <div class="prog-items">
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>Vocabulary intel cards reviewed (15/15)<span class="pi-tag">SEC 01</span></div>
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>False cognate traps studied (5/5)<span class="pi-tag">SEC 02</span></div>
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>4-sentence architecture memorised<span class="pi-tag">SEC 03</span></div>
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>Group A — substitution drills completed (5/5)<span class="pi-tag">SEC 04A</span></div>
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>Group B — sentence assembly drills completed (5/5)<span class="pi-tag">SEC 04B</span></div>
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>Group C — transformation drills completed (5/5)<span class="pi-tag">SEC 04C</span></div>
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>Three pitches analysed — weak / better / best<span class="pi-tag">SEC 05</span></div>
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>Objection protocols drilled (3/3)<span class="pi-tag">SEC 06</span></div>
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>90-second pitch timer executed (at least once)<span class="pi-tag">SEC 07</span></div>
+      <div class="pi" onclick="toggleProg(this)"><div class="pbox"></div>Interference patterns reviewed (5/5)<span class="pi-tag">SEC 08</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: IPVA SCORECARD -->
+<section class="sec">
+  <div class="sh"><span class="sn">10</span><h2 class="st">IPVA Scorecard</h2><span class="stag">HANDLER COMPLETES AFTER SESSION</span></div>
+  <div class="ipva">
+    <div class="ipva-title">// ipva validation — 7 dimensions — enter scores to calculate</div>
+    <div class="ipva-row">
+      <div class="ipva-dim">Language Utility<small>Core vocabulary deployed, high-frequency structures used</small></div>
+      <input class="ipva-input" type="number" min="0" max="15" placeholder="0" oninput="updateIPVA()">
+    </div>
+    <div class="ipva-row">
+      <div class="ipva-dim">Mission-Specific Context<small>All drills in Silicon Valley / VC pitch context</small></div>
+      <input class="ipva-input" type="number" min="0" max="15" placeholder="0" oninput="updateIPVA()">
+    </div>
+    <div class="ipva-row">
+      <div class="ipva-dim">Pattern Drilling Volume<small>Minimum 15 drills executed across Groups A/B/C</small></div>
+      <input class="ipva-input" type="number" min="0" max="15" placeholder="0" oninput="updateIPVA()">
+    </div>
+    <div class="ipva-row">
+      <div class="ipva-dim">Error Triage<small>Portuguese interference patterns identified and drilled</small></div>
+      <input class="ipva-input" type="number" min="0" max="15" placeholder="0" oninput="updateIPVA()">
+    </div>
+    <div class="ipva-row">
+      <div class="ipva-dim">Contextual Feedback<small>Operative received specific intel feedback on errors</small></div>
+      <input class="ipva-input" type="number" min="0" max="10" placeholder="0" oninput="updateIPVA()">
+    </div>
+    <div class="ipva-row">
+      <div class="ipva-dim">High-Stakes Assessment<small>90-second pitch executed and self-assessed</small></div>
+      <input class="ipva-input" type="number" min="0" max="15" placeholder="0" oninput="updateIPVA()">
+    </div>
+    <div class="ipva-row" style="border-bottom:none">
+      <div class="ipva-dim">Interference Patterns<small>L1 Portuguese errors identified with source explanation</small></div>
+      <input class="ipva-input" type="number" min="0" max="15" placeholder="0" oninput="updateIPVA()">
+    </div>
+    <div class="ipva-total" id="ipvaTotal">—</div>
+    <div class="ipva-verdict" id="ipvaVerdict" style="display:none"></div>
+  </div>
+</section>
+
+<!-- SECTION 11: SPACED REPETITION -->
+<section class="sec">
+  <div class="sh"><span class="sn">11</span><h2 class="st">Spaced Repetition Schedule</h2><span class="stag">BJORK — DESIRABLE DIFFICULTIES</span></div>
+  <div class="ib"><div class="il">// bjork principle</div><p>The harder the retrieval, the stronger the memory. The gaps between reviews are not rest periods — they are the mechanism. Do not review early. The discomfort of trying to remember is the training.</p></div>
+  <table class="sr-table">
+    <thead><tr><th>Review</th><th>When</th><th>Focus</th><th>Duration</th></tr></thead>
+    <tbody>
+      <tr><td>R-01</td><td>24 hours (tomorrow)</td><td>Vocabulary cards only — no notes</td><td>10 min</td></tr>
+      <tr><td>R-02</td><td>3 days</td><td>Full pitch delivery ×3, timed</td><td>15 min</td></tr>
+      <tr><td>R-03</td><td>7 days</td><td>Objection protocols — live drill with handler</td><td>20 min</td></tr>
+      <tr><td>R-04</td><td>14 days</td><td>Full VC simulation — Mission 02 prerequisite</td><td>30 min</td></tr>
+      <tr><td>R-05</td><td>30 days</td><td>IPVA re-assessment — Mission 01 clearance upgrade</td><td>45 min</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider">END OF MISSION 01</div>
+
+<footer class="footer">
+  <div class="fb">Control your message. Control the room. — AGB Intelligence Division</div>
+  <div class="fm">MISSION-01 // EPIC-ENG-001 // ALAN NICOLAS // v1.0</div>
+</footer>
+
+</div><!-- /doc -->
+
+<button class="print-btn" onclick="window.print()">⬛ PRINT / PDF</button>
+
+<script>
+// ── VOCAB CARDS ──
+const vocab = [
+  {w:'Framework',p:'FRAME-work',def:'A structured system or set of rules that guides how something is built or operates.',ex:'"AIOX is the constitutional framework for AI agent deployment."',warn:'Not "framewórk" — stress on FRAME, not work.'},
+  {w:'Deploy',p:'de-PLOY',def:'To put a system, tool, or agent into active use in a real environment.',ex:'"We deploy specialized agents in hours, not months."',warn:'Common error: "We deployed the agents" (past simple) ✓ — not "we have deployed them today" (use simple past with today).'},
+  {w:'Infrastructure',p:'in-fra-STRUK-cher',def:'The underlying systems and architecture that other products are built on top of.',ex:'"AIOX is the infrastructure layer for AI-native companies."',warn:'Don\'t say "the infrastructure of the company" — say "the infrastructure for..."'},
+  {w:'Traction',p:'TRAK-shun',def:'Early evidence that a product is gaining real-world adoption and usage.',ex:'"We have traction with 50 active teams across six countries."',warn:'"Traction" ≠ "tração" — in business it means market momentum, not physical pulling.'},
+  {w:'Scalable',p:'SKAY-la-bul',def:'Able to grow in capacity or impact without proportional increase in cost or complexity.',ex:'"Our constitutional model is scalable across any tech stack."',warn:'Don\'t say "scaleable" — the word is scalable (no "e" before -able).'},
+  {w:'Iterate',p:'IT-er-ate',def:'To make repeated improvements to a product or process based on feedback.',ex:'"We iterate on the framework weekly based on real usage data."',warn:'"Iterate" is a verb: "we iterate". The noun is "iteration". Not "we do iterations on" — "we iterate on".'},
+  {w:'Leverage',p:'LEV-er-ij',def:'To use something to maximum advantage; also used as a verb meaning to use strategically.',ex:'"We leverage CLI-first principles to give agents constitutional authority."',warn:'In business English, "leverage" is often used as a verb. In British English this is sometimes considered jargon — in Silicon Valley it\'s standard.'},
+  {w:'Pipeline',p:'PIPE-line',def:'A structured sequence of stages that data, work, or agents move through.',ex:'"Our 7-stage pipeline ensures every agent output passes quality gates."',warn:'Common in both tech and business contexts. "Sales pipeline" = potential deals in progress. "Dev pipeline" = code deployment stages.'},
+  {w:'Architecture',p:'AR-ki-tek-cher',def:'The high-level design and structure of a system.',ex:'"The AIOX architecture separates governance from execution."',warn:'Do NOT say "the architecture of our product is CLI first" — say "our architecture is CLI-first" or "we use a CLI-first architecture".'},
+  {w:'Stakeholder',p:'STAKE-hol-der',def:'Any person or group with an interest in or affected by a project or decision.',ex:'"Every stakeholder in the dev process works through the same story-driven workflow."',warn:'In English, "stakeholder" covers investors, clients, employees, partners. In Portuguese "stakeholder" is borrowed but sometimes confused with just "investors".'},
+  {w:'Onboarding',p:'ON-bord-ing',def:'The process of integrating new users or customers into a product or organisation.',ex:'"Our onboarding takes a developer from zero to first deployment in under an hour."',warn:'Always a gerund/noun in this context. "The onboarding" or "onboarding new teams". Never "we do the onboard".'},
+  {w:'Runway',p:'RUN-way',def:'In startups: the amount of time a company can operate before running out of cash.',ex:'"We have 18 months of runway, which takes us past our Series A milestone."',warn:'Do NOT confuse with the airport sense. In a pitch, "runway" always means time before you need more funding.'},
+  {w:'Cohort',p:'KOH-hort',def:'A group of users who started using a product in the same time period, tracked for analytics.',ex:'"Our January cohort has a 90-day retention rate of 78%."',warn:'"Cohort" is not "cohort" in the Portuguese academic sense (a group of students). In startup English it means a tracked user segment.'},
+  {w:'Acquisition',p:'ak-wiz-ISH-un',def:'The process of gaining new customers or users. Also: one company buying another.',ex:'"Our customer acquisition cost is under $40 per developer."',warn:'Two meanings: (1) getting customers (CAC = Customer Acquisition Cost) and (2) M&A (company acquisition). Context is always clear — don\'t confuse them.'},
+  {w:'Churn',p:'CHURN',def:'The rate at which customers stop using a product over a given period.',ex:'"We have less than 3% monthly churn — developers don\'t leave once they build on AIOX."',warn:'"Churn" is negative — losing customers. "Retention" is positive — keeping them. A VC will always ask about churn. Have a number ready.'},
+];
+
+const grid = document.getElementById('vocabGrid');
+vocab.forEach((v,i) => {
+  grid.innerHTML += `<div class="vcard" onclick="this.classList.toggle('flipped')">
+    <div class="vcard-inner">
+      <div class="vfront">
+        <div class="vword">${v.w}</div>
+        <div class="vpron">${v.p}</div>
+        <div class="vhint" style="margin-top:auto">// click to reveal intel</div>
+      </div>
+      <div class="vback">
+        <div class="vdef">${v.def}</div>
+        <div class="vex">${v.ex}</div>
+        <div class="vwarn">${v.warn}</div>
+      </div>
+    </div>
+  </div>`;
+});
+
+// ── OPTION DRILLS ──
+function checkOpt(el, result, msg) {
+  const drill = el.closest('.drill');
+  if(drill.querySelector('.correct')) return;
+  el.classList.add(result);
+  const fb = drill.querySelector('.drill-fb');
+  fb.textContent = msg;
+  fb.className = 'drill-fb show ' + (result === 'correct' ? 'ok' : 'err');
+  if(result === 'wrong') {
+    setTimeout(() => { el.classList.remove('wrong'); fb.className='drill-fb'; }, 1800);
+  }
+}
+
+// ── SCRAMBLE DRILLS ──
+const scrambles = [
+  {words:['AIOX','is','the','first','CLI-first','framework'],answer:'AIOX is the first CLI-first framework',hint:'Sentence 2 opening — how does it start?'},
+  {words:['In','the','next','18','months','every','serious','tech','company'],answer:'In the next 18 months every serious tech company',hint:'Sentence 3 — time + subject'},
+  {words:['I','built','this','to','solve','my','own','problem','as','a','founder'],answer:'I built this to solve my own problem as a founder',hint:'Sentence 4 — past simple'},
+  {words:['The','question','is','whether','those','agents','work','together','or','against','each','other'],answer:'The question is whether those agents work together or against each other',hint:'The binary question — word for word'},
+  {words:['deploy','specialized','AI','agents','through','a','single','constitutional','operating','system'],answer:'deploy specialized AI agents through a single constitutional operating system',hint:'Second half of Sentence 2 — starts with a verb'},
+];
+
+const sWrap = document.getElementById('scramble-drills');
+scrambles.forEach((s, idx) => {
+  const id = `sc${idx}`;
+  const shuffled = [...s.words].sort(() => Math.random() - .5);
+  sWrap.innerHTML += `<div class="drill" id="${id}">
+    <div class="drill-num">DRILL B-0${idx+1} — <span style="color:var(--tm)">${s.hint}</span></div>
+    <div class="scramble-wrap">
+      <div class="chips-pool" id="${id}-pool">${shuffled.map(w=>`<span class="chip" onclick="moveChip(this,'${id}-pool','${id}-zone')">${w}</span>`).join('')}</div>
+      <div class="answer-zone" id="${id}-zone"></div>
+      <div class="scramble-btns">
+        <button class="sbtn check" onclick="checkScramble('${id}','${s.answer.split(' ').join(' ')}')">CHECK</button>
+        <button class="sbtn reset" onclick="resetScramble('${id}')">RESET</button>
+      </div>
+      <div class="drill-fb" id="${id}-fb"></div>
+    </div>
+  </div>`;
+});
+
+function moveChip(chip, fromId, toId) {
+  const to = document.getElementById(toId);
+  const from = document.getElementById(fromId);
+  const newChip = chip.cloneNode(true);
+  const isToZone = toId.includes('-zone');
+  newChip.onclick = () => moveChip(newChip, toId, fromId);
+  chip.remove();
+  to.appendChild(newChip);
+}
+
+function checkScramble(id, correct) {
+  const zone = document.getElementById(id+'-zone');
+  const chips = [...zone.querySelectorAll('.chip')].map(c=>c.textContent);
+  const ans = chips.join(' ');
+  const fb = document.getElementById(id+'-fb');
+  if(ans.toLowerCase() === correct.toLowerCase()) {
+    fb.textContent = '✓  Correct — ' + correct;
+    fb.className = 'drill-fb show ok';
+  } else {
+    fb.textContent = '✗  Not quite — try rearranging. Correct: ' + correct;
+    fb.className = 'drill-fb show err';
+  }
+}
+
+function resetScramble(id) {
+  const pool = document.getElementById(id+'-pool');
+  const zone = document.getElementById(id+'-zone');
+  const fb = document.getElementById(id+'-fb');
+  [...zone.querySelectorAll('.chip')].forEach(c => {
+    c.onclick = () => moveChip(c, id+'-pool', id+'-zone');
+    pool.appendChild(c);
+  });
+  fb.className = 'drill-fb';
+}
+
+// ── TRANSFORMATION DRILLS ──
+const transforms = [
+  {wrong:'"AIOX is a framework that it helps companies to deploy agents."', correct:'AIOX is a framework that helps companies deploy agents.', why:'Remove "it" — the relative pronoun "that" already connects the clause. No double subject.'},
+  {wrong:'"In the nexts 18 months, every company will has AI agents."', correct:'In the next 18 months, every company will have AI agents.', why:'"Next" has no plural ("nexts" does not exist). After "will" always use the base form: will HAVE, not will has.'},
+  {wrong:'"I builded this for resolve my problem as a founder."', correct:'I built this to solve my problem as a founder.', why:'"Built" is irregular — never "builded". After "to" (infinitive of purpose) use the base verb: to SOLVE.'},
+  {wrong:'"We are the unique company that does this in the market."', correct:'We are the only company that does this in the market.', why:'"Unique" means one-of-a-kind (a quality), not "the only one" (a count). Use "the only" when you mean exclusivity.'},
+  {wrong:'"Our product is more better than the concurrent ones."', correct:'Our product is better than the competing ones.', why:'"More better" is a double comparative — never correct. "Better" already IS the comparative of "good". Also: "concurrent" ≠ concurrent (timing) — use "competing" for competitors.'},
+];
+
+const tWrap = document.getElementById('transform-drills');
+transforms.forEach((t, i) => {
+  tWrap.innerHTML += `<div class="transform-drill">
+    <div class="drill-num">DRILL C-0${i+1}</div>
+    <div class="td-wrong">${t.wrong}</div>
+    <input class="td-input" placeholder="Write the corrected sentence here..." oninput="checkTransform(this,'${t.correct}')">
+    <div>
+      <button class="reveal-btn" onclick="revealTransform(this,'${t.correct}','${t.why.replace(/'/g,"\\'")}')">▸ REVEAL CORRECTION</button>
+    </div>
+    <div class="td-reveal"></div>
+  </div>`;
+});
+
+function checkTransform(inp, correct) {
+  const val = inp.value.trim().toLowerCase().replace(/[.!?]$/, '');
+  const cor = correct.toLowerCase().replace(/[.!?]$/, '');
+  if(val.length < 8) { inp.className='td-input'; return; }
+  inp.className = 'td-input ' + (val === cor ? 'correct-inp' : 'wrong-inp');
+}
+
+function revealTransform(btn, correct, why) {
+  const reveal = btn.nextElementSibling;
+  reveal.innerHTML = `<strong style="color:var(--ok)">✓ ${correct}</strong><br><span style="color:var(--tm);margin-top:4px;display:block;font-size:11px">${why}</span>`;
+  reveal.className = 'td-reveal show';
+  btn.style.display = 'none';
+}
+
+// ── OBJECTION MODEL ANSWERS ──
+function toggleModel(btn) {
+  const ma = btn.nextElementSibling;
+  ma.classList.toggle('show');
+  btn.textContent = ma.classList.contains('show') ? '▾ HIDE MODEL ANSWER' : '▸ REVEAL MODEL ANSWER';
+}
+
+// ── TIMER ──
+let timerInterval, timerSeconds = 90, timerRunning = false;
+function timerControl() {
+  const btn = document.getElementById('timerStartBtn');
+  const disp = document.getElementById('timerDisplay');
+  if(!timerRunning) {
+    timerRunning = true; btn.textContent = '⏸ PAUSE';
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      const m = Math.floor(timerSeconds/60);
+      const s = timerSeconds % 60;
+      disp.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+      if(timerSeconds <= 0) { clearInterval(timerInterval); timerRunning = false; disp.textContent = 'DEBRIEF'; disp.className='timer-display red'; btn.textContent='▸ START'; }
+      else if(timerSeconds <= 30) { disp.className='timer-display red'; }
+      else if(timerSeconds <= 60) { disp.className='timer-display gold'; }
+    }, 1000);
+  } else {
+    clearInterval(timerInterval); timerRunning = false; btn.textContent = '▸ RESUME';
+  }
+}
+function timerReset() {
+  clearInterval(timerInterval); timerRunning = false; timerSeconds = 90;
+  document.getElementById('timerDisplay').textContent = '1:30';
+  document.getElementById('timerDisplay').className = 'timer-display default';
+  document.getElementById('timerStartBtn').textContent = '▸ START';
+}
+function toggleRubric(el) { el.classList.toggle('checked'); }
+
+// ── INTERFERENCE DRILLS ──
+const interf = [
+  {title:'01 — The Noun Article Problem',why:'Portuguese uses articles before proper nouns (o AIOX, o Google). English does not — no article before company or product names.',wrong:'"The AIOX is the first CLI-first framework in the market."',right:'"AIOX is the first CLI-first framework in the market."',d1:'The AIOX helps the companies to deploy their agents.',d2:'The Alan Nicolas built the AIOX for solve the problems of the development.'},
+  {title:'02 — The Gerund After Prepositions',why:'After all English prepositions, use -ing form. Portuguese uses the infinitive: "para criar" = "to create". In English: "for creating" or just "to create" (not "for create").',wrong:'"We focus in create solutions for the developers."',right:'"We focus on creating solutions for developers."',d1:'AIOX is good for manage multiple AI agents in the same project.',d2:'We are committed to deliver quality gates in every sprint.'},
+  {title:'03 — Present Continuous vs. Present Simple',why:'Brazilians overuse "is doing" for general truths and habits. Present simple (does / works / helps) is for facts, habits, and general truths. Present continuous is ONLY for something happening right now.',wrong:'"AIOX is helping developers to deploy agents faster." (general truth)',right:'"AIOX helps developers deploy agents faster." (habit/general truth)',d1:'Our framework is supporting teams that are needing more control over their AI.',d2:'CLI-first architecture is meaning that the intelligence is living in the terminal.'},
+  {title:'04 — The Double Object Problem',why:'"I builded this to solve my problem" — two errors: irregular verb (built) and infinitive of purpose (to solve, not "for solve"). Portuguese: "construí isso para resolver" = built this to solve.',wrong:'"I builded this for resolve my own problem as a founder."',right:'"I built this to solve my own problem as a founder."',d1:'We created AIOX for give developers more control over their agents.',d2:'The team founded Synkra for develop a better way to orchestrate AI.'},
+  {title:'05 — Conditional Without Inversion',why:'English conditionals with "will" use present simple in the "if" clause — NOT "if + will". Brazilian Portuguese often mirrors this differently, leading to "if we will get".',wrong:'"If we will receive the investment, we will expand to the US."',right:'"If we receive the investment, we will expand to the US."',d1:'If the agents will work together, the quality of the output will increase dramatically.',d2:'If AIOX will become the standard, every AI company will need to integrate with it.'},
+];
+
+const iWrap = document.getElementById('interf-drills');
+interf.forEach(e => {
+  iWrap.innerHTML += `<div class="interf">
+    <div class="interf-title">// ${e.title}</div>
+    <div class="int-pair">
+      <div class="int-w">✗ ${e.wrong}</div>
+      <div class="int-r">✓ ${e.right}</div>
+    </div>
+    <div class="int-why">${e.why}</div>
+    <div class="int-drill">// practice — fix these two sentences using the rule above:</div>
+    <div style="margin-top:10px;display:grid;gap:6px">
+      <input class="td-input" style="font-size:12px" placeholder="${e.d1}">
+      <input class="td-input" style="font-size:12px" placeholder="${e.d2}">
+    </div>
+  </div>`;
+});
+
+// ── PROGRESS TRACKER ──
+function toggleProg(el) {
+  el.classList.toggle('done');
+  const items = document.querySelectorAll('.pi');
+  const done = [...items].filter(i=>i.classList.contains('done')).length;
+  const pct = Math.round((done/items.length)*100);
+  document.getElementById('progBar').style.width = pct+'%';
+  document.getElementById('progPct').textContent = pct+'%';
+}
+
+// ── IPVA SCORECARD ──
+function updateIPVA() {
+  const inputs = document.querySelectorAll('.ipva-input');
+  let total = 0;
+  inputs.forEach(inp => { total += parseInt(inp.value||0); });
+  const td = document.getElementById('ipvaTotal');
+  const vd = document.getElementById('ipvaVerdict');
+  td.textContent = total + ' / 100';
+  vd.style.display = 'block';
+  if(total >= 80) { vd.textContent = 'PASS — MISSION COMPLETE'; vd.className='ipva-verdict pass'; }
+  else if(total >= 70) { vd.textContent = 'QUALIFIED — REVIEW SECTIONS BELOW 80%'; vd.className='ipva-verdict qualified'; }
+  else { vd.textContent = 'REVISE — MISSION RESTART REQUIRED'; vd.className='ipva-verdict revise'; }
+}
+</script>
+</body>
+</html>

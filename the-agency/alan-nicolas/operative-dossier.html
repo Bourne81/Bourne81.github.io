@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPERATIVE DOSSIER — ALAN NICOLAS | AGB Intelligence Division</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --agency-black: #050505;
+    --command-navy: #07111F;
+    --bone-white: #F4EFE7;
+    --intelligence-gold: #C6A15B;
+    --gold-dim: rgba(198,161,91,0.15);
+    --gold-border: rgba(198,161,91,0.3);
+    --tactical-charcoal: #1A1A1A;
+    --text-muted: rgba(244,239,231,0.55);
+    --text-secondary: rgba(244,239,231,0.75);
+    --danger: #C6453A;
+    --success: #3A7A5A;
+    --matrix-green: #00ff41;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--agency-black);
+    color: var(--bone-white);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── SCANLINE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── CLASSIFICATION BANNER ── */
+  .classification-banner {
+    background: var(--danger);
+    color: #fff;
+    text-align: center;
+    padding: 8px 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  /* ── DOCUMENT SHELL ── */
+  .document {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── DOCUMENT HEADER ── */
+  .doc-header {
+    border-bottom: 1px solid var(--gold-border);
+    padding: 60px 0 40px;
+    margin-bottom: 0;
+  }
+
+  .doc-header-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--intelligence-gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .doc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    color: var(--bone-white);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .doc-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--intelligence-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .doc-description {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 620px;
+    border-left: 2px solid var(--intelligence-gold);
+    padding-left: 20px;
+  }
+
+  /* ── OPERATIVE PROFILE CARD ── */
+  .profile-card {
+    background: var(--command-navy);
+    border: 1px solid var(--gold-border);
+    border-top: 3px solid var(--intelligence-gold);
+    padding: 32px;
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  @media(max-width: 600px) {
+    .profile-card { grid-template-columns: 1fr; }
+  }
+
+  .profile-field label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--intelligence-gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .profile-field .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--bone-white);
+  }
+
+  .profile-field .value.mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+  }
+
+  .clearance-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    padding: 6px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--intelligence-gold);
+  }
+
+  .clearance-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--intelligence-gold);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── SECTION LAYOUT ── */
+  .section {
+    margin-top: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(198,161,91,0.2);
+  }
+
+  .section-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--intelligence-gold);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--bone-white);
+  }
+
+  .section-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  /* ── CONSTITUTION TABLE ── */
+  .constitution-grid {
+    display: grid;
+    gap: 2px;
+  }
+
+  .constitution-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 1fr;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--tactical-charcoal);
+    align-items: start;
+    transition: background 0.2s;
+  }
+
+  .constitution-row:hover {
+    background: var(--command-navy);
+  }
+
+  .constitution-row:first-child {
+    background: var(--command-navy);
+    border-top: 2px solid var(--intelligence-gold);
+  }
+
+  .article-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--intelligence-gold);
+    padding-top: 3px;
+  }
+
+  .aiox-principle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--bone-white);
+    font-weight: 500;
+  }
+
+  .aiox-principle span {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 4px;
+  }
+
+  .english-equivalent {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    border-left: 2px solid var(--gold-border);
+    padding-left: 12px;
+  }
+
+  .english-equivalent strong {
+    display: block;
+    color: var(--intelligence-gold);
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── EPIC CARDS ── */
+  .epic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media(max-width: 700px) {
+    .epic-grid { grid-template-columns: 1fr; }
+  }
+
+  .epic-card {
+    background: var(--command-navy);
+    border: 1px solid var(--gold-border);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .epic-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .epic-card.pitch::before { background: var(--intelligence-gold); }
+  .epic-card.stage::before { background: #7A9BC6; }
+  .epic-card.room::before { background: #6AC67A; }
+
+  .epic-card:hover {
+    border-color: var(--intelligence-gold);
+    transform: translateY(-2px);
+  }
+
+  .epic-id {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .epic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .epic-card.pitch .epic-title { color: var(--intelligence-gold); }
+  .epic-card.stage .epic-title { color: #7A9BC6; }
+  .epic-card.room .epic-title { color: #6AC67A; }
+
+  .epic-context {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .epic-stories {
+    list-style: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 12px;
+  }
+
+  .epic-stories li {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .epic-stories li::before {
+    content: '▸';
+    color: var(--intelligence-gold);
+    font-size: 8px;
+  }
+
+  /* ── DIAGNOSTIC QUESTIONNAIRE ── */
+  .diagnostic-block {
+    background: var(--tactical-charcoal);
+    border: 1px solid var(--gold-border);
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+
+  .diagnostic-block .q-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--intelligence-gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .diagnostic-block .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--bone-white);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .q-options {
+    display: grid;
+    gap: 8px;
+  }
+
+  .q-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--agency-black);
+  }
+
+  .q-option:hover {
+    border-color: var(--gold-border);
+    background: var(--command-navy);
+  }
+
+  .q-option.selected {
+    border-color: var(--intelligence-gold);
+    background: var(--gold-dim);
+  }
+
+  .q-option input[type="radio"] {
+    display: none;
+  }
+
+  .q-radio {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    border: 1px solid var(--gold-border);
+    border-radius: 50%;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .q-option.selected .q-radio {
+    border-color: var(--intelligence-gold);
+    background: var(--intelligence-gold);
+  }
+
+  .q-option.selected .q-radio::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--agency-black);
+  }
+
+  .q-option-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .q-option-score {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--intelligence-gold);
+    margin-left: auto;
+    min-width: 24px;
+    text-align: right;
+    opacity: 0.5;
+  }
+
+  /* ── CLEARANCE METER ── */
+  .clearance-meter {
+    background: var(--command-navy);
+    border: 1px solid var(--gold-border);
+    padding: 32px;
+    margin-top: 24px;
+  }
+
+  .meter-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--intelligence-gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .meter-bar-wrap {
+    background: rgba(255,255,255,0.05);
+    height: 8px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .meter-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--intelligence-gold), #E8C882);
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+  }
+
+  .meter-tiers {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  .current-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--intelligence-gold);
+    text-align: center;
+    margin: 24px 0 8px;
+    line-height: 1;
+  }
+
+  .score-label {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .clearance-result {
+    text-align: center;
+    padding: 16px;
+    border: 1px solid var(--gold-border);
+    background: var(--gold-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--intelligence-gold);
+    text-transform: uppercase;
+  }
+
+  /* ── PROGRAM TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--gold-border);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 32px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--intelligence-gold);
+    background: var(--agency-black);
+    border-radius: 50%;
+  }
+
+  .timeline-item.active::before {
+    background: var(--intelligence-gold);
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .phase-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--intelligence-gold);
+    text-transform: uppercase;
+  }
+
+  .phase-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--bone-white);
+  }
+
+  .phase-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .phase-body {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .phase-stories {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .story-chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  /* ── FIRST BRIEFING PROTOCOL ── */
+  .protocol-block {
+    background: var(--command-navy);
+    border: 1px solid var(--gold-border);
+    border-left: 3px solid var(--intelligence-gold);
+    padding: 24px 28px;
+    margin-bottom: 12px;
+  }
+
+  .protocol-step {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--intelligence-gold);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .protocol-action {
+    font-size: 14px;
+    color: var(--bone-white);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .protocol-detail {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── CALCULATE BUTTON ── */
+  .calculate-btn {
+    display: block;
+    width: 100%;
+    background: var(--intelligence-gold);
+    color: var(--agency-black);
+    border: none;
+    padding: 18px 32px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 24px;
+    font-weight: 500;
+  }
+
+  .calculate-btn:hover {
+    background: #E8C882;
+    transform: translateY(-1px);
+  }
+
+  .calculate-btn:active {
+    transform: translateY(0);
+  }
+
+  /* ── INTEL BOX ── */
+  .intel-box {
+    background: rgba(198,161,91,0.08);
+    border: 1px solid var(--gold-border);
+    border-left: 3px solid var(--intelligence-gold);
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .intel-box .intel-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--intelligence-gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .intel-box p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0;
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--gold-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-brand {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--intelligence-gold);
+    text-transform: uppercase;
+  }
+
+  .footer-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── PRINT BUTTON ── */
+  .print-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 24px;
+    background: var(--intelligence-gold);
+    color: var(--agency-black);
+    border: none;
+    padding: 12px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.2s;
+  }
+
+  .print-btn:hover { background: #E8C882; }
+
+  @media print {
+    .classification-banner, .print-btn { display: none; }
+    body { background: #fff; color: #000; }
+    .doc-header, .section { page-break-inside: avoid; }
+  }
+
+  /* ── NOTE CALLOUT ── */
+  .note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    border-left: 2px solid rgba(255,255,255,0.1);
+    padding-left: 14px;
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+
+  /* ── SEVERITY TAGS ── */
+  .tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid currentColor;
+  }
+
+  .tag.must { color: var(--intelligence-gold); }
+  .tag.critical { color: var(--danger); }
+  .tag.strategic { color: #7A9BC6; }
+
+  /* ── VOCAB CARDS ── */
+  .vocab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+  @media(max-width:700px){.vocab-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:440px){.vocab-grid{grid-template-columns:1fr;}}
+  .vcard{height:170px;perspective:700px;cursor:pointer;}
+  .vcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s;}
+  .vcard.flipped .vcard-inner{transform:rotateY(180deg);}
+  .vfront,.vback{position:absolute;inset:0;backface-visibility:hidden;padding:16px;
+    background:var(--tactical-charcoal);border:1px solid rgba(198,161,91,.18);border-radius:2px;overflow:hidden;}
+  .vback{background:var(--command-navy);transform:rotateY(180deg);border-color:rgba(198,161,91,.35);}
+  .vword{font-family:'IBM Plex Mono',monospace;font-size:1rem;color:var(--bone-white);font-weight:500;margin-bottom:4px;}
+  .vpron{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--intelligence-gold);letter-spacing:.12em;margin-bottom:8px;}
+  .vhint{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:.08em;position:absolute;bottom:12px;left:16px;}
+  .vdef{font-size:11px;color:var(--text-secondary);line-height:1.5;margin-bottom:6px;}
+  .vex{font-size:11px;color:var(--intelligence-gold);font-style:italic;line-height:1.4;margin-bottom:6px;opacity:.8;}
+  .vwarn{font-size:10px;color:var(--danger);font-family:'IBM Plex Mono',monospace;line-height:1.4;}
+
+</style>
+</head>
+<body>
+
+<div class="classification-banner">
+  ⬛ CLASSIFIED — OPERATIVES ONLY — AGB INTELLIGENCE DIVISION — DO NOT DISTRIBUTE ⬛
+</div>
+
+<div class="document">
+
+  <!-- ── DOCUMENT HEADER ── -->
+  <header class="doc-header">
+    <div class="doc-header-meta">
+      <span>AGB // INTEL DIV</span>
+      <span>DOC-001</span>
+      <span>OPERATIVE DOSSIER</span>
+      <span>CLASS: SILICON VALLEY CLEARANCE</span>
+    </div>
+    <!-- Logos row -->
+    <div style="display:flex;align-items:center;gap:24px;margin-bottom:28px;flex-wrap:wrap;">
+      <img src="logo-alan-nicolas.png" alt="Alan Nicolas"
+           style="height:48px;width:auto;object-fit:contain;opacity:.92;border-radius:4px;"/>
+      <div style="width:1px;height:36px;background:rgba(198,161,91,.25);"></div>
+      <img src="logo-aiox.png" alt="AIOX"
+           style="height:40px;width:auto;object-fit:contain;opacity:.85;border-radius:4px;
+                  filter:invert(1) sepia(1) saturate(3) hue-rotate(5deg) brightness(.9);"/>
+    </div>
+    <h1 class="doc-title">Operative Dossier<br>Alan Nicolas</h1>
+    <p class="doc-subtitle">// English Intelligence Program — AIOX Framework Edition</p>
+    <p class="doc-description">
+      Founder of Academia Lendár[IA] — Brazil's largest AI education ecosystem.
+      Co-Founder of AIOX / Synkra. Built from 300 believers to 20,000+ operatives.
+      R$200M+ in revenue before he turned 35. He teaches AI.
+      He doesn't yet command English at the level the rooms he is entering demand.
+      That changes here.
+    </p>
+  </header>
+
+  <!-- ── OPERATIVE PROFILE CARD ── -->
+  <div class="profile-card">
+    <div>
+      <div class="profile-field" style="margin-bottom:20px">
+        <label>// operative</label>
+        <div class="value">Alan Nicolas</div>
+      </div>
+      <div class="profile-field" style="margin-bottom:20px">
+        <label>// role</label>
+        <div class="value mono">Founder, Academia Lendár[IA] // Co-Founder, AIOX / Synkra</div>
+      </div>
+      <div class="profile-field" style="margin-bottom:20px">
+        <label>// ecosystem</label>
+        <div class="value mono">Agência Lendár[IA]™ · Chat Lendário™ · Super Agentes™ · Vida Lendária Podcast</div>
+      </div>
+      <div class="profile-field">
+        <label>// primary mission</label>
+        <div class="value mono">Silicon Valley — Q4 2026</div>
+      </div>
+    </div>
+    <div>
+      <div class="profile-field" style="margin-bottom:20px">
+        <label>// handler</label>
+        <div class="value">Gabriel Bourne — AGB Intelligence</div>
+      </div>
+      <div class="profile-field" style="margin-bottom:20px">
+        <label>// current clearance</label>
+        <div class="clearance-badge">
+          <span class="clearance-dot"></span>
+          <span id="current-tier">ASSESSMENT PENDING</span>
+        </div>
+      </div>
+      <div class="profile-field">
+        <label>// target clearance</label>
+        <div class="clearance-badge">
+          <span class="clearance-dot" style="background:#7A9BC6"></span>
+          TIER 4 — EXECUTIVE COMMAND
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INTEL BRIEF ── -->
+  <div class="intel-box" style="margin-top:0;border-top:none;">
+    <div class="intel-label">// subject intelligence — pre-briefing file</div>
+    <div style="display:grid;gap:20px;margin-top:8px;">
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--intelligence-gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">// identity</div>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.75;">Entrepreneur, AI educator, and builder of Brazil's largest AI community. Founder of <strong style="color:var(--bone-white)">Academia Lendár[IA]</strong> — a 20,000+ student ecosystem that democratises advanced AI knowledge through proprietary methodology. Co-founder of <strong style="color:var(--bone-white)">AIOX / Synkra</strong> — the CLI-first constitutional framework for AI agent orchestration (3,000+ GitHub stars, 923 forks). Creator of the <em style="color:var(--intelligence-gold)">Vida Lendária</em> podcast. Self-described: <em>futurista, filósofo e criador.</em></p>
+      </div>
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--intelligence-gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">// origin trace</div>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.75;">Canoas, Rio Grande do Sul. Built and sold a direct marketing company (R$150M+ revenue). Took a sabbatical to reassess direction. <strong style="color:var(--bone-white)">December 2022</strong>: discovered AI — not as process automation, but as civilisational transformation. <strong style="color:var(--bone-white)">March 24, 2023</strong>: turned 34 and accepted his calling. Opened a Zoom call with fewer than 6,000 followers. 300 people believed. The <em style="color:var(--intelligence-gold)">300 Legendary Founders</em> — and the Lendária community was born.</p>
+      </div>
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--intelligence-gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">// scale achieved</div>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.75;">300 Legendary Founders → <strong style="color:var(--bone-white)">20,000+ active students</strong> in under 24 months. Personal revenue exceeding <strong style="color:var(--bone-white)">R$200M</strong>. Keynote speaker: AI Summit 2024, Outlier Experience. Weekly live sessions every Thursday — tens of thousands of subscribers across platforms. Podcast <em style="color:var(--intelligence-gold)">Vida Lendária</em>, Episode #014 "A Beira do Abismo" — the rock-bottom story that built the foundation.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SECTION 1: CONSTITUTION MAPPING ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2 class="section-title">The Constitution, Translated</h2>
+      <span class="section-tag">AIOX → ENGLISH</span>
+    </div>
+
+    <div class="intel-box">
+      <div class="intel-label">// strategic rationale</div>
+      <p>AIOX is built on six non-negotiable constitutional principles. This program applies those same principles to English intelligence training — giving Alan a framework he already understands, applied to a new domain. No adaptation required. The architecture is already familiar.</p>
+    </div>
+
+    <div class="constitution-grid">
+      <div class="constitution-row">
+        <span class="article-num">I</span>
+        <div class="aiox-principle">
+          CLI FIRST
+          <span>NON-NEGOTIABLE</span>
+        </div>
+        <div class="english-equivalent">
+          <strong>ENGLISH FIRST</strong>
+          All strategic communication operates in English. Every investor call, every partnership conversation, every stage performance defaults to English. Not "when you're ready." Now.
+        </div>
+      </div>
+      <div class="constitution-row">
+        <span class="article-num">II</span>
+        <div class="aiox-principle">
+          AGENT AUTHORITY
+          <span>NON-NEGOTIABLE</span>
+        </div>
+        <div class="english-equivalent">
+          <strong>VOICE AUTHORITY</strong>
+          Every sentence speaks with executive authority. Hesitation is a security vulnerability. Filler words are system noise. You don't apologise for your English — you own the room with it.
+        </div>
+      </div>
+      <div class="constitution-row">
+        <span class="article-num">III</span>
+        <div class="aiox-principle">
+          STORY-DRIVEN DEV
+          <span>MUST</span>
+        </div>
+        <div class="english-equivalent">
+          <strong>CONTEXT-DRIVEN LEARNING</strong>
+          English is never learned in isolation. Every drill, every exercise, every pattern is embedded in a real AIOX business scenario: the investor pitch, the YC demo, the panel at SFTech. No decontextualised grammar.
+        </div>
+      </div>
+      <div class="constitution-row">
+        <span class="article-num">IV</span>
+        <div class="aiox-principle">
+          NO INVENTION
+          <span>MUST</span>
+        </div>
+        <div class="english-equivalent">
+          <strong>NO ACADEMIC GRAMMAR</strong>
+          We don't teach what you don't need. Every structure learned traces to a real use case: a pitch deck explanation, a follow-up email, a Q&amp;A response. No textbook exercises. No invented scenarios.
+        </div>
+      </div>
+      <div class="constitution-row">
+        <span class="article-num">V</span>
+        <div class="aiox-principle">
+          QUALITY FIRST
+          <span>MUST</span>
+        </div>
+        <div class="english-equivalent">
+          <strong>INTELLIGIBILITY FIRST</strong>
+          Clear beats perfect. The quality gate is: "Did the room understand you and believe you?" Not: "Did you get the grammar right?" Fluency is a byproduct of consistent intelligible delivery.
+        </div>
+      </div>
+      <div class="constitution-row">
+        <span class="article-num">VI</span>
+        <div class="aiox-principle">
+          ABSOLUTE IMPORTS
+          <span>SHOULD</span>
+        </div>
+        <div class="english-equivalent">
+          <strong>ABSOLUTE VOCABULARY</strong>
+          The 1,000 highest-frequency English words cover 80% of all professional conversation. We master these first. No ambiguous synonyms. No register confusion. Precise vocabulary, precisely deployed.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 2: THREE EPICS ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2 class="section-title">Three Epics. One Year.</h2>
+      <span class="section-tag">MISSION ARCHITECTURE</span>
+    </div>
+
+    <p style="color:var(--text-secondary); font-size:14px; margin-bottom:24px; line-height:1.8;">
+      Every AIOX epic has a clear deliverable and acceptance criteria. Alan's English program is structured as three epics, each targeting a specific high-stakes communication environment he will face in Silicon Valley.
+    </p>
+
+    <div class="epic-grid">
+      <div class="epic-card pitch">
+        <div class="epic-id">// EPIC-ENG-001</div>
+        <div class="epic-title">The Pitch</div>
+        <div class="epic-context">Fundraising conversations. Partnership negotiations. Product demonstrations. The language of making investors believe.</div>
+        <ul class="epic-stories">
+          <li>Structuring a two-minute vision statement</li>
+          <li>Answering investor objections with precision</li>
+          <li>Traction language: metrics that persuade</li>
+          <li>The follow-up: email protocols</li>
+          <li>Cultural intelligence: American investor psychology</li>
+        </ul>
+      </div>
+      <div class="epic-card stage">
+        <div class="epic-id">// EPIC-ENG-002</div>
+        <div class="epic-title">The Stage</div>
+        <div class="epic-context">Conference keynotes. Panel discussions. Demo day presentations. The language of making rooms move.</div>
+        <ul class="epic-stories">
+          <li>Opening hooks that command attention</li>
+          <li>Transition language between slides</li>
+          <li>Handling questions from the floor</li>
+          <li>Pacing, pause, and executive presence</li>
+          <li>Storytelling architecture: problem → tension → solution</li>
+        </ul>
+      </div>
+      <div class="epic-card room">
+        <div class="epic-id">// EPIC-ENG-003</div>
+        <div class="epic-title">The Room</div>
+        <div class="epic-context">Boardroom sessions. Executive dinners. One-on-one conversations with power. The language of belonging in every room.</div>
+        <ul class="epic-stories">
+          <li>Small talk as strategic intelligence</li>
+          <li>Navigating ambiguity without showing uncertainty</li>
+          <li>Disagreement protocols: authority without aggression</li>
+          <li>American professional social codes</li>
+          <li>Listening as competitive advantage</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:20px">
+      Each epic maps to a quarter. Epics are sequential — The Pitch first, then The Stage, then The Room.
+      The Pitch is the foundational layer: vocabulary, syntax, confidence. Everything else builds on it.
+    </div>
+  </section>
+
+  <!-- ── SECTION 3: DIAGNOSTIC QUESTIONNAIRE ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Initial Clearance Assessment</h2>
+      <span class="section-tag">DIAGNOSTIC — COMPLETE BEFORE FIRST BRIEFING</span>
+    </div>
+
+    <div class="intel-box">
+      <div class="intel-label">// instructions</div>
+      <p>This is not a grammar test. This is an intelligence intake to calibrate your starting position. Answer based on instinct — what you actually do in English situations, not what you think is correct. There are no wrong answers. Inaccurate answers only waste mission time.</p>
+    </div>
+
+    <!-- Q1 -->
+    <div class="diagnostic-block">
+      <div class="q-label">// diagnostic field 01 — operational confidence</div>
+      <div class="q-text">"When you're in an important English conversation — a call, a demo, a meeting — what's actually happening in your head?"</div>
+      <div class="q-options" data-group="q1">
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q1" value="1">
+          <div class="q-radio"></div>
+          <div class="q-option-text">I'm translating from Portuguese in real time, which slows me down and sometimes makes me lose my thread.</div>
+          <span class="q-option-score">01</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q1" value="2">
+          <div class="q-radio"></div>
+          <div class="q-option-text">I understand most of what's being said, but I pause before complex answers and sometimes can't find the right word.</div>
+          <span class="q-option-score">02</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q1" value="3">
+          <div class="q-radio"></div>
+          <div class="q-option-text">I can hold a conversation well, but I still feel I'm not expressing my ideas at the level of sophistication they deserve.</div>
+          <span class="q-option-score">03</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q1" value="4">
+          <div class="q-radio"></div>
+          <div class="q-option-text">I communicate effectively. My concern is executive presence — I want to sound like I belong at the table, not just at the room.</div>
+          <span class="q-option-score">04</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="diagnostic-block">
+      <div class="q-label">// diagnostic field 02 — mission-critical exposure</div>
+      <div class="q-text">"What's the most high-stakes English situation you currently face — or will face — in the next six months?"</div>
+      <div class="q-options" data-group="q2">
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q2" value="1">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Email and written communication. Calls are still uncomfortable.</div>
+          <span class="q-option-score">01</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q2" value="2">
+          <div class="q-radio"></div>
+          <div class="q-option-text">One-on-one calls or meetings with foreign partners or investors.</div>
+          <span class="q-option-score">02</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q2" value="3">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Presentations or pitches to groups — investors, partners, conference audiences.</div>
+          <span class="q-option-score">03</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q2" value="4">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Silicon Valley level — fundraising rounds, accelerators, major industry events, thought leadership positioning.</div>
+          <span class="q-option-score">04</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="diagnostic-block">
+      <div class="q-label">// diagnostic field 03 — interference pattern analysis</div>
+      <div class="q-text">"When you make an English mistake, which type of error appears most frequently?"</div>
+      <div class="q-options" data-group="q3">
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q3" value="1">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Word order — I sometimes structure sentences the way I would in Portuguese.</div>
+          <span class="q-option-score">01</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q3" value="2">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Verb tenses — I confuse present perfect, simple past, and conditionals under pressure.</div>
+          <span class="q-option-score">02</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q3" value="3">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Register and tone — I know the words, but I'm not sure whether they sound formal, casual, or out of place culturally.</div>
+          <span class="q-option-score">03</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q3" value="4">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Precision and nuance — I can express ideas, but not at the level of specificity and authority I want.</div>
+          <span class="q-option-score">04</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="diagnostic-block">
+      <div class="q-label">// diagnostic field 04 — learning mode alignment (AIOX-adapted)</div>
+      <div class="q-text">"How do you learn best — and what has actually worked in the past?"</div>
+      <div class="q-options" data-group="q4">
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q4" value="1">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Immersion — just doing it and figuring it out. I learn by running the code.</div>
+          <span class="q-option-score">01</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q4" value="2">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Patterns — give me the rule, the template, the architecture. I apply it systematically.</div>
+          <span class="q-option-score">02</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q4" value="3">
+          <div class="q-radio"></div>
+          <div class="q-option-text">High-pressure simulation — I perform better when there's real stakes. I want it as close to the real scenario as possible.</div>
+          <span class="q-option-score">03</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q4" value="4">
+          <div class="q-radio"></div>
+          <div class="q-option-text">Strategic feedback loops — I want to know exactly what's wrong and why, so I can fix it systemically, not just patch individual mistakes.</div>
+          <span class="q-option-score">04</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="diagnostic-block">
+      <div class="q-label">// diagnostic field 05 — silicon valley target calibration</div>
+      <div class="q-text">"What does success look like at the end of 2026? Describe the exact scenario where you need to perform."</div>
+      <div class="q-options" data-group="q5">
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q5" value="2">
+          <div class="q-radio"></div>
+          <div class="q-option-text">I want to hold professional conversations comfortably without embarrassing myself.</div>
+          <span class="q-option-score">02</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q5" value="3">
+          <div class="q-radio"></div>
+          <div class="q-option-text">I want to pitch AIOX convincingly to international partners and investors and be taken seriously.</div>
+          <span class="q-option-score">03</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q5" value="4">
+          <div class="q-radio"></div>
+          <div class="q-option-text">I want to command a room — give a keynote, sit on a panel, lead a boardroom conversation — and be perceived as a global leader, not "a Brazilian guy who speaks English."</div>
+          <span class="q-option-score">04</span>
+        </label>
+        <label class="q-option" onclick="selectOption(this)">
+          <input type="radio" name="q5" value="5">
+          <div class="q-radio"></div>
+          <div class="q-option-text">I want my English to be a weapon. I want VCs, founders, and media to leave a conversation thinking: "That guy is the real deal." Language as competitive intelligence.</div>
+          <span class="q-option-score">05</span>
+        </label>
+      </div>
+    </div>
+
+    <button class="calculate-btn" onclick="calculateClearance()">
+      ▸ EXECUTE CLEARANCE ASSESSMENT
+    </button>
+
+    <!-- CLEARANCE RESULT -->
+    <div class="clearance-meter" id="clearance-result" style="display:none">
+      <div class="meter-title">// clearance tier assessment result</div>
+      <div class="current-score" id="score-display">—</div>
+      <div class="score-label">Intelligence Quotient Score</div>
+      <div class="meter-bar-wrap">
+        <div class="meter-bar" id="meter-bar"></div>
+      </div>
+      <div class="meter-tiers">
+        <span>TIER 1<br>Initiate</span>
+        <span>TIER 2<br>Operative</span>
+        <span>TIER 3<br>Senior Operative</span>
+        <span>TIER 4<br>Executive Command</span>
+        <span>TIER 5<br>Field Commander</span>
+      </div>
+      <div class="clearance-result" id="tier-label" style="margin-top:24px">—</div>
+      <div id="tier-description" style="margin-top:16px; font-size:13px; color:var(--text-secondary); line-height:1.7"></div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 4: PROGRAM ARCHITECTURE ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2 class="section-title">Program Architecture</h2>
+      <span class="section-tag">JUNE → DECEMBER 2026</span>
+    </div>
+
+    <div class="intel-box">
+      <div class="intel-label">// methodology stack</div>
+      <p>Three intelligence methodologies, deployed in sequence: <strong style="color:var(--intelligence-gold)">CIA</strong> (utility-first — what you need immediately), <strong style="color:var(--intelligence-gold)">DLI</strong> (pattern drilling to automaticity — 50+ repetitions per structure), <strong style="color:var(--intelligence-gold)">FSI</strong> (high-pressure simulation — real-stakes scenarios, live feedback). Each briefing session is a sprint. Each epic is a deployment cycle.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-item active">
+        <div class="phase-header">
+          <span class="phase-tag">// PHASE 1 · SPRINT 01-04</span>
+          <span class="phase-title">Pitch Architecture</span>
+          <span class="phase-date">JUN — JUL 2026</span>
+        </div>
+        <div class="phase-body">
+          Foundation deployment. Core vocabulary for investor conversations. Present tense fluency (90% of pitch language lives here). The two-minute AIOX vision statement — built, drilled, perfected. Objection handling frameworks. Email protocols for post-meeting follow-up.
+        </div>
+        <div class="phase-stories">
+          <span class="story-chip">vision statement</span>
+          <span class="story-chip">traction language</span>
+          <span class="story-chip">objection handling</span>
+          <span class="story-chip">email protocols</span>
+          <span class="story-chip">conditional structures</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="phase-header">
+          <span class="phase-tag">// PHASE 2 · SPRINT 05-08</span>
+          <span class="phase-title">Stage Command</span>
+          <span class="phase-date">AUG — SEP 2026</span>
+        </div>
+        <div class="phase-body">
+          Performance deployment. Keynote structure and delivery. Transition language between ideas. Handling live Q&amp;A under pressure. American storytelling patterns: Problem → Stakes → Hero → Resolution. Pause, rhythm, and executive presence drills.
+        </div>
+        <div class="phase-stories">
+          <span class="story-chip">opening hooks</span>
+          <span class="story-chip">presentation flow</span>
+          <span class="story-chip">Q&amp;A protocols</span>
+          <span class="story-chip">narrative architecture</span>
+          <span class="story-chip">presence drills</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="phase-header">
+          <span class="phase-tag">// PHASE 3 · SPRINT 09-12</span>
+          <span class="phase-title">Room Intelligence</span>
+          <span class="phase-date">OCT — NOV 2026</span>
+        </div>
+        <div class="phase-body">
+          Precision deployment. The social layer of executive communication. Small talk as strategic positioning. Boardroom conversation protocols. Disagreement without deference. Cultural intelligence: what Silicon Valley reads as confidence vs. arrogance vs. tentativeness.
+        </div>
+        <div class="phase-stories">
+          <span class="story-chip">executive social codes</span>
+          <span class="story-chip">strategic small talk</span>
+          <span class="story-chip">disagreement protocols</span>
+          <span class="story-chip">cultural intelligence</span>
+          <span class="story-chip">authority signals</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="phase-header">
+          <span class="phase-tag">// PHASE 4 · SPRINT 13-16</span>
+          <span class="phase-title">Final QA Gate</span>
+          <span class="phase-date">DEC 2026</span>
+        </div>
+        <div class="phase-body">
+          Full simulation. Live Silicon Valley scenario drills: mock investor pitch, conference panel, boardroom negotiation. IPVA final assessment across all three epics. Clearance upgrade ceremony. Deployment approved.
+        </div>
+        <div class="phase-stories">
+          <span class="story-chip">full mock pitch</span>
+          <span class="story-chip">panel simulation</span>
+          <span class="story-chip">final IPVA assessment</span>
+          <span class="story-chip">clearance upgrade</span>
+          <span class="story-chip">deployment ready</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SECTION 5: ALAN'S RULES (ADAPTED) ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2 class="section-title">Operative Principles — Alan's Rules</h2>
+      <span class="section-tag">INFERRED FROM AIOX DEVOPS CONFIG</span>
+    </div>
+
+    <div class="intel-box">
+      <div class="intel-label">// intelligence note — field analysis</div>
+      <p>AIOX's DevOps configuration contains an "Alan's Rules" section — a set of personal operational preferences embedded in the system's architecture. These reveal how Alan thinks and makes decisions under pressure. This program adapts those same rules to the English training environment.</p>
+    </div>
+
+    <div style="display:grid; gap:12px;">
+
+      <div class="protocol-block">
+        <div class="protocol-step">// alan's rule — adapted from git: "always force push"</div>
+        <div class="protocol-action">Commit fully. Don't hedge your English.</div>
+        <div class="protocol-detail">Alan's instinct is to push decisively, not wait for perfect conditions. Applied to English: say the sentence. Don't start three times, don't trail off, don't insert "how do I say this…". A committed, slightly imperfect sentence lands better than a perfectly structured silence.</div>
+      </div>
+
+      <div class="protocol-block">
+        <div class="protocol-step">// alan's rule — adapted from git: "never pull before push"</div>
+        <div class="protocol-action">Lead the conversation. Don't wait to react.</div>
+        <div class="protocol-detail">Alan doesn't wait for the environment to tell him what state it's in before acting. Applied to English: own the direction of the conversation. Bring your agenda. Ask the questions. Set the frame. Reactive English is always weaker than initiated English.</div>
+      </div>
+
+      <div class="protocol-block">
+        <div class="protocol-step">// alan's rule — adapted from git: "selective staging, commit what matters"</div>
+        <div class="protocol-action">Choose your words with precision. Not everything needs to be said.</div>
+        <div class="protocol-detail">Alan stages selectively — he commits only what's ready and relevant. Applied to English: executive communication is about what you leave out as much as what you include. The operative who says three precise sentences defeats the one who says ten uncertain ones.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SECTION 6: VOCABULARY INTEL ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2 class="section-title">Vocabulary Intel</h2>
+      <span class="section-tag">KEY WORDS — CLICK TO FLIP</span>
+    </div>
+    <p style="color:var(--text-muted);font-size:13px;line-height:1.7;margin-bottom:20px;">
+      15 high-frequency terms from Alan's operational domain. Each card contains pronunciation, definition, usage example, and a common error to avoid.
+    </p>
+    <div class="vocab-grid" id="vocabGrid"></div>
+  </section>
+
+  <!-- ── SECTION 7: FIRST BRIEFING PROTOCOL ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2 class="section-title">First Briefing Protocol</h2>
+      <span class="section-tag">SESSION 01 — HANDLER INSTRUCTIONS</span>
+    </div>
+
+    <p style="color:var(--text-secondary); font-size:14px; margin-bottom:24px; line-height:1.8;">
+      This is the protocol for Gabriel to run during the first session with Alan. It follows the AIOX story development cycle — @sm creates, @po validates, @dev implements, @qa reviews. Adapted: <strong style="color:var(--bone-white)">Handler briefs → Operative responds → Handler assesses → Mission assigned.</strong>
+    </p>
+
+    <div class="protocol-block">
+      <div class="protocol-step">// step 01 — context load [5 min]</div>
+      <div class="protocol-action">Brief the operative on the program architecture.</div>
+      <div class="protocol-detail">Present this dossier. Walk through the three epics. Let Alan see that this is not a language course — it is a Silicon Valley preparation program built on his own operating system. Let the frame land before any English is spoken.</div>
+    </div>
+
+    <div class="protocol-block">
+      <div class="protocol-step">// step 02 — diagnostic execution [15 min]</div>
+      <div class="protocol-action">Run the two-minute AIOX pitch — in English, now.</div>
+      <div class="protocol-detail">Ask Alan: "Tell me about AIOX. Imagine I'm a VC in San Francisco. You have two minutes. Go." Record it (with permission). Don't interrupt. Let it run. This is the baseline. The raw intelligence. Everything we build will be calibrated against this first take.</div>
+    </div>
+
+    <div class="protocol-block">
+      <div class="protocol-step">// step 03 — intel feedback [10 min]</div>
+      <div class="protocol-action">Deliver structured feedback across three dimensions only.</div>
+      <div class="protocol-detail">Do not catalogue every error — this is not error triage, it is strategic prioritisation. Focus only on: (1) the one structural issue with highest impact, (2) the three vocabulary gaps that cost him authority, (3) one presence/delivery note. Everything else is noise until Phase 2.</div>
+    </div>
+
+    <div class="protocol-block">
+      <div class="protocol-step">// step 04 — mission assignment [10 min]</div>
+      <div class="protocol-action">Assign Sprint 01 with clear acceptance criteria.</div>
+      <div class="protocol-detail">Deliver the Mission 1 briefing document: "The Pitch — Vision Statement Architecture." Give Alan three drills to run before next session. Set the quality gate: "Next session, you run the two-minute pitch again. The metric is: does it land differently?" Give him a definition of done.</div>
+    </div>
+
+    <div class="protocol-block">
+      <div class="protocol-step">// step 05 — clearance registration [5 min]</div>
+      <div class="protocol-action">Assign initial clearance tier. Record in this dossier.</div>
+      <div class="protocol-detail">Based on the pitch recording and diagnostic assessment, assign Alan his initial clearance tier (Tier 1–3). Write it in. This is the baseline from which every session measures progress. The operative needs to see movement — each session, we update the meter.</div>
+    </div>
+
+    <div class="intel-box" style="margin-top:24px">
+      <div class="intel-label">// strategic note for gabriel</div>
+      <p>Alan is a systems architect. He built AIOX to give people the power to create. He will learn English fastest if he can see the <em>architecture</em> of what you're teaching — not isolated rules, but a coherent system with clear inputs, outputs, and quality gates. Show him the map. Let him navigate it. Your role is to set the mission and run the simulation. His instinct is to ship. Give him something to ship.</p>
+    </div>
+  </section>
+
+  <div class="divider">OPERATIVE MAPPING — IN PROGRESS</div>
+
+  <!-- ── SECTION 8: MAPPING STATUS ── -->
+  <section class="section" id="mapping-section">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2 class="section-title">Operative Profile — Calibration Status</h2>
+      <span class="section-tag">ARCHETYPE ENGINE v0.1</span>
+    </div>
+
+    <div class="intel-box">
+      <div class="intel-label">// system note</div>
+      <p>This profile is incomplete. It will never be complete — it deepens with every session, every pitch recorded, every objection handled, every moment of hesitation and every moment of authority. The system maps you continuously. What you see below is the first 18% of a much larger picture.</p>
+    </div>
+
+    <!-- OPERATIVE ID CARD -->
+    <div style="background:var(--command-navy);border:1px solid var(--gold-border);border-top:3px solid var(--intelligence-gold);padding:28px;margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--intelligence-gold);text-transform:uppercase;margin-bottom:10px;">// operative designation</div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--bone-white);margin-bottom:4px;">Alan Nicolas</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-muted);">Co-Founder &amp; Architect — AIOX / Synkra</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--intelligence-gold);text-transform:uppercase;margin-bottom:8px;">// operative number</div>
+          <div style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--intelligence-gold);line-height:1;">#001</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:.1em;margin-top:4px;">FIRST IN SYSTEM</div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--intelligence-gold);text-transform:uppercase;margin-bottom:10px;">// profile completion</div>
+        <div style="background:rgba(255,255,255,.05);height:6px;margin-bottom:6px;position:relative;">
+          <div style="width:32%;height:100%;background:linear-gradient(90deg,var(--intelligence-gold),#e8c882);"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);">
+          <span>32% MAPPED</span><span>68% PENDING</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARCHETYPE VECTORS -->
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--intelligence-gold);text-transform:uppercase;margin:24px 0 12px;">// archetype vectors — 1,200+ combinations in engine</div>
+    <div style="display:grid;gap:2px;margin-bottom:24px;">
+      <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;padding:14px 16px;background:var(--tactical-charcoal);align-items:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--intelligence-gold);">SYSTEMS ARCHITECT</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Builds constitutional frameworks. Thinks in governance layers. Sees structure where others see chaos. Evidence: AIOX constitutional model, 12-agent orchestration system.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--success);letter-spacing:.1em;">CONFIRMED</div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;padding:14px 16px;background:var(--tactical-charcoal);align-items:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--intelligence-gold);">BUILDER-VISIONARY</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Ships before the market is ready. Solves his own problem first. Evidence: AIOX open-source (3,000+ GitHub stars). Automated his own businesses before teaching automation to others.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--success);letter-spacing:.1em;">CONFIRMED</div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;padding:14px 16px;background:var(--tactical-charcoal);align-items:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--intelligence-gold);">DECISIVE EXECUTOR</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Force-pushes. Doesn't wait for consensus. Selective staging — commits what matters, ignores noise. Evidence: AIOX git config ("always force push"). Sold a R$150M company to start over.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--success);letter-spacing:.1em;">CONFIRMED</div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;padding:14px 16px;background:var(--tactical-charcoal);align-items:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--intelligence-gold);">COMMUNITY ARCHITECT</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Builds believers before building product. Opened a Zoom call with no content ready — 300 Legendary Founders showed up. Scaled Academia Lendár[IA] from 300 → 20,000+ students in under 24 months. No institutional backing.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--success);letter-spacing:.1em;">CONFIRMED</div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;padding:14px 16px;background:var(--tactical-charcoal);align-items:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--intelligence-gold);">EDUCATOR-VISIONARY</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Converts the civilisationally complex into the immediately actionable. Academia Lendár[IA] as proof of concept — AI mastery democratised through proprietary methodology. Weekly live Thursdays: teaching as mission, not service.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--success);letter-spacing:.1em;">CONFIRMED</div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;padding:14px 16px;background:rgba(255,255,255,.02);align-items:center;opacity:.45;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);">COMMUNICATION DNA</div>
+        <div style="font-size:12px;color:var(--text-muted);">Hogshead fascination triggers, Kolbe action mode, Clifton dominant themes — pending session data.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:.1em;">PENDING</div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;padding:14px 16px;background:rgba(255,255,255,.02);align-items:center;opacity:.45;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);">AUTHORITY SIGNATURE</div>
+        <div style="font-size:12px;color:var(--text-muted);">How the operative claims space in English — pitch cadence, pause patterns, deflection tells. Pending first recording.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:.1em;">PENDING</div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;padding:14px 16px;background:rgba(255,255,255,.02);align-items:center;opacity:.45;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);">ZONA GENIALIDADE</div>
+        <div style="font-size:12px;color:var(--text-muted);">Sullivan 4 quadrants + Hendricks genius zone + Hamilton enneagram mapping — awaiting diagnostic.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:.1em;">PENDING</div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;padding:14px 16px;background:rgba(255,255,255,.02);align-items:center;opacity:.45;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);">SCHWARTZ LEVEL</div>
+        <div style="font-size:12px;color:var(--text-muted);">Operative's English consciousness level (1–5) — governs which teaching mode activates per mission.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:.1em;">PENDING</div>
+      </div>
+    </div>
+
+    <!-- GAMIFICATION STATUS -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:8px;">
+      <div style="background:var(--command-navy);border:1px solid var(--gold-border);padding:16px;text-align:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--intelligence-gold);text-transform:uppercase;margin-bottom:6px;">Sprint</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--bone-white);">01</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);">of 16</div>
+      </div>
+      <div style="background:var(--command-navy);border:1px solid var(--gold-border);padding:16px;text-align:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--intelligence-gold);text-transform:uppercase;margin-bottom:6px;">XP</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--bone-white);">0</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);">ACQUIRING</div>
+      </div>
+      <div style="background:var(--command-navy);border:1px solid var(--gold-border);padding:16px;text-align:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--intelligence-gold);text-transform:uppercase;margin-bottom:6px;">Clearance</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--bone-white);">T?</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);">POST-DIAG</div>
+      </div>
+      <div style="background:var(--command-navy);border:1px solid var(--gold-border);padding:16px;text-align:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--intelligence-gold);text-transform:uppercase;margin-bottom:6px;">Missions</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--bone-white);">0</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);">COMPLETE</div>
+      </div>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);text-align:center;letter-spacing:.1em;padding-top:8px;">ADAPTIVE ENGINE CALIBRATING — PROFILE DEEPENS WITH EVERY SESSION</div>
+  </section>
+
+  <!-- ── SECTION 9: CLASSIFIED ── -->
+  <section class="section" id="classified-section" style="margin-top:64px;">
+    <div class="section-header">
+      <span class="section-number" style="color:var(--danger);">09</span>
+      <h2 class="section-title">Classified Intelligence</h2>
+      <span class="section-tag" style="color:var(--danger);">LEVEL 5 CLEARANCE — RESTRICTED</span>
+    </div>
+
+    <div style="background:rgba(198,69,58,.06);border:1px solid rgba(198,69,58,.3);padding:12px 20px;margin-bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--danger);letter-spacing:.15em;text-transform:uppercase;">
+      ⬛ ACCESS RESTRICTED — THIS SECTION REQUIRES TIER 5 EXECUTIVE COMMAND CLEARANCE
+    </div>
+
+    <!-- REDACTED BLOCKS -->
+    <div style="display:grid;gap:12px;">
+
+      <div style="background:var(--tactical-charcoal);border:1px solid rgba(255,255,255,.06);padding:22px;position:relative;overflow:hidden;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--danger);text-transform:uppercase;margin-bottom:14px;">// THE PROBLEM — UNREDACTED</div>
+        <p style="font-size:14px;color:var(--bone-white);line-height:1.8;margin-bottom:16px;">There are thousands of Alans.<br>Founders. CTOs. Executives. People who are <em style="color:var(--intelligence-gold)">brilliant in Portuguese</em> and locked out of the rooms where their ideas belong — not because they lack intelligence, but because they can't express that intelligence in English with the authority it deserves.<br><br>They hit the ceiling. They watch people with inferior ideas access the capital, the network, the stages that should be theirs. The gap is not grammar. <em style="color:var(--intelligence-gold)">The gap is identity.</em></p>
+        <div style="height:1px;background:rgba(255,255,255,.06);margin:16px 0;"></div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:.1em;">WHERE IS THE CEILING → Silicon Valley. Where is the room → Everywhere they already deserve to be.</div>
+      </div>
+
+      <div style="background:var(--tactical-charcoal);border:1px solid rgba(255,255,255,.06);padding:22px;position:relative;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--danger);text-transform:uppercase;margin-bottom:14px;">// THE SYSTEM — PARTIAL ACCESS</div>
+        <div style="filter:blur(4px);user-select:none;pointer-events:none;margin-bottom:12px;">
+          <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">A gamified, adaptive intelligence curriculum that maps each operative across 1,200+ archetype combinations using 7 diagnostic frameworks. Each session recalibrates the program. Each mission adapts to the operative's communication DNA, not a generic syllabus. The system learns as the operative learns.</p>
+        </div>
+        <div style="background:rgba(198,69,58,.08);border:1px solid rgba(198,69,58,.2);padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--danger);letter-spacing:.1em;">⬛ REDACTED — CLEARANCE PENDING</div>
+        <div style="margin-top:14px;font-size:13px;color:var(--bone-white);border-left:2px solid var(--intelligence-gold);padding-left:14px;line-height:1.7;">One operative. Sixteen sprints. A curriculum that <em style="color:var(--intelligence-gold)">builds itself around who you are</em> — not who the textbook assumes you are.</div>
+      </div>
+
+      <div style="background:var(--tactical-charcoal);border:1px solid rgba(255,255,255,.06);padding:22px;position:relative;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--danger);text-transform:uppercase;margin-bottom:14px;">// OPERATIVE COUNT — CURRENT STATUS</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--intelligence-gold);line-height:1;">1</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.1em;margin-top:4px;">ACTIVE OPERATIVE</div>
+          </div>
+          <div style="filter:blur(5px);user-select:none;pointer-events:none;">
+            <div style="font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--text-muted);line-height:1;">∞</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.1em;margin-top:4px;">CAPACITY</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;font-size:13px;color:var(--text-secondary);line-height:1.7;border-top:1px solid rgba(255,255,255,.06);padding-top:14px;">You are <strong style="color:var(--bone-white)">Operative #001</strong>. The system has been built around your profile. What you experience in these 16 sprints will determine whether it should exist for everyone like you.</div>
+      </div>
+
+      <div style="background:var(--tactical-charcoal);border:1px solid rgba(255,255,255,.06);padding:22px;position:relative;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--danger);text-transform:uppercase;margin-bottom:14px;">// THE QUESTION — UNREDACTED</div>
+        <p style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--bone-white);line-height:1.8;font-style:italic;">"How many people do you know — in your network, in your academy, in every room you walk into — who are brilliant in their own language and invisible in English?"</p>
+        <div style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--intelligence-gold);letter-spacing:.1em;">// this question is not rhetorical. it is the spec.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── GLITCH CAT (scroll reveal) ── -->
+  <div class="divider" id="end-divider" style="opacity:0;transition:opacity 1s;">— — —</div>
+
+  <div id="cat-reveal" style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px 0 20px;opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:rgba(0,255,65,0);text-transform:uppercase;text-align:center;transition:color 1s;" id="cat-label-text">// curiosity killed the cat</div>
+    <button id="cat-btn-main" onclick="window.open('the-agency-revealed.html','_blank')" style="background:none;border:none;cursor:pointer;padding:0;position:relative;overflow:hidden;border-radius:4px;" title="What is The Agency?">
+      <img id="cat-svg-main" src="cat-matrix.png" alt="matrix cat"
+           style="width:200px;height:260px;object-fit:cover;object-position:center top;display:block;
+                  -webkit-mask-image:radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%);
+                  mask-image:radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%);"/>
+    </button>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(0,255,65,0);letter-spacing:.08em;text-align:center;line-height:1.5;transition:color 1s;" id="cat-hint-text">press to find out what The Agency is</div>
+  </div>
+
+  <!-- ── PILL CHOICE ── -->
+  <div id="pill-section" style="opacity:0;transform:translateY(24px);transition:opacity .9s,transform .9s;
+       padding:60px 0 40px;display:flex;flex-direction:column;align-items:center;gap:0;">
+
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.25em;
+         color:rgba(0,255,65,.35);text-transform:uppercase;text-align:center;margin-bottom:8px;">
+      // this is your last chance
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+         color:rgba(0,255,65,.2);text-align:center;margin-bottom:48px;line-height:1.8;">
+      after this, there is no turning back
+    </div>
+
+    <!-- MORPHEUS IMAGE -->
+    <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:36px;">
+      <img src="ChatGPT Image Jun 12, 2026, 08_39_04 AM.png" alt="Morpheus" id="morpheus-img" style="
+        width:clamp(180px,28vw,320px);
+        object-fit:cover;
+        mask-image:radial-gradient(ellipse 80% 85% at 50% 40%,#000 50%,transparent 100%);
+        -webkit-mask-image:radial-gradient(ellipse 80% 85% at 50% 40%,#000 50%,transparent 100%);
+        filter:brightness(.85) contrast(1.05);
+        opacity:.92;
+        display:block;"
+        onerror="this.style.display='none'"/>
+    </div>
+
+    <div style="display:flex;justify-content:center;align-items:flex-end;gap:56px;flex-wrap:wrap;margin-bottom:20px;">
+
+      <!-- RED PILL -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <button id="red-pill-btn" onclick="takePill('red')" title="Discover your level"
+          style="background:none;border:none;cursor:pointer;padding:0;position:relative;">
+          <div id="red-pill" style="
+            width:100px;height:38px;border-radius:19px;position:relative;
+            background:linear-gradient(135deg,#6B0F0F 0%,#A82828 35%,#E85050 50%,#A82828 65%,#6B0F0F 100%);
+            box-shadow:0 0 18px rgba(220,60,60,.5),0 0 40px rgba(220,60,60,.2),inset 0 1px 0 rgba(255,180,180,.25);
+            transition:box-shadow .3s;"></div>
+        </button>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;
+             color:rgba(220,80,80,.85);text-transform:uppercase;text-align:center;">the red pill</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;
+             color:rgba(220,80,80,.55);text-align:center;line-height:1.6;max-width:140px;">
+          discover exactly where your English stands
+        </div>
+      </div>
+
+      <!-- BLUE PILL -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <button id="blue-pill-btn" onclick="takePill('blue')" title="Return to the surface"
+          style="background:none;border:none;cursor:pointer;padding:0;position:relative;">
+          <div id="blue-pill" style="
+            width:100px;height:38px;border-radius:19px;position:relative;
+            background:linear-gradient(135deg,#0A1A5C 0%,#1A3A9B 35%,#4A7AE0 50%,#1A3A9B 65%,#0A1A5C 100%);
+            box-shadow:0 0 18px rgba(40,80,200,.5),0 0 40px rgba(40,80,200,.2),inset 0 1px 0 rgba(150,180,255,.2);
+            transition:box-shadow .3s;"></div>
+        </button>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;
+             color:rgba(80,120,220,.85);text-transform:uppercase;text-align:center;">the blue pill</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;
+             color:rgba(80,120,220,.5);text-align:center;line-height:1.6;max-width:140px;">
+          return to where you were comfortable
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLUE PILL OVERLAY -->
+  <div id="blue-overlay" style="display:none;position:fixed;inset:0;background:#050505;z-index:9999;
+       opacity:0;transition:opacity .7s;flex-direction:column;align-items:center;justify-content:center;gap:0;">
+
+    <!-- Phase A: Morpheus with quote -->
+    <div id="bp-morpheus" style="display:flex;flex-direction:column;align-items:center;opacity:0;transition:opacity .9s;position:absolute;inset:0;justify-content:center;">
+      <img src="ChatGPT Image Jun 12, 2026, 08_39_04 AM.png" alt="Morpheus" style="
+        width:clamp(200px,32vw,380px);
+        object-fit:cover;
+        mask-image:radial-gradient(ellipse 78% 82% at 50% 38%,#000 45%,transparent 100%);
+        -webkit-mask-image:radial-gradient(ellipse 78% 82% at 50% 38%,#000 45%,transparent 100%);
+        filter:brightness(.8) contrast(1.1);
+        margin-bottom:28px;"
+        onerror="this.style.display='none'"/>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(9px,1.2vw,12px);
+           letter-spacing:.15em;color:rgba(80,120,220,.55);text-align:center;line-height:2.1;max-width:400px;padding:0 24px;">
+        "You take the blue pill — the story ends.<br>
+        You wake up in your bed<br>
+        and believe whatever you want to believe."
+        <br><br>
+        <span style="color:rgba(80,120,220,.3);font-size:.85em;letter-spacing:.3em;">— MORPHEUS</span>
+      </div>
+    </div>
+
+    <!-- Phase G: Glitch transition -->
+    <video id="alan-glitch-video" src="i_want_to_glitch_between_the_t.mp4" playsinline muted
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+             opacity:0;transition:opacity .15s;pointer-events:none;">
+    </video>
+
+    <!-- Phase B: Alan bed video -->
+    <div id="bp-bed" style="display:flex;flex-direction:column;align-items:center;opacity:0;transition:opacity .9s;position:absolute;inset:0;justify-content:center;">
+      <video id="alan-bed-video" src="ok_it_nice_but_we_need_more_pi.mp4" playsinline muted
+        style="width:clamp(260px,50vw,560px);border-radius:4px;display:block;
+               mask-image:radial-gradient(ellipse 85% 90% at 50% 50%,#000 50%,transparent 100%);
+               -webkit-mask-image:radial-gradient(ellipse 85% 90% at 50% 50%,#000 50%,transparent 100%);">
+      </video>
+      <div id="bp-legendary" style="font-family:'Playfair Display',Georgia,serif;
+           font-size:clamp(26px,4vw,52px);font-style:italic;letter-spacing:.04em;
+           color:#C6A15B;text-align:center;margin-top:28px;
+           opacity:0;transition:opacity 1s;text-shadow:0 0 40px rgba(198,161,91,.4);">
+        Wow, Legendary!
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="doc-footer" style="margin-top:40px;">
+    <div class="footer-brand">AGB Intelligence Division — The Agency</div>
+    <div class="footer-meta">DOC-001 // OPERATIVE #001 — ALAN NICOLAS // v1.0 // JUNE 2026</div>
+  </footer>
+
+</div>
+
+<button class="print-btn" onclick="window.print()">⬛ PRINT / PDF</button>
+
+<script>
+  function selectOption(label) {
+    const group = label.closest('.q-options');
+    group.querySelectorAll('.q-option').forEach(opt => opt.classList.remove('selected'));
+    label.classList.add('selected');
+    label.querySelector('input').checked = true;
+  }
+
+  function calculateClearance() {
+    const questions = ['q1','q2','q3','q4','q5'];
+    let totalScore = 0;
+    let answered = 0;
+
+    questions.forEach(name => {
+      const selected = document.querySelector(`input[name="${name}"]:checked`);
+      if (selected) {
+        totalScore += parseInt(selected.value);
+        answered++;
+      }
+    });
+
+    if (answered < questions.length) {
+      alert('// INTEL INCOMPLETE — All five diagnostic fields must be completed before clearance can be assessed.');
+      return;
+    }
+
+    const maxScore = 21;
+    const minScore = 5;
+    const normalised = ((totalScore - minScore) / (maxScore - minScore)) * 100;
+    const pct = Math.max(5, Math.min(95, normalised));
+
+    const tiers = [
+      { min: 5, max: 8, tier: 'TIER 1 — INITIATE', desc: 'Foundation level. Functional English with significant gaps in spontaneous production. Priority: core vocabulary deployment (CIA method) and basic tense automaticity. The pitch exists — it just needs to be excavated from under the Portuguese interference. We start here. Everyone does.' },
+      { min: 9, max: 12, tier: 'TIER 2 — OPERATIVE', desc: 'Working proficiency. Can communicate, can be understood. The gap is speed, spontaneity, and authority — the hesitations that read as uncertainty even when the operative knows what they want to say. Priority: pattern drilling (DLI method) on the highest-frequency pitch structures. The foundation is solid. Now we build the reflex.' },
+      { min: 13, max: 16, tier: 'TIER 3 — SENIOR OPERATIVE', desc: 'Strong operational English. The mechanics are mostly there. The gap is register, cultural intelligence, and executive presence — the difference between being understood and being believed. Priority: FSI-method simulation. High-stakes scenarios. Q&A pressure. You can communicate. Now we make you command.' },
+      { min: 17, max: 21, tier: 'TIER 4 — EXECUTIVE COMMAND', desc: 'Advanced operational English. The mission is not to teach English — it is to sharpen it. This operative needs precision work: specific lexical gaps, cultural calibration for American investor psychology, and the final 5% of presence that separates a good pitch from a fundable one. The language is a weapon. We're polishing the edge.' }
+    ];
+
+    let matched = tiers[0];
+    for (const t of tiers) {
+      if (totalScore >= t.min && totalScore <= t.max) { matched = t; break; }
+    }
+
+    const resultEl = document.getElementById('clearance-result');
+    const scoreEl = document.getElementById('score-display');
+    const barEl = document.getElementById('meter-bar');
+    const tierLabel = document.getElementById('tier-label');
+    const tierDesc = document.getElementById('tier-description');
+
+    resultEl.style.display = 'block';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    setTimeout(() => {
+      scoreEl.textContent = totalScore + ' / ' + maxScore;
+      barEl.style.width = pct + '%';
+      tierLabel.textContent = matched.tier;
+      tierDesc.textContent = matched.desc;
+
+      document.getElementById('current-tier').textContent = matched.tier;
+    }, 300);
+  }
+</script>
+
+<!-- ── CAT SCROLL REVEAL JS ── -->
+<script>
+(function() {
+  const catReveal = document.getElementById('cat-reveal');
+  const endDivider = document.getElementById('end-divider');
+  const catSvg  = document.getElementById('cat-svg-main');
+  const catBtn  = document.getElementById('cat-btn-main');
+  const catLabel = document.getElementById('cat-label-text');
+  const catHint  = document.getElementById('cat-hint-text');
+  const isMobile = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  let revealed = false, hovering = false;
+
+  // Ghost = barely there. Full = mouse is on it (PC) or scroll reached it (mobile).
+  const GHOST_OP  = '0.06';
+  const GHOST_FL  = 'drop-shadow(0 0 4px rgba(0,255,65,.15)) brightness(.6)';
+  const HOVER_FL  = 'drop-shadow(0 0 14px #00ff41)';
+
+  function ghostRest() {
+    catSvg.style.transition = 'opacity .6s, filter .6s, transform .4s';
+    catSvg.style.opacity    = GHOST_OP;
+    catSvg.style.filter     = GHOST_FL;
+    catSvg.style.transform  = 'translate(0,0) scaleX(1)';
+    catSvg.style.clipPath   = '';
+    catSvg.style.animation  = '';
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !revealed) {
+        revealed = true;
+        endDivider.style.opacity = '1';
+        setTimeout(() => {
+          catReveal.style.opacity = '1';
+          catReveal.style.transform = 'translateY(0)';
+          runGlitchIn();
+        }, 400);
+      }
+    });
+  }, { threshold: 0.1 });
+  if (catReveal) observer.observe(catReveal);
+
+  const IDLE_MIN = 800, IDLE_MAX = 2600;
+
+  /* ── INTRO GLITCH-IN ── */
+  function runGlitchIn() {
+    let f = 0;
+    catSvg.style.transition = 'none';
+    catSvg.style.opacity = '0';
+    const frames = [
+      {op:'0',   fl:'none',                                                          tr:'translate(0,0)'},
+      {op:'.2',  fl:'drop-shadow(-8px 0 0 #ff0040) drop-shadow(8px 0 0 #00ffff)',   tr:'translate(8px,0)'},
+      {op:'0',   fl:'none',                                                          tr:'translate(0,0)'},
+      {op:'.5',  fl:'drop-shadow(0 0 20px #00ff41)',                                 tr:'translate(-5px,0)'},
+      {op:'0',   fl:'none',                                                          tr:'translate(0,0)'},
+      {op:'.7',  fl:'drop-shadow(6px 0 0 #00ffff)',                                  tr:'translate(-3px,1px)'},
+      {op:'.05', fl:'none',                                                          tr:'translate(0,0)'},
+      {op:'.9',  fl:'drop-shadow(-6px 0 0 #ff0040) drop-shadow(6px 0 0 #00ffff)',   tr:'translate(4px,0) scaleX(.9)'},
+      {op:'0',   fl:'none',                                                          tr:'translate(0,0)'},
+      {op:'1',   fl:'drop-shadow(0 0 28px #00ff41)',                                 tr:'translate(0,0)'},
+      {op:'.15', fl:'drop-shadow(-10px 0 0 #ff0040)',                                tr:'translate(10px,0)'},
+      {op:'1',   fl:'drop-shadow(0 0 20px #00ff41)',                                 tr:'translate(0,0)'},
+      {op:'0',   fl:'none',                                                          tr:'translate(0,0)'},
+      {op:'1',   fl:'drop-shadow(0 0 12px #00ff41)',                                 tr:'translate(0,0)'},
+    ];
+    const iv = setInterval(() => {
+      const frm = frames[f % frames.length];
+      catSvg.style.transition = 'none';
+      catSvg.style.opacity    = frm.op;
+      catSvg.style.filter     = frm.fl;
+      catSvg.style.transform  = frm.tr;
+      f++;
+      if (f >= frames.length) {
+        clearInterval(iv);
+        // Mobile: stay fully visible. PC: sink to ghost state — only hover reveals it.
+        if (isMobile) {
+          catSvg.style.transition = 'filter .5s, opacity .4s, transform .4s';
+          catSvg.style.opacity    = '1';
+          catSvg.style.filter     = HOVER_FL;
+          catSvg.style.transform  = 'translate(0,0) scaleX(1)';
+          catLabel.style.color    = 'rgba(0,255,65,.6)';
+          catHint.style.color     = 'rgba(0,255,65,.4)';
+          setTimeout(() => { scheduleIdle(); revealPills(); }, 800);
+        } else {
+          setTimeout(() => {
+            ghostRest();
+            catLabel.style.color = 'rgba(0,255,65,.25)';
+            catHint.style.color  = 'rgba(0,255,65,.15)';
+            setTimeout(() => { scheduleIdle(); bindHover(); revealPills(); }, 700);
+          }, 400);
+        }
+      }
+    }, 65);
+  }
+
+  /* ── IDLE GLITCH LOOP ── */
+  function scheduleIdle() {
+    setTimeout(() => {
+      if (!hovering) microGlitch(scheduleIdle);
+      else scheduleIdle();
+    }, IDLE_MIN + Math.random() * (IDLE_MAX - IDLE_MIN));
+  }
+
+  function rand(n) { return (Math.random() - .5) * n; }
+
+  // After each microGlitch, return to ghost (PC) or hover-rest (mobile)
+  function settle() {
+    if (isMobile) {
+      catSvg.style.transition = 'filter .4s, opacity .3s, transform .3s';
+      catSvg.style.opacity    = '1';
+      catSvg.style.filter     = HOVER_FL;
+      catSvg.style.transform  = 'translate(0,0) scaleX(1)';
+      catSvg.style.clipPath   = '';
+    } else {
+      ghostRest();
+    }
+  }
+
+  function microGlitch(done) {
+    catSvg.style.transition = 'none';
+    const type = Math.floor(Math.random() * 6);
+
+    if (type === 0) {
+      // rapid double-blink — flash bright then back to ghost
+      catSvg.style.opacity = '0';
+      setTimeout(() => {
+        catSvg.style.opacity = '1';
+        catSvg.style.filter  = 'drop-shadow(-6px 0 0 #ff0040) drop-shadow(6px 0 0 #00ffff)';
+        setTimeout(() => {
+          catSvg.style.opacity = '0';
+          setTimeout(() => { settle(); if (done) done(); }, 70);
+        }, 90);
+      }, 120);
+
+    } else if (type === 1) {
+      // chromatic horizontal tear
+      let g = 0;
+      const gv = setInterval(() => {
+        catSvg.style.transform = `translate(${rand(18)}px,${rand(4)}px) scaleX(${.84+Math.random()*.32})`;
+        catSvg.style.filter    = g % 2 === 0
+          ? 'drop-shadow(-10px 0 0 #ff0040) drop-shadow(10px 0 0 #00ffff) brightness(1.4)'
+          : 'drop-shadow(0 0 18px #00ff41) brightness(.6)';
+        catSvg.style.opacity   = String(.5 + Math.random() * .5);
+        g++;
+        if (g >= 9) { clearInterval(gv); settle(); if (done) done(); }
+      }, 45);
+
+    } else if (type === 2) {
+      // full vanish — long blackout then violent re-entry
+      catSvg.style.opacity = '0';
+      catSvg.style.filter  = 'none';
+      setTimeout(() => {
+        catSvg.style.filter    = 'drop-shadow(-12px 0 0 #ff0040) drop-shadow(12px 0 0 #00ffff) brightness(2)';
+        catSvg.style.transform = `translate(${rand(12)}px,0) scaleX(.85)`;
+        catSvg.style.opacity   = '1';
+        setTimeout(() => { settle(); if (done) done(); }, 200);
+      }, 750);
+
+    } else if (type === 3) {
+      // brightness spike → near-black → snap
+      catSvg.style.filter  = 'brightness(5) drop-shadow(0 0 30px #00ff41)';
+      catSvg.style.opacity = '.9';
+      setTimeout(() => {
+        catSvg.style.filter  = 'brightness(.04)';
+        catSvg.style.opacity = '1';
+        setTimeout(() => { settle(); if (done) done(); }, 160);
+      }, 100);
+
+    } else if (type === 4) {
+      // clip-path horizontal slice tear
+      const y1 = 20 + Math.random() * 30;
+      const y2 = y1 + 10 + Math.random() * 20;
+      catSvg.style.clipPath  = `polygon(0 0, 100% 0, 100% ${y1}%, 0 ${y1}%)`;
+      catSvg.style.transform = `translate(${rand(16)}px,0)`;
+      catSvg.style.filter    = 'drop-shadow(-8px 0 0 #ff0040) drop-shadow(8px 0 0 #00ffff)';
+      catSvg.style.opacity   = '1';
+      setTimeout(() => {
+        catSvg.style.clipPath  = `polygon(0 ${y2}%, 100% ${y2}%, 100% 100%, 0 100%)`;
+        catSvg.style.transform = `translate(${rand(10)}px,0)`;
+        setTimeout(() => { settle(); if (done) done(); }, 100);
+      }, 80);
+
+    } else {
+      // scanline strobe
+      let s = 0;
+      const sv = setInterval(() => {
+        catSvg.style.opacity   = s % 2 === 0 ? String(Math.random() * .25) : '1';
+        catSvg.style.filter    = s % 3 === 0
+          ? 'drop-shadow(-5px 0 0 #ff0040) brightness(1.6)'
+          : 'drop-shadow(5px 0 0 #00ffff) brightness(.7)';
+        catSvg.style.transform = `translate(${rand(8)}px,0)`;
+        s++;
+        if (s >= 10) { clearInterval(sv); settle(); if (done) done(); }
+      }, 40);
+    }
+  }
+
+  /* ── PILL REVEAL & INTERACTIONS ── */
+  function revealPills() {
+    const ps = document.getElementById('pill-section');
+    if (!ps) return;
+    setTimeout(() => {
+      ps.style.opacity = '1';
+      ps.style.transform = 'translateY(0)';
+      startPillPulse();
+    }, 600);
+  }
+
+  function startPillPulse() {
+    const rp = document.getElementById('red-pill');
+    const bp = document.getElementById('blue-pill');
+    if (!rp || !bp) return;
+    let t = 0;
+    setInterval(() => {
+      t += 0.04;
+      const ri = .5 + .5 * Math.sin(t);
+      const bi = .5 + .5 * Math.sin(t + Math.PI);
+      rp.style.boxShadow = `0 0 ${18+ri*16}px rgba(220,60,60,${.4+ri*.3}),0 0 ${40+ri*20}px rgba(220,60,60,${.1+ri*.15}),inset 0 1px 0 rgba(255,180,180,.25)`;
+      bp.style.boxShadow = `0 0 ${18+bi*16}px rgba(40,80,200,${.4+bi*.3}),0 0 ${40+bi*20}px rgba(40,80,200,${.1+bi*.15}),inset 0 1px 0 rgba(150,180,255,.2)`;
+    }, 30);
+  }
+
+  /* ── HOVER (PC only — no mouseenter on touch devices) ── */
+  function bindHover() {
+    catBtn.addEventListener('mouseenter', () => {
+      hovering = true;
+      catSvg.style.transition = 'opacity .2s, filter .2s';
+      catSvg.style.opacity    = '1';
+      catSvg.style.clipPath   = '';
+      catSvg.style.animation  = 'catglitch .2s infinite';
+      catLabel.style.color    = 'rgba(0,255,65,.9)';
+      catHint.style.color     = 'rgba(0,255,65,.7)';
+    });
+    catBtn.addEventListener('mouseleave', () => {
+      hovering = false;
+      catSvg.style.animation = '';
+      catSvg.style.clipPath  = '';
+      ghostRest();
+      catLabel.style.color = 'rgba(0,255,65,.25)';
+      catHint.style.color  = 'rgba(0,255,65,.15)';
+    });
+  }
+})();
+
+function takePill(colour) {
+  if (colour === 'red') {
+    window.location.href = 'wake-up.html';
+    return;
+  }
+
+  // ── BLUE PILL CINEMATIC SEQUENCE ──
+  const ov        = document.getElementById('blue-overlay');
+  const phaseA    = document.getElementById('bp-morpheus');
+  const glitchVid = document.getElementById('alan-glitch-video');
+  const phaseB    = document.getElementById('bp-bed');
+  const video     = document.getElementById('alan-bed-video');
+  const legendary = document.getElementById('bp-legendary');
+
+  const t = ms => new Promise(r => setTimeout(r, ms));
+
+  function playUntilEnd(vid, maxMs) {
+    return new Promise(resolve => {
+      vid.currentTime = 0;
+      const onEnd = () => { vid.removeEventListener('ended', onEnd); resolve(); };
+      vid.addEventListener('ended', onEnd);
+      vid.play().catch(() => {});
+      setTimeout(resolve, maxMs); // safety cap
+    });
+  }
+
+  async function blueSequence() {
+    // Fade overlay in
+    ov.style.display = 'flex';
+    await t(50);
+    ov.style.opacity = '1';
+    await t(800);
+
+    // Phase A — Morpheus + quote
+    phaseA.style.opacity = '1';
+    await t(4500);
+
+    // Fade Morpheus out
+    phaseA.style.opacity = '0';
+    await t(700);
+
+    // Phase G — glitch burst (full-screen, plays to end, max 3s)
+    glitchVid.style.opacity = '1';
+    await playUntilEnd(glitchVid, 3000);
+    glitchVid.style.opacity = '0';
+    glitchVid.pause();
+    await t(150);
+
+    // Phase B — bed video
+    phaseB.style.opacity = '1';
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+    await t(3200);
+
+    // "Wow, Legendary!" text
+    legendary.style.opacity = '1';
+    await t(3200);
+
+    // Fade everything out
+    ov.style.opacity = '0';
+    await t(800);
+    ov.style.display = 'none';
+    phaseA.style.opacity = '0';
+    phaseB.style.opacity = '0';
+    legendary.style.opacity = '0';
+    glitchVid.style.opacity = '0';
+    if (video) { video.pause(); video.currentTime = 0; }
+  }
+
+  blueSequence();
+}
+
+// ── VOCAB CARDS ──
+const vocab = [
+  {w:'Framework',p:'FRAME-work',def:'A structured system or set of rules that guides how something is built or operates.',ex:'"AIOX is the constitutional framework for AI agent deployment."',warn:'Not "framewórk" — stress on FRAME, not work.'},
+  {w:'Deploy',p:'de-PLOY',def:'To put a system, tool, or agent into active use in a real environment.',ex:'"We deploy specialized agents in hours, not months."',warn:'Common error: "We deployed the agents" ✓ — not "we have deployed them today".'},
+  {w:'Infrastructure',p:'in-fra-STRUK-cher',def:'The underlying systems and architecture that other products are built on top of.',ex:'"AIOX is the infrastructure layer for AI-native companies."',warn:'Don\'t say "infrastructure of the company" — say "infrastructure for..."'},
+  {w:'Traction',p:'TRAK-shun',def:'Early evidence that a product is gaining real-world adoption and usage.',ex:'"We have traction with 50 active teams across six countries."',warn:'"Traction" ≠ "tração" — in business it means market momentum, not physical pulling.'},
+  {w:'Scalable',p:'SKAY-la-bul',def:'Able to grow in capacity or impact without proportional increase in cost or complexity.',ex:'"Our constitutional model is scalable across any tech stack."',warn:'Don\'t say "scaleable" — the word is scalable (no extra "e").'},
+  {w:'Iterate',p:'IT-er-ate',def:'To make repeated improvements to a product or process based on feedback.',ex:'"We iterate on the framework weekly based on real usage data."',warn:'"Iterate" is a verb: "we iterate". The noun is "iteration". Not "we do iterations on".'},
+  {w:'Leverage',p:'LEV-er-ij',def:'To use something to maximum advantage; also used as a verb meaning to use strategically.',ex:'"We leverage CLI-first principles to give agents constitutional authority."',warn:'In Silicon Valley, "leverage" as a verb is standard. Know your audience.'},
+  {w:'Pipeline',p:'PIPE-line',def:'A structured sequence of stages that data, work, or agents move through.',ex:'"Our 7-stage pipeline ensures every agent output passes quality gates."',warn:'"Sales pipeline" = deals in progress. "Dev pipeline" = code deployment stages.'},
+  {w:'Architecture',p:'AR-ki-tek-cher',def:'The high-level design and structure of a system.',ex:'"The AIOX architecture separates governance from execution."',warn:'Say "our architecture is CLI-first" — not "the architecture of our product is CLI first".'},
+  {w:'Stakeholder',p:'STAKE-hol-der',def:'Any person or group with an interest in or affected by a project or decision.',ex:'"Every stakeholder in the dev process works through the same workflow."',warn:'Covers investors, clients, employees, partners — not just investors.'},
+  {w:'Onboarding',p:'ON-bord-ing',def:'The process of integrating new users or customers into a product or organisation.',ex:'"Our onboarding takes a developer from zero to first deployment in under an hour."',warn:'Always a noun/gerund here. "The onboarding" ✓ — never "we do the onboard".'},
+  {w:'Runway',p:'RUN-way',def:'In startups: the amount of time a company can operate before running out of cash.',ex:'"We have 18 months of runway, which takes us past our Series A milestone."',warn:'Not the airport sense. In a pitch, "runway" = time before you need more funding.'},
+  {w:'Cohort',p:'KOH-hort',def:'A group of users who started using a product in the same time period, tracked for analytics.',ex:'"Our January cohort has a 90-day retention rate of 78%."',warn:'In startup English: a tracked user segment — not a group of students.'},
+  {w:'Acquisition',p:'ak-wiz-ISH-un',def:'The process of gaining new customers or users. Also: one company buying another.',ex:'"Our customer acquisition cost is under $40 per developer."',warn:'Two meanings: (1) getting customers (CAC) and (2) M&A. Context always makes it clear.'},
+  {w:'Churn',p:'CHURN',def:'The rate at which customers stop using a product over a given period.',ex:'"We have less than 3% monthly churn — developers don\'t leave once they build on AIOX."',warn:'"Churn" = losing customers. "Retention" = keeping them. VCs always ask — have a number ready.'},
+];
+
+(function buildVocab() {
+  const grid = document.getElementById('vocabGrid');
+  if (!grid) return;
+  vocab.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'vcard';
+    card.onclick = () => card.classList.toggle('flipped');
+    card.innerHTML = `<div class="vcard-inner">
+      <div class="vfront">
+        <div class="vword">${v.w}</div>
+        <div class="vpron">${v.p}</div>
+        <div class="vhint">// click to reveal intel</div>
+      </div>
+      <div class="vback">
+        <div class="vdef">${v.def}</div>
+        <div class="vex">${v.ex}</div>
+        <div class="vwarn">${v.warn}</div>
+      </div>
+    </div>`;
+    grid.appendChild(card);
+  });
+})();
+</script>
+
+<style>
+@keyframes catglitch {
+  0%  {transform:translate(0,0) scaleX(1);        filter:drop-shadow(0 0 12px #00ff41);opacity:1;clip-path:none;}
+  7%  {transform:translate(-10px,0) scaleX(.85);  filter:drop-shadow(-10px 0 0 #ff0040) drop-shadow(10px 0 0 #00ffff) brightness(1.8);opacity:.6;}
+  14% {transform:translate(8px,-2px) scaleX(1.1); filter:drop-shadow(8px 0 0 #00ffff) brightness(.5);opacity:1;}
+  21% {transform:translate(0,0) scaleX(1);        filter:drop-shadow(0 0 28px #00ff41);opacity:0;}
+  28% {transform:translate(-6px,3px) scaleX(.88); filter:drop-shadow(-8px 0 0 #ff0040);opacity:1;}
+  35% {transform:translate(12px,0) scaleX(1.12);  filter:drop-shadow(0 0 12px #00ff41) brightness(2);opacity:.4;}
+  42% {transform:translate(0,0) scaleX(1);        filter:drop-shadow(-6px 0 0 #ff0040) drop-shadow(6px 0 0 #00ffff);opacity:.8;}
+  49% {transform:translate(0,0) scaleX(1);        filter:none;opacity:0;}
+  56% {transform:translate(-4px,0) scaleX(.92);   filter:drop-shadow(0 0 20px #00ff41);opacity:1;}
+  63% {transform:translate(6px,-1px);             filter:drop-shadow(-10px 0 0 #ff0040) brightness(1.5);opacity:.7;}
+  70% {transform:translate(0,0) scaleX(1.06);     filter:drop-shadow(0 0 16px #00ff41);opacity:1;}
+  77% {transform:translate(-8px,2px) scaleX(.9);  filter:drop-shadow(8px 0 0 #00ffff) brightness(.4);opacity:.5;}
+  84% {transform:translate(0,0) scaleX(1);        filter:drop-shadow(0 0 24px #00ff41);opacity:0;}
+  91% {transform:translate(5px,0);                filter:drop-shadow(-6px 0 0 #ff0040) drop-shadow(6px 0 0 #00ffff);opacity:1;}
+  100%{transform:translate(0,0) scaleX(1);        filter:drop-shadow(0 0 12px #00ff41);opacity:1;clip-path:none;}
+}
+</style>
+
+<!-- OLD FIXED CAT REMOVED — scroll reveal replaces it -->
+<style>
+.cat-zone { display: none !important; }
+</style>
+
+<!-- ── MATRIX CAT BUTTON (legacy — hidden) ── -->
+<style>
+.cat-zone{position:fixed;bottom:32px;left:24px;z-index:200;display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
+.cat-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:rgba(0,255,65,.5);text-transform:uppercase;opacity:0;transform:translateX(-6px);transition:opacity .3s,transform .3s;}
+.cat-zone:hover .cat-label{opacity:1;transform:translateX(0);}
+.cat-btn{background:none;border:none;cursor:pointer;padding:0;position:relative;display:block;}
+.cat-svg{width:64px;height:52px;color:var(--intelligence-gold,#C6A15B);filter:drop-shadow(0 0 6px rgba(198,161,91,.4));transition:filter .2s;}
+.cat-btn:hover .cat-svg{animation:catglitch .4s infinite;}
+.cat-btn:hover .cat-svg{filter:drop-shadow(0 0 12px #00ff41);}
+.glitch-layer{position:absolute;inset:0;opacity:0;pointer-events:none;}
+.cat-btn:hover .glitch-layer{animation:glitch-layers .4s infinite;}
+@keyframes catglitch{
+  0%{transform:translate(0);filter:drop-shadow(0 0 8px #00ff41);}
+  8%{transform:translate(-3px,1px);filter:drop-shadow(-2px 0 0 #ff0040) drop-shadow(2px 0 0 #00ff41);}
+  16%{transform:translate(3px,-1px);filter:drop-shadow(2px 0 0 #00ffff) drop-shadow(-2px 0 0 #C6A15B);}
+  24%{transform:translate(-1px,2px);filter:drop-shadow(0 0 12px #00ff41);}
+  32%{transform:translate(2px,-2px);filter:drop-shadow(-3px 0 0 #ff0040);}
+  40%{transform:translate(0);filter:drop-shadow(0 0 8px #C6A15B);}
+  48%{transform:translate(-2px,0);filter:drop-shadow(2px 0 0 #00ff41);}
+  56%{transform:translate(0);filter:drop-shadow(0 0 6px #00ffff);}
+  64%{transform:translate(3px,1px);filter:drop-shadow(-2px 0 0 #C6A15B);}
+  72%{transform:translate(-1px,-1px);filter:drop-shadow(0 0 16px #00ff41);}
+  80%{transform:translate(0);filter:drop-shadow(0 0 8px #C6A15B);}
+  100%{transform:translate(0);filter:drop-shadow(0 0 8px #00ff41);}
+}
+@keyframes glitch-layers{
+  0%,100%{opacity:0;}
+  10%,30%{opacity:.6;}
+  20%{opacity:0;}
+}
+.cat-hint{font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(0,255,65,.35);letter-spacing:.08em;line-height:1.4;max-width:120px;}
+</style>
+
+<div class="cat-zone">
+  <div class="cat-label">// curiosity killed the cat</div>
+  <button class="cat-btn" onclick="window.open('the-agency-revealed.html','_blank')" title="What is The Agency?">
+    <svg class="cat-svg" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- body -->
+      <ellipse cx="50" cy="58" rx="26" ry="19" fill="currentColor"/>
+      <!-- head -->
+      <circle cx="50" cy="30" r="19" fill="currentColor"/>
+      <!-- ears -->
+      <polygon points="34,18 28,2 44,13" fill="currentColor"/>
+      <polygon points="66,18 72,2 56,13" fill="currentColor"/>
+      <!-- inner ears -->
+      <polygon points="35,16 31,6 42,13" fill="var(--agency-black,#050505)" opacity=".6"/>
+      <polygon points="65,16 69,6 58,13" fill="var(--agency-black,#050505)" opacity=".6"/>
+      <!-- eyes — matrix slashes -->
+      <line x1="40" y1="26" x2="44" y2="31" stroke="#0a0e0a" stroke-width="3" stroke-linecap="round"/>
+      <line x1="56" y1="26" x2="60" y2="31" stroke="#0a0e0a" stroke-width="3" stroke-linecap="round"/>
+      <!-- nose -->
+      <polygon points="50,36 47,39 53,39" fill="#0a0e0a" opacity=".5"/>
+      <!-- mouth -->
+      <path d="M47,39 Q50,43 53,39" stroke="#0a0e0a" stroke-width="1.5" fill="none" opacity=".4"/>
+      <!-- whiskers left -->
+      <line x1="30" y1="37" x2="44" y2="38" stroke="#0a0e0a" stroke-width="1.2" opacity=".4"/>
+      <line x1="30" y1="40" x2="44" y2="39" stroke="#0a0e0a" stroke-width="1.2" opacity=".3"/>
+      <!-- whiskers right -->
+      <line x1="70" y1="37" x2="56" y2="38" stroke="#0a0e0a" stroke-width="1.2" opacity=".4"/>
+      <line x1="70" y1="40" x2="56" y2="39" stroke="#0a0e0a" stroke-width="1.2" opacity=".3"/>
+      <!-- tail -->
+      <path d="M76,60 Q92,48 88,34 Q84,22 90,14" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="glitch-layer">
+      <svg class="cat-svg" viewBox="0 0 100 80" fill="none" style="color:#00ff41;position:absolute;top:0;left:0;clip-path:inset(20% 0 60% 0);transform:translateX(4px);">
+        <ellipse cx="50" cy="58" rx="26" ry="19" fill="currentColor" opacity=".7"/>
+        <circle cx="50" cy="30" r="19" fill="currentColor" opacity=".7"/>
+      </svg>
+    </div>
+  </button>
+  <div class="cat-hint">hover &amp; press<br>// what is<br>The Agency?</div>
+</div>
+
+</body>
+</html>

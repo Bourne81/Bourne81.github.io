@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Jornada do Herói — Gilson Marques 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0C1B2A;
+            --gold: #C6A84F;
+            --stone: #F4F2EE;
+            --dark-gold: #9B7A3A;
+            --light-navy: #1a3a52;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--light-navy) 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--stone);
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--light-navy) 100%);
+            color: var(--stone);
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 0.9em;
+            color: var(--gold);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(198, 168, 79, 0.3);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .intro-section {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-style: italic;
+            line-height: 1.8;
+        }
+
+        .intro-section strong {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        .layers {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .layer {
+            border-left: 4px solid var(--gold);
+            padding-left: 25px;
+        }
+
+        .layer-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            color: var(--navy);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .layer-subtitle {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .questions {
+            display: grid;
+            gap: 30px;
+        }
+
+        .question-block {
+            background: #f9f7f3;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e8e5dd;
+            transition: all 0.3s ease;
+        }
+
+        .question-block:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 12px rgba(198, 168, 79, 0.1);
+        }
+
+        .question-number {
+            display: inline-block;
+            background: var(--gold);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.85em;
+        }
+
+        .question-text {
+            font-size: 1.05em;
+            color: var(--navy);
+            font-weight: 500;
+            margin-bottom: 12px;
+            display: inline-block;
+            width: calc(100% - 52px);
+        }
+
+        .question-context {
+            font-size: 0.9em;
+            color: #888;
+            margin: 12px 0 15px 42px;
+            padding: 10px;
+            background: white;
+            border-left: 2px solid var(--gold);
+            border-radius: 4px;
+            font-style: italic;
+        }
+
+        .response-input {
+            margin-left: 42px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #d0ccc5;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95em;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(198, 168, 79, 0.1);
+        }
+
+        .followup {
+            margin-left: 52px;
+            margin-top: 15px;
+            padding: 10px;
+            background: white;
+            border-left: 3px solid var(--dark-gold);
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--dark-gold);
+            font-weight: 500;
+        }
+
+        .bonus-section {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .bonus-section p {
+            font-style: italic;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e8e5dd;
+        }
+
+        button {
+            padding: 14px 28px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: white;
+            grid-column: 2;
+        }
+
+        .btn-primary:hover {
+            background: var(--light-navy);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(12, 27, 42, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--gold);
+            color: var(--navy);
+            grid-column: 1;
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(198, 168, 79, 0.3);
+        }
+
+        .analysis-section {
+            background: var(--light-navy);
+            color: var(--stone);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .analysis-section.active {
+            display: block;
+        }
+
+        .analysis-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .archetype-card {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--gold);
+        }
+
+        .hero-arc {
+            margin-top: 20px;
+        }
+
+        .arc-stage {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .arc-stage strong {
+            width: 120px;
+            color: var(--gold);
+        }
+
+        .export-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .export-buttons button {
+            padding: 10px;
+            font-size: 0.9em;
+            grid-column: auto;
+        }
+
+        footer {
+            background: var(--navy);
+            color: var(--stone);
+            padding: 20px;
+            text-align: center;
+            font-size: 0.85em;
+            border-top: 2px solid var(--gold);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e8e5dd;
+            border-radius: 2px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--navy) 0%, var(--gold) 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-primary, .btn-secondary {
+                grid-column: auto;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .layer {
+                padding-left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Jornada do Herói</h1>
+            <p>Questionário de Identidade — Gilson Marques 2026</p>
+            <div class="subtitle">
+                Estas perguntas não são sobre discurso. São sobre identidade.
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div style="background: var(--navy); color: var(--stone); padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid var(--gold);">
+                <p style="font-weight: 600; margin-bottom: 12px; color: var(--gold);">🔒 CONFIDENCIAL — Apenas para Mr. Bourne</p>
+                <p style="font-size: 0.95em; line-height: 1.7;">
+                    Este questionário é <strong>exclusivamente seu</strong>. Ninguém mais verá suas respostas.
+                    Você responde aqui com total liberdade e honestidade, depois envia os arquivos de volta para análise aprofundada.
+                    Não há filtros, não há plateia. Só você, suas respostas, e o trabalho de construir uma narrativa autêntica.
+                </p>
+            </div>
+
+            <div class="intro-section">
+                <p><strong>Gilson,</strong></p>
+                <p style="margin-top: 12px;">Estas perguntas não são sobre discurso pronto. São sobre identidade.</p>
+                <p style="margin-top: 12px;">Não existe resposta certa, resposta bonita, nem resposta segura. O que interessa aqui são as respostas verdadeiras: as que explicam por que você age como age, por que certas batalhas te movem, e por que você escolheu pagar certos custos.</p>
+                <p style="margin-top: 12px;">O trabalho de comunicação que estamos construindo depende menos de slogans e mais de coerência. <strong>Quanto mais honestas forem as respostas, mais forte fica a narrativa.</strong></p>
+            </div>
+
+            <form id="questionnaireForm">
+                <!-- LAYER 1: ORIGEM E CENTRO MORAL -->
+                <div class="layer" data-layer="1">
+                    <div class="layer-title">
+                        <span>01</span>
+                        Origem e Centro Moral
+                    </div>
+                    <div class="layer-subtitle">5 perguntas sobre o que moldou sua visão de mundo</div>
+
+                    <div class="questions">
+                        <div class="question-block">
+                            <span class="question-number">1</span>
+                            <div class="question-text">A mudança que mais te marcou</div>
+                            <div class="question-context">
+                                Seu pai trabalhava na Caixa e a família se mudava com frequência. Você passou a infância sendo, muitas vezes, o cara novo da sala, da rua, da cidade. Entre essas mudanças, qual foi a que mais te marcou? O que essa fase te ensinou sobre adaptação, insegurança, responsabilidade ou independência?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q1" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">2</span>
+                            <div class="question-text">O que seu pai te ensinou sem dizer</div>
+                            <div class="question-context">
+                                Seu pai trabalhava numa instituição estatal, e hoje você se tornou uma das vozes mais duras contra os excessos do Estado. O que ele te ensinou sobre trabalho, disciplina e dignidade? E onde você acha que seu caminho passou a divergir do mundo que ele representava?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q2" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">3</span>
+                            <div class="question-text">O momento em que você decidiu sair da arquibancada</div>
+                            <div class="question-context">
+                                Você já explicou que a Lava-Jato e os escândalos de corrupção foram o gatilho. Mas qual foi o momento exato em que isso deixou de ser indignação e virou decisão? Como advogado, o que você leu, viu ou entendeu tecnicamente que talvez o cidadão comum não estivesse vendo ainda?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q3" placeholder="Sua resposta..."></textarea>
+                            </div>
+                            <div class="followup">
+                                <strong>Se a resposta for vaga, retorne com:</strong> "Qual foi a cena exata? Qual documento? Qual momento do dia?"
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">4</span>
+                            <div class="question-text">O que Santa Catarina representa em você</div>
+                            <div class="question-context">
+                                Você nasceu em Rio do Sul, estudou e trabalhou em Blumenau e construiu sua vida em Pomerode. Quando você pensa em Santa Catarina, o que esse lugar simboliza em termos de comportamento, moral e modo de viver? O que Brasília não entende sobre esse jeito de viver?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q4" placeholder="Sua resposta..."></textarea>
+                            </div>
+                            <div class="followup">
+                                <strong>Se genérica:</strong> "Que tipo de pessoa concreta representa esse jeito de viver? Onde ela trabalha? O que ela tolera e o que ela não tolera?"
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">5</span>
+                            <div class="question-text">O que você sabia que teria de sacrificar</div>
+                            <div class="question-context">
+                                Antes da política, você tinha carreira, rotina, reputação local e vida em família. Quando decidiu entrar, o que você já sabia que iria perder ou colocar em risco? O que esse custo significou concretamente para Camila, para seus filhos, e o que isso fez com você por dentro?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q5" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAYER 2: A PROVA -->
+                <div class="layer" data-layer="2">
+                    <div class="layer-title">
+                        <span>02</span>
+                        A Prova
+                    </div>
+                    <div class="layer-subtitle">5 perguntas sobre os atos que definiram sua identidade pública</div>
+
+                    <div class="questions">
+                        <div class="question-block">
+                            <span class="question-number">6</span>
+                            <div class="question-text">O dia em que você recusou o jogo</div>
+                            <div class="question-context">
+                                No primeiro dia de mandato, você recusou privilégios que quase todos tratam como normais. Conte esse dia em detalhes: onde você estava, quem falou com você, o que tentaram normalizar, quais eram exatamente os benefícios na sua frente, e o que você sentiu ao dizer não.
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q6" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">7</span>
+                            <div class="question-text">O momento em que você soube que estava certo antes de todo mundo</div>
+                            <div class="question-context">
+                                Você teve momentos em que leu o texto, viu a armadilha e percebeu antes dos demais. Como é esse momento para você? É técnica, intuição, desconfiança, irritação?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q7" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">8</span>
+                            <div class="question-text">A vitória que mais te representa</div>
+                            <div class="question-context">
+                                Entre tudo o que você já barrou, expôs, economizou, corrigiu ou aprovou, qual vitória mais representa quem você é? Não a mais conhecida. A mais reveladora. Pode ser uma correção técnica, uma economia de recurso público, uma retirada de pauta, ou um caso em que você percebeu antes dos outros onde estava a armadilha.
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q8" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">9</span>
+                            <div class="question-text">Quando o coveiro apareceu</div>
+                            <div class="question-context">
+                                Você passou a ser chamado de coveiro da CCJ, parede, goleiro, cavalo de Troia. Qual desses símbolos mais te representa de verdade? E qual deles você sente que as pessoas entendem errado?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q9" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">10</span>
+                            <div class="question-text">O limite entre firmeza e vaidade</div>
+                            <div class="question-context">
+                                Você construiu uma imagem de confronto. Em que momento o confronto deixa de ser dever e vira ego? Como você evita cruzar essa linha?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q10" placeholder="Sua resposta..."></textarea>
+                            </div>
+                            <div class="followup">
+                                <strong>Se defensiva:</strong> "Houve algum momento em que você percebeu que quase cruzou essa linha? O que te puxou de volta?"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAYER 3: MISSÃO E FUTURO -->
+                <div class="layer" data-layer="3">
+                    <div class="layer-title">
+                        <span>03</span>
+                        Missão e Futuro
+                    </div>
+                    <div class="layer-subtitle">5 perguntas sobre o que ainda move sua luta</div>
+
+                    <div class="questions">
+                        <div class="question-block">
+                            <span class="question-number">11</span>
+                            <div class="question-text">O que ainda te indigna hoje</div>
+                            <div class="question-context">
+                                Depois de anos em Brasília, muito político se acomoda. O que ainda te tira do eixo? O que ainda te faz pensar que vale continuar entrando em conflito? Qual é a forma de abuso, omissão ou excesso de poder que mais rapidamente acende você hoje?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q11" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">12</span>
+                            <div class="question-text">O que você quer proteger, não apenas combater</div>
+                            <div class="question-context">
+                                Você fala com clareza sobre o que quer barrar. Mas o que você quer preservar? Que tipo de Brasil, de Santa Catarina, de família e de liberdade você acha que ainda vale defender com firmeza?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q12" placeholder="Sua resposta..."></textarea>
+                            </div>
+                            <div class="followup">
+                                <strong>Obrigatória:</strong> "Me dá um exemplo concreto de uma família, rotina, empresa ou cidade que representa isso que você quer proteger."
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">13</span>
+                            <div class="question-text">Quem é a pessoa real que você carrega na cabeça quando vota</div>
+                            <div class="question-context">
+                                Quando você fala em contribuinte, família, trabalhador, catarinense, quem é essa pessoa na sua mente? O que ela enfrenta no dia a dia? O que ela nunca diria num discurso, mas sente no bolso, na empresa, em casa ou na escola dos filhos?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q13" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">14</span>
+                            <div class="question-text">O que você não negocia</div>
+                            <div class="question-context">
+                                Todo mundo tem um ponto em que cede para continuar jogando. Qual é o seu ponto inegociável? O que, se pedirem para você ceder, você prefere perder espaço, cargo, apoio ou projeto a aceitar?
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q14" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="question-block">
+                            <span class="question-number">15</span>
+                            <div class="question-text">A frase que precisa sobreviver a tudo</div>
+                            <div class="question-context">
+                                Daqui a 20 anos, quando falarem de você como homem e não apenas como político, o que você gostaria que fosse dito? Não sobre cargo. Não sobre campanha. Sobre caráter.
+                            </div>
+                            <div class="response-input">
+                                <textarea name="q15" placeholder="Sua resposta..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BONUS QUESTION -->
+                <div class="bonus-section">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3em; margin-bottom: 15px;">Pergunta Bônus</h3>
+                    <p>(Só se o momento for certo — não force)</p>
+                    <div style="background: rgba(0,0,0,0.1); padding: 20px; border-radius: 6px; margin-top: 15px;">
+                        <p style="font-style: italic; margin-bottom: 15px;">
+                            "Se você tivesse que escolher uma imagem — um objeto, um lugar, um gesto, um momento — que resumisse quem você é e o que você protege, qual seria?"
+                        </p>
+                        <div class="response-input">
+                            <textarea name="bonus" placeholder="Sua resposta (opcional)..." style="background: white; color: var(--navy);"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTROLS -->
+                <div class="controls">
+                    <button type="button" class="btn-secondary" onclick="clearForm()">Limpar</button>
+                    <button type="button" class="btn-primary" onclick="showExportOptions()">Enviar Respostas</button>
+                </div>
+            </form>
+
+            <!-- EXPORT SECTION -->
+            <div class="analysis-section" id="exportSection">
+                <h2 style="color: var(--gold); margin-bottom: 20px;">Enviar Respostas para Análise</h2>
+
+                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                    <p style="margin-bottom: 15px;">Suas respostas estão prontas. Escolha o formato para enviar a Gabriel:</p>
+                    <div class="export-buttons">
+                        <button type="button" class="btn-secondary" onclick="exportJSON()">📊 JSON (Completo)</button>
+                        <button type="button" class="btn-secondary" onclick="exportBrief()">📝 Markdown (Resumido)</button>
+                    </div>
+                    <p style="margin-top: 20px; font-size: 0.9em; color: #ccc;">Envie um ou ambos os arquivos para Gabriel via email ou WhatsApp para análise aprofundada.</p>
+                </div>
+
+                <button type="button" class="btn-primary" onclick="newResponse()" style="width: 100%; margin-top: 20px;">Voltar e Editar</button>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Questionário confidencial — Uso interno da campanha Gilson Marques 2026</strong></p>
+            <p style="margin-top: 10px;">Jornada do Herói v3.0 | Março 2026 | "Sem Barganha. Sempre."</p>
+        </footer>
+    </div>
+
+    <script>
+        // Hero's Arc Mapping
+        const heroArcStages = {
+            q1: { stage: 'Ordinary World', label: 'O Mundo Comum' },
+            q2: { stage: 'Ordinary World', label: 'O Mundo Comum' },
+            q3: { stage: 'Call to Adventure', label: 'O Chamado' },
+            q4: { stage: 'Threshold Crossing', label: 'Cruzamento do Limiar' },
+            q5: { stage: 'Tests and Allies', label: 'Testes e Aliados' },
+            q6: { stage: 'Threshold Crossing', label: 'Cruzamento do Limiar' },
+            q7: { stage: 'Tests and Enemies', label: 'Testes e Inimigos' },
+            q8: { stage: 'Tests and Enemies', label: 'Testes e Inimigos' },
+            q9: { stage: 'Reward', label: 'A Recompensa' },
+            q10: { stage: 'Ordeal', label: 'A Provação' },
+            q11: { stage: 'Return', label: 'O Retorno' },
+            q12: { stage: 'Return', label: 'O Retorno' },
+            q13: { stage: 'Return', label: 'O Retorno' },
+            q14: { stage: 'Return', label: 'O Retorno' },
+            q15: { stage: 'Return', label: 'O Retorno' }
+        };
+
+        // Archetype Tension Mapping
+        const archetypeTensions = [
+            { label: 'Guardião vs Guerreiro', keywords: ['proteger', 'combater', 'defender', 'barrar'] },
+            { label: 'Bloqueador vs Construtor', keywords: ['bloquear', 'barrar', 'construir', 'criar'] },
+            { label: 'Técnico vs Humano', keywords: ['técnica', 'análise', 'instinto', 'emoção'] },
+            { label: 'Rebelde vs Representante', keywords: ['confronto', 'acordo', 'sistema', 'mudar'] },
+            { label: 'Homem de Família vs Homem de Combate', keywords: ['família', 'filhos', 'batalha', 'guerra'] }
+        ];
+
+        // Symbol Dictionary
+        const symbols = {
+            coveiro: { meaning: 'O que enterra sistemas corruptos', archetype: 'Guerreiro da Limpeza' },
+            parede: { meaning: 'Barreira contra abusos', archetype: 'Guardião' },
+            goleiro: { meaning: 'Defensor de interesses críticos', archetype: 'Protetor' },
+            'cavalo de troia': { meaning: 'Infiltrador de mudança', archetype: 'Infiltrador' },
+            'sem barganha': { meaning: 'Identidade intransigente', archetype: 'O Íntegro' }
+        };
+
+        function updateProgress() {
+            const form = document.getElementById('questionnaireForm');
+            const inputs = form.querySelectorAll('textarea');
+            const filled = Array.from(inputs).filter(input => input.value.trim().length > 0).length;
+            const percentage = (filled / inputs.length) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        // Update progress on input
+        document.addEventListener('input', updateProgress);
+
+        function clearForm() {
+            if (confirm('Tem certeza que deseja limpar todas as respostas?')) {
+                document.getElementById('questionnaireForm').reset();
+                document.getElementById('exportSection').classList.remove('active');
+                updateProgress();
+            }
+        }
+
+        function showExportOptions() {
+            const form = document.getElementById('questionnaireForm');
+            const responses = {};
+
+            form.querySelectorAll('textarea').forEach(textarea => {
+                responses[textarea.name] = textarea.value;
+            });
+
+            // Check if at least 10 questions answered
+            const answeredCount = Object.values(responses).filter(v => v.trim().length > 0).length;
+            if (answeredCount < 10) {
+                alert(`Por favor, responda pelo menos 10 perguntas. Você respondeu ${answeredCount}.`);
+                return;
+            }
+
+            document.getElementById('exportSection').classList.add('active');
+            document.getElementById('exportSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function newResponse() {
+            location.reload();
+        }
+
+        function exportJSON() {
+            const form = document.getElementById('questionnaireForm');
+            const responses = {};
+
+            form.querySelectorAll('textarea').forEach(textarea => {
+                responses[textarea.name] = textarea.value;
+            });
+
+            const exportData = {
+                timestamp: new Date().toISOString(),
+                project: 'Gilson Marques 2026',
+                type: 'Hero Journey Questionnaire',
+                respondent: 'Gilson Marques',
+                responses: responses,
+                metadata: {
+                    totalQuestions: 15,
+                    bonus: Boolean(responses.bonus),
+                    completeness: Object.values(responses).filter(v => v.trim().length > 0).length + '/15'
+                }
+            };
+
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `GILSON_QUESTIONNAIRE_${Date.now()}.json`;
+            link.click();
+        }
+
+        function exportBrief() {
+            const form = document.getElementById('questionnaireForm');
+            const responses = {};
+
+            form.querySelectorAll('textarea').forEach(textarea => {
+                responses[textarea.name] = textarea.value;
+            });
+
+            const brief = `# CAMPAIGN BRIEF — GILSON MARQUES 2026
+## Hero Journey Questionnaire Analysis
+
+**Data:** ${new Date().toLocaleDateString('pt-BR')}
+**Respondent:** Gilson Marques
+**Completeness:** ${Object.values(responses).filter(v => v.trim().length > 0).length}/15 respostas
+
+---
+
+## LAYER 1: ORIGEM E CENTRO MORAL
+
+### Q1 — A mudança que mais te marcou
+${responses.q1 || '(não respondida)'}
+
+### Q2 — O que seu pai te ensinou sem dizer
+${responses.q2 || '(não respondida)'}
+
+### Q3 — O momento em que você decidiu sair da arquibancada
+${responses.q3 || '(não respondida)'}
+
+### Q4 — O que Santa Catarina representa em você
+${responses.q4 || '(não respondida)'}
+
+### Q5 — O que você sabia que teria de sacrificar
+${responses.q5 || '(não respondida)'}
+
+---
+
+## LAYER 2: A PROVA
+
+### Q6 — O dia em que você recusou o jogo
+${responses.q6 || '(não respondida)'}
+
+### Q7 — O momento em que você soube que estava certo antes de todo mundo
+${responses.q7 || '(não respondida)'}
+
+### Q8 — A vitória que mais te representa
+${responses.q8 || '(não respondida)'}
+
+### Q9 — Quando o coveiro apareceu
+${responses.q9 || '(não respondida)'}
+
+### Q10 — O limite entre firmeza e vaidade
+${responses.q10 || '(não respondida)'}
+
+---
+
+## LAYER 3: MISSÃO E FUTURO
+
+### Q11 — O que ainda te indigna hoje
+${responses.q11 || '(não respondida)'}
+
+### Q12 — O que você quer proteger, não apenas combater
+${responses.q12 || '(não respondida)'}
+
+### Q13 — Quem é a pessoa real que você carrega na cabeça quando vota
+${responses.q13 || '(não respondida)'}
+
+### Q14 — O que você não negocia
+${responses.q14 || '(não respondida)'}
+
+### Q15 — A frase que precisa sobreviver a tudo
+${responses.q15 || '(não respondida)'}
+
+---
+
+## BONUS
+
+### Pergunta Bônus — Imagem/Símbolo Central
+${responses.bonus || '(não respondida)'}
+
+---
+
+**Próximos Passos:**
+1. Enviar respostas para sistema de agentes
+2. Campaign-Chief analisa para consistência de arquétipo
+3. Arc-Keeper mapeia as respostas nas tensões centrais
+4. Brief-Agent extrai momentos mais poderosos
+5. Script-Agent desenvolve roteiros baseados nas respostas
+
+---
+
+*Documento confidencial — Uso interno da campanha*
+*Gerado em ${new Date().toLocaleString('pt-BR')}*`;
+
+            const dataBlob = new Blob([brief], { type: 'text/markdown' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `GILSON_CAMPAIGN_BRIEF_${Date.now()}.md`;
+            link.click();
+        }
+
+        // Initialize progress
+        updateProgress();
+    </script>
+</body>
+</html>

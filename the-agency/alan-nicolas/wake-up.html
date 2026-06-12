@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Wake up, Neo...</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;background:#000;overflow:hidden;cursor:none;}
+canvas{position:fixed;inset:0;width:100%;height:100%;opacity:.15;pointer-events:none;z-index:0;}
+
+.scanlines{
+  position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.06) 2px,rgba(0,0,0,.06) 4px);
+}
+
+#terminal{
+  position:relative;z-index:2;
+  height:100vh;display:flex;flex-direction:column;
+  justify-content:center;padding:0 max(40px,8vw);
+  max-width:860px;width:100%;margin:0 auto;
+}
+
+.line{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(13px,1.6vw,17px);
+  line-height:2.1;
+  white-space:pre-wrap;
+  letter-spacing:.02em;
+}
+.green  { color:#00ff41; }
+.green-dim { color:rgba(0,255,65,.3); }
+.gold   { color:#C6A15B; }
+.gold-dim { color:rgba(198,161,91,.4); }
+.ivory  { color:#F4EFE7; }
+.dim    { color:rgba(244,239,231,.3); }
+.white  { color:#ffffff; }
+
+.big{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(22px,3.5vw,40px);
+  font-weight:500;
+  letter-spacing:.04em;
+  color:#ffffff;
+  line-height:1.4;
+  margin:8px 0;
+}
+
+/* Input row */
+#input-row{
+  display:none;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(13px,1.6vw,17px);
+  color:#F4EFE7;
+  line-height:2.1;
+  align-items:center;
+  gap:0;
+  margin-top:0;
+}
+#typed-name{color:#fff;font-weight:500;}
+.cursor-block{
+  display:inline-block;width:.55em;height:1.1em;
+  background:#00ff41;vertical-align:text-bottom;
+  animation:blink .65s step-end infinite;
+  margin-left:1px;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+#real-input{
+  position:fixed;left:-9999px;top:-9999px;
+  opacity:0;width:1px;height:1px;
+  font-size:16px;/* prevent iOS zoom */
+}
+
+/* Flash overlay */
+#flash{
+  position:fixed;inset:0;background:#fff;
+  opacity:0;z-index:999;pointer-events:none;
+}
+</style>
+</head>
+<body>
+
+<canvas id="rain"></canvas>
+<div class="scanlines"></div>
+<div id="flash"></div>
+
+<div id="terminal">
+  <div id="output"></div>
+  <div id="input-row">
+    <span class="gold-dim">&gt;&nbsp;</span><span id="typed-name"></span><span class="cursor-block"></span>
+  </div>
+  <input id="real-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+</div>
+
+<script>
+// ── DIGITAL RAIN ──
+const canvas = document.getElementById('rain');
+const ctx = canvas.getContext('2d');
+let cols, drops;
+
+function initRain() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const size = 16;
+  cols = Math.floor(canvas.width / size);
+  drops = Array.from({length: cols}, () => Math.random() * -50);
+}
+
+const rainChars = 'ァィゥェォカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF'.split('');
+
+function drawRain() {
+  ctx.fillStyle = 'rgba(0,0,0,.045)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.font = '14px IBM Plex Mono';
+  drops.forEach((y, i) => {
+    const bright = y > 0 && Math.random() > 0.95;
+    ctx.fillStyle = bright ? '#ccffcc' : '#00ff41';
+    ctx.fillText(rainChars[Math.floor(Math.random() * rainChars.length)], i * 16, y * 16);
+    if (y * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i] += 0.5;
+  });
+}
+
+initRain();
+window.addEventListener('resize', initRain);
+const rainInterval = setInterval(drawRain, 40);
+
+// ── UTILITIES ──
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const glyphSet = 'ァィゥェォカキクケコサシスセソ0123456789!@#$%&'.split('');
+const glyph = () => glyphSet[Math.floor(Math.random() * glyphSet.length)];
+
+const outputEl  = document.getElementById('output');
+const inputRow  = document.getElementById('input-row');
+const typedSpan = document.getElementById('typed-name');
+const realInput = document.getElementById('real-input');
+
+function addLine(cls = '') {
+  const d = document.createElement('div');
+  d.className = 'line' + (cls ? ' ' + cls : '');
+  outputEl.appendChild(d);
+  return d;
+}
+
+function blank() { addLine(); }
+
+async function type(el, text, speed = 40, withGlitch = true) {
+  for (let i = 0; i < text.length; i++) {
+    if (withGlitch && i < text.length - 1 && Math.random() > 0.55) {
+      el.textContent = text.slice(0, i) + glyph();
+      await sleep(16);
+      if (Math.random() > 0.5) {
+        el.textContent = text.slice(0, i) + glyph();
+        await sleep(16);
+      }
+    }
+    el.textContent = text.slice(0, i + 1);
+    const jitter = text[i] === ' ' ? speed * 0.5 : speed + Math.random() * 25;
+    await sleep(jitter);
+  }
+}
+
+async function glitchLine(el, duration = 300) {
+  const end = Date.now() + duration;
+  while (Date.now() < end) {
+    el.textContent = Array.from({length: 20}, glyph).join('');
+    await sleep(40);
+  }
+  el.textContent = '';
+}
+
+// ── SCREEN FLICKER ──
+async function flicker(times = 3) {
+  const body = document.body;
+  for (let i = 0; i < times; i++) {
+    body.style.opacity = '0.1';
+    await sleep(50);
+    body.style.opacity = '1';
+    await sleep(60 + Math.random() * 80);
+  }
+}
+
+// ── MAIN SEQUENCE ──
+async function runSequence() {
+  await sleep(600);
+
+  // — Phase 1: The Matrix messages —
+  const n1 = addLine('green');
+  await type(n1, 'Wake up, Neo...', 58);
+  await sleep(1900);
+
+  blank();
+  const n2 = addLine('green');
+  await type(n2, 'The Matrix has you.', 52);
+  await sleep(1800);
+
+  blank();
+  const n3 = addLine('green');
+  await type(n3, 'Follow the white rabbit.', 50);
+  await sleep(2400);
+
+  // — Transition flicker —
+  await flicker(2);
+  await sleep(300);
+
+  blank();
+  const sep = addLine('green-dim');
+  await type(sep, '——————————————————————————————————', 8, false);
+  await sleep(500);
+
+  // — Phase 2: Agency handoff —
+  blank();
+  const a1 = addLine('gold');
+  await type(a1, '// AGB INTELLIGENCE DIVISION', 28);
+  await sleep(350);
+
+  const a2 = addLine('gold-dim');
+  await type(a2, '// CIPHER PROTOCOL — OPERATIVE IDENTIFICATION', 20);
+  await sleep(700);
+
+  blank();
+  const a3 = addLine('ivory');
+  await type(a3, '> Connection established.', 34);
+  await sleep(450);
+
+  const a4 = addLine('ivory');
+  await type(a4, '> Operative identification required.', 30);
+  await sleep(900);
+
+  blank();
+  const a5 = addLine('gold');
+  await type(a5, '> Enter your name, Operative:', 36);
+  await sleep(300);
+
+  // — Phase 3: Name input —
+  inputRow.style.display = 'flex';
+  realInput.style.position = 'fixed';
+  realInput.style.left = '-9999px';
+  realInput.style.opacity = '0';
+  realInput.style.pointerEvents = 'auto';
+
+  // Focus with slight delay (needed on mobile)
+  setTimeout(() => realInput.focus(), 100);
+  document.body.addEventListener('click', () => realInput.focus(), {once: false});
+
+  realInput.addEventListener('input', () => {
+    typedSpan.textContent = realInput.value;
+  });
+
+  realInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      const name = realInput.value.trim();
+      if (!name) return;
+      realInput.style.pointerEvents = 'none';
+      inputRow.style.display = 'none';
+      await phase4(name);
+    }
+  });
+}
+
+async function phase4(name) {
+  blank();
+
+  // Glitch burst
+  await flicker(4);
+  const gRow = addLine('green');
+  await glitchLine(gRow, 280);
+  await sleep(200);
+
+  const c1 = addLine('dim');
+  await type(c1, '> Scanning...', 30);
+  await sleep(300);
+
+  const c2 = addLine('ivory');
+  await type(c2, '> Identity confirmed.', 32);
+  await sleep(800);
+
+  blank();
+
+  // THE MOMENT
+  const nameEl = document.createElement('div');
+  nameEl.className = 'big';
+  outputEl.appendChild(nameEl);
+  await type(nameEl, `Wake up, ${name}...`, 62, false);
+  await sleep(2800);
+
+  blank();
+  const c3 = addLine('ivory');
+  await type(c3, 'Your English level is unknown.', 36);
+  await sleep(800);
+
+  const c4 = addLine('gold');
+  await type(c4, 'The Agency is about to change that.', 30);
+  await sleep(1100);
+
+  blank();
+  const c5 = addLine('gold-dim');
+  await type(c5, '// Initiating CIPHER Protocol...', 26);
+  await sleep(900);
+
+  const c6 = addLine('green-dim');
+  await type(c6, '// Stand by.', 38);
+  await sleep(1400);
+
+  // Flash white → go
+  await flashOut(name);
+}
+
+async function flashOut(name) {
+  const fl = document.getElementById('flash');
+  fl.style.transition = 'opacity .12s';
+  fl.style.opacity = '1';
+  await sleep(120);
+  fl.style.transition = 'opacity 1.4s';
+  fl.style.opacity = '0';
+  await sleep(300);
+  const dest = 'alan-assessment.html' + (name ? '?operative=' + encodeURIComponent(name) : '');
+  window.location.href = dest;
+}
+
+runSequence();
+</script>
+</body>
+</html>

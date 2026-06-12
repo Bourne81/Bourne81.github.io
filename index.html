@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Gabriel Bourne — HQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:#050A0F;color:#F4EFE7;font-family:'Inter',sans-serif;}
+
+canvas{position:fixed;inset:0;width:100%;height:100%;opacity:.07;pointer-events:none;z-index:0;}
+
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:80px 40px 120px;}
+
+/* HEADER */
+.hq-header{margin-bottom:80px;}
+.hq-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.35em;
+  color:rgba(198,161,91,.5);text-transform:uppercase;margin-bottom:16px;}
+.hq-name{font-family:'Playfair Display',Georgia,serif;font-size:clamp(36px,6vw,64px);
+  font-weight:700;color:#F4EFE7;line-height:1.1;margin-bottom:12px;}
+.hq-name em{font-style:italic;color:#C6A15B;}
+.hq-sub{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;
+  color:rgba(244,239,231,.35);line-height:1.8;}
+.hq-line{width:60px;height:1px;background:rgba(198,161,91,.3);margin:28px 0;}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;}
+
+.card{
+  background:#0C1B2A;border:1px solid rgba(198,161,91,.12);
+  padding:36px 32px;cursor:pointer;text-decoration:none;color:inherit;
+  display:block;position:relative;overflow:hidden;
+  transition:border-color .3s,background .3s;
+}
+.card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(198,161,91,.04) 0%,transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.card:hover{border-color:rgba(198,161,91,.4);background:#0f2035;}
+.card:hover::before{opacity:1;}
+
+.card-num{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.3em;
+  color:rgba(198,161,91,.4);margin-bottom:20px;}
+.card-icon{font-size:28px;margin-bottom:16px;display:block;}
+.card-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+  color:#F4EFE7;margin-bottom:8px;line-height:1.2;}
+.card-title em{font-style:italic;color:#C6A15B;}
+.card-desc{font-size:13px;color:rgba(244,239,231,.5);line-height:1.6;margin-bottom:24px;}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;
+  color:rgba(198,161,91,.6);border:1px solid rgba(198,161,91,.2);
+  padding:3px 8px;text-transform:uppercase;}
+.card-arrow{position:absolute;bottom:28px;right:28px;font-family:'IBM Plex Mono',monospace;
+  font-size:11px;color:rgba(198,161,91,.3);transition:color .3s,transform .3s;}
+.card:hover .card-arrow{color:#C6A15B;transform:translateX(4px);}
+
+/* STATUS */
+.status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;
+  margin-right:6px;vertical-align:middle;}
+.active{background:#00ff41;box-shadow:0 0 6px #00ff41;}
+.building{background:#C6A15B;box-shadow:0 0 6px rgba(198,161,91,.6);}
+.early{background:rgba(244,239,231,.25);}
+
+.footer{margin-top:80px;padding-top:32px;border-top:1px solid rgba(198,161,91,.1);
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(244,239,231,.25);
+  letter-spacing:.1em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+</style>
+</head>
+<body>
+
+<canvas id="rain"></canvas>
+
+<div class="wrap">
+
+  <header class="hq-header">
+    <div class="hq-eyebrow">// BOURNE81 — COMMAND CENTRE</div>
+    <h1 class="hq-name">Gabriel<br><em>Bourne.</em></h1>
+    <div class="hq-line"></div>
+    <div class="hq-sub">
+      English Coach &nbsp;·&nbsp; Language Strategist &nbsp;·&nbsp; Builder<br>
+      São Paulo &nbsp;·&nbsp; 2026
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <a href="the-agency/index.html" class="card">
+      <div class="card-num">01 — ACTIVE</div>
+      <span class="card-icon">⬛</span>
+      <div class="card-title"><em>The</em> Agency</div>
+      <div class="card-desc">AGB Intelligence Division. Cinematic English coaching for founders and operators. CIPHER Protocol. Operative dossiers.</div>
+      <div class="card-tags">
+        <span class="tag">English</span>
+        <span class="tag">Coaching</span>
+        <span class="tag">CIPHER</span>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a href="gilson-marques/index.html" class="card">
+      <div class="card-num">02 — ACTIVE</div>
+      <span class="card-icon">🗳</span>
+      <div class="card-title">Gilson<br><em>Marques</em></div>
+      <div class="card-desc">2026 political campaign strategy. Archetype mapping, constituency research, narrative and communication frameworks.</div>
+      <div class="card-tags">
+        <span class="tag">Campaign</span>
+        <span class="tag">Strategy</span>
+        <span class="tag">2026</span>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a href="genoma/index.html" class="card">
+      <div class="card-num">03 — BUILDING</div>
+      <span class="card-icon">⬡</span>
+      <div class="card-title"><em>Genoma</em></div>
+      <div class="card-desc">SaaS sales. Learning the product, building the pitch, mapping the customer. Early stage.</div>
+      <div class="card-tags">
+        <span class="tag">SaaS</span>
+        <span class="tag">Sales</span>
+        <span class="tag">Early</span>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+  </div>
+
+  <footer class="footer">
+    <span>BOURNE81.GITHUB.IO</span>
+    <span>LAST UPDATED — JUNE 2026</span>
+  </footer>
+
+</div>
+
+<script>
+const canvas = document.getElementById('rain');
+const ctx = canvas.getContext('2d');
+let cols, drops;
+function initRain(){
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const size=16;cols=Math.floor(canvas.width/size);
+  drops=Array.from({length:cols},()=>Math.random()*-50);
+}
+const chars='ァィゥェォカキクケコ0123456789ABCDEF'.split('');
+function drawRain(){
+  ctx.fillStyle='rgba(0,0,0,.055)';ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.font='14px IBM Plex Mono';ctx.fillStyle='#00ff41';
+  drops.forEach((y,i)=>{
+    ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*16,y*16);
+    if(y*16>canvas.height&&Math.random()>.975)drops[i]=0;
+    drops[i]+=.4;
+  });
+}
+initRain();window.addEventListener('resize',initRain);setInterval(drawRain,50);
+</script>
+</body>
+</html>

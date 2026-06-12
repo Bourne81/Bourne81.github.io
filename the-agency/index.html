@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>The Agency — AGB Intelligence Division</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:#050505;color:#F4EFE7;font-family:'Inter',sans-serif;}
+canvas{position:fixed;inset:0;opacity:.12;pointer-events:none;z-index:0;}
+
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:80px 40px 120px;}
+
+.back{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;
+  color:rgba(198,161,91,.45);text-decoration:none;display:inline-flex;align-items:center;
+  gap:8px;margin-bottom:60px;transition:color .2s;}
+.back:hover{color:#C6A15B;}
+
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.35em;
+  color:rgba(0,255,65,.4);text-transform:uppercase;margin-bottom:16px;}
+.title{font-family:'Playfair Display',serif;font-size:clamp(34px,5.5vw,58px);
+  font-weight:700;line-height:1.1;margin-bottom:12px;}
+.title em{font-style:italic;color:#C6A15B;}
+.line{width:60px;height:1px;background:rgba(198,161,91,.3);margin:24px 0;}
+.sub{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;
+  color:rgba(244,239,231,.35);line-height:1.8;margin-bottom:64px;}
+
+/* OPERATIVE CARDS */
+.section-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.3em;
+  color:rgba(198,161,91,.4);text-transform:uppercase;margin-bottom:20px;}
+
+.operative-card{
+  border:1px solid rgba(198,161,91,.15);padding:28px 32px;
+  margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;
+  gap:24px;cursor:pointer;text-decoration:none;color:inherit;
+  transition:border-color .3s,background .3s;flex-wrap:wrap;
+}
+.operative-card:hover{border-color:rgba(198,161,91,.4);background:rgba(12,27,42,.6);}
+.op-left{display:flex;align-items:center;gap:24px;}
+.op-id{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;
+  color:rgba(198,161,91,.4);min-width:70px;}
+.op-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;}
+.op-name em{font-style:italic;color:#C6A15B;}
+.op-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:rgba(244,239,231,.4);margin-top:4px;letter-spacing:.05em;}
+.op-status{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+  padding:4px 10px;border:1px solid;text-transform:uppercase;}
+.status-active{color:#00ff41;border-color:rgba(0,255,65,.3);}
+.status-building{color:#C6A15B;border-color:rgba(198,161,91,.3);}
+.op-arrow{font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:rgba(198,161,91,.3);transition:color .3s,transform .3s;}
+.operative-card:hover .op-arrow{color:#C6A15B;transform:translateX(4px);}
+
+/* TOOLS */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;margin-top:48px;}
+.tool-card{background:#0C1B2A;border:1px solid rgba(198,161,91,.08);padding:24px;
+  text-decoration:none;color:inherit;display:block;transition:border-color .3s;}
+.tool-card:hover{border-color:rgba(198,161,91,.3);}
+.tool-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;
+  color:rgba(198,161,91,.5);margin-bottom:8px;text-transform:uppercase;}
+.tool-name{font-size:14px;color:#F4EFE7;font-weight:500;}
+
+.footer{margin-top:80px;padding-top:24px;border-top:1px solid rgba(198,161,91,.1);
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(244,239,231,.2);
+  letter-spacing:.1em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+</style>
+</head>
+<body>
+<canvas id="rain"></canvas>
+<div class="wrap">
+
+  <a href="../index.html" class="back">← HQ</a>
+
+  <div class="eyebrow">// AGB INTELLIGENCE DIVISION</div>
+  <h1 class="title"><em>The</em> Agency</h1>
+  <div class="line"></div>
+  <div class="sub">
+    CIPHER Protocol — English for founders and operators who move fast.<br>
+    Each operative receives a classified dossier. Every class is a mission.
+  </div>
+
+  <div class="section-label">// ACTIVE OPERATIVES</div>
+
+  <a href="alan-nicolas/operative-dossier.html" class="operative-card">
+    <div class="op-left">
+      <div class="op-id">OP — 001</div>
+      <div>
+        <div class="op-name">Alan <em>Nicolas</em></div>
+        <div class="op-meta">Academia Lendária · AIOX · Synkra &nbsp;|&nbsp; Mission 01 active</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <span class="op-status status-active">Active</span>
+      <span class="op-arrow">→</span>
+    </div>
+  </a>
+
+  <div class="section-label" style="margin-top:40px;">// OPERATIVE TOOLS</div>
+  <div class="tools-grid">
+    <a href="alan-nicolas/alan-assessment.html" class="tool-card">
+      <div class="tool-label">CIPHER Protocol</div>
+      <div class="tool-name">Assessment</div>
+    </a>
+    <a href="alan-nicolas/mission-01-the-pitch.html" class="tool-card">
+      <div class="tool-label">Mission 01</div>
+      <div class="tool-name">The Pitch</div>
+    </a>
+    <a href="alan-nicolas/mission-01-live.html" class="tool-card">
+      <div class="tool-label">Live Class</div>
+      <div class="tool-name">Error Tracker</div>
+    </a>
+    <a href="alan-nicolas/teacher-guide.html" class="tool-card">
+      <div class="tool-label">Handler</div>
+      <div class="tool-name">Teacher Guide</div>
+    </a>
+  </div>
+
+  <footer class="footer">
+    <span>THE AGENCY — AGB INTELLIGENCE DIVISION</span>
+    <span>JUNE 2026</span>
+  </footer>
+
+</div>
+<script>
+const canvas=document.getElementById('rain');const ctx=canvas.getContext('2d');
+let cols,drops;
+function initRain(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  cols=Math.floor(canvas.width/16);drops=Array.from({length:cols},()=>Math.random()*-50);}
+const chars='ァィゥェォカキクケコ0123456789ABCDEF'.split('');
+function drawRain(){ctx.fillStyle='rgba(0,0,0,.05)';ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.font='14px IBM Plex Mono';ctx.fillStyle='#00ff41';
+  drops.forEach((y,i)=>{ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*16,y*16);
+    if(y*16>canvas.height&&Math.random()>.975)drops[i]=0;drops[i]+=.4;});}
+initRain();window.addEventListener('resize',initRain);setInterval(drawRain,50);
+</script>
+</body>
+</html>

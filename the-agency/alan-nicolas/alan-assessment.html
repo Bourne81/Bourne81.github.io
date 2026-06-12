@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AGB // Operative Assessment — Alan Nicolas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --midnight:#0C1B2A;--navy:#07111F;--charcoal:#1A1A1A;
+  --ivory:#F4EFE7;--stone:#D8CFC4;--dim:rgba(244,239,231,.45);
+  --gold:#C6A15B;--gold-border:rgba(198,161,91,.2);--gold-dim:rgba(198,161,91,.5);
+  --success:#4A7C59;--alert:#8B4513;
+  --serif:'Playfair Display',serif;--sans:'Inter',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+html,body{min-height:100%;background:var(--midnight);color:var(--ivory);font-family:var(--sans);}
+
+/* ── LAYOUT ── */
+.page{max-width:740px;margin:0 auto;padding:0 24px;}
+
+/* ── FIXED HEADER ── */
+.site-header{
+  position:fixed;top:0;left:0;width:100%;z-index:999;
+  background:var(--navy);border-bottom:1px solid var(--gold-border);
+  padding:16px 32px;display:flex;align-items:center;justify-content:space-between;
+}
+.site-header-logos{display:flex;align-items:center;gap:16px;}
+.site-header-logos img{height:32px;width:auto;object-fit:contain;opacity:.9;}
+.site-header-div{width:1px;height:24px;background:var(--gold-border);}
+.site-header-badge{
+  font-family:var(--mono);font-size:9px;letter-spacing:.25em;
+  color:var(--gold-dim);text-transform:uppercase;border:1px solid var(--gold-border);
+  padding:5px 12px;
+}
+
+/* ── FIXED FOOTER ── */
+.site-footer{
+  position:fixed;bottom:0;left:0;width:100%;z-index:999;
+  background:var(--charcoal);border-top:1px solid var(--gold-border);
+  padding:10px 32px;display:flex;align-items:center;justify-content:space-between;
+}
+.site-footer span{font-family:var(--mono);font-size:9px;letter-spacing:.15em;color:var(--gold-dim);}
+
+/* ── SCREENS ── */
+.screen{
+  min-height:100vh;padding:100px 0 80px;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+}
+.screen.active{display:flex;}
+
+/* ── COVER ── */
+#cover{text-align:center;}
+.cover-stamp{
+  display:inline-block;border:1px solid var(--alert);color:rgba(139,69,19,.7);
+  font-family:var(--mono);font-size:9px;letter-spacing:.3em;padding:5px 16px;
+  margin-bottom:40px;transform:rotate(-1.5deg);
+}
+.cover-label{font-family:var(--mono);font-size:9px;letter-spacing:.25em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:16px;}
+.cover-name{font-family:var(--serif);font-size:clamp(2.4rem,7vw,4.2rem);color:var(--gold);line-height:1.05;margin-bottom:8px;}
+.cover-sub{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--dim);margin-bottom:48px;text-transform:uppercase;}
+.cover-rule{width:60px;height:1px;background:var(--gold-border);margin:0 auto 40px;}
+.cover-body{max-width:480px;margin:0 auto 48px;color:var(--dim);font-size:.9rem;line-height:1.85;font-weight:300;}
+.cover-body strong{color:var(--ivory);font-weight:500;}
+.cover-meta{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:rgba(198,161,91,.3);text-transform:uppercase;margin-bottom:40px;}
+
+/* ── PROGRESS ── */
+.progress-wrap{width:100%;max-width:600px;margin:0 auto 56px;}
+.progress-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;letter-spacing:.18em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
+.progress-track{height:1px;background:rgba(198,161,91,.12);}
+.progress-fill{height:100%;background:var(--gold);transition:width .6s cubic-bezier(.4,0,.2,1);}
+
+/* ── SECTION HEADER ── */
+.section-head{width:100%;max-width:600px;margin:0 auto 40px;}
+.section-part{font-family:var(--mono);font-size:8px;letter-spacing:.25em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:10px;}
+.section-title{font-family:var(--serif);font-size:clamp(1.4rem,4vw,2rem);color:var(--ivory);line-height:1.2;margin-bottom:8px;}
+.section-rule{width:40px;height:1px;background:var(--gold-border);margin-top:12px;}
+
+/* ── QUESTION ── */
+.q-wrap{width:100%;max-width:600px;margin:0 auto;}
+.q-num{font-family:var(--mono);font-size:8px;letter-spacing:.25em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:16px;}
+.q-text{font-family:var(--serif);font-size:clamp(1.1rem,3vw,1.5rem);color:var(--ivory);line-height:1.45;margin-bottom:32px;min-height:60px;}
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.opt{
+  background:rgba(7,17,31,.6);border:1px solid var(--gold-border);
+  padding:15px 20px;cursor:pointer;transition:all .2s;
+  display:flex;align-items:flex-start;gap:16px;text-align:left;
+}
+.opt-letter{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--gold-dim);min-width:18px;padding-top:2px;flex-shrink:0;}
+.opt-text{font-family:var(--sans);font-size:.88rem;color:var(--dim);line-height:1.5;font-weight:300;}
+.opt:hover{border-color:var(--gold);background:rgba(198,161,91,.05);}
+.opt:hover .opt-text{color:var(--ivory);}
+.opt:hover .opt-letter{color:var(--gold);}
+.opt.selected{border-color:var(--gold);background:rgba(198,161,91,.08);}
+.opt.selected .opt-letter{color:var(--gold);}
+.opt.selected .opt-text{color:var(--ivory);}
+
+/* ── VOICE RECORDER ── */
+.recorder-row{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.rec-btn{
+  background:none;border:1px solid var(--gold-border);
+  padding:8px 16px;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;
+}
+.rec-btn:hover{border-color:var(--gold);color:var(--gold);}
+.rec-btn.recording{border-color:var(--alert);color:rgba(139,69,19,.8);animation:rec-pulse 1.2s infinite;}
+.rec-btn.recorded{border-color:var(--success);color:rgba(74,124,89,.8);}
+@keyframes rec-pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.playback-controls{display:none;align-items:center;gap:8px;font-family:var(--mono);font-size:8px;color:var(--gold-dim);}
+.playback-controls.show{display:flex;}
+.play-btn,.delete-btn{background:none;border:1px solid var(--gold-border);color:var(--gold-dim);padding:4px 10px;cursor:pointer;font-family:var(--mono);font-size:8px;letter-spacing:.1em;transition:all .2s;}
+.play-btn:hover{border-color:var(--gold);color:var(--gold);}
+.delete-btn:hover{border-color:rgba(139,69,19,.5);color:rgba(139,69,19,.7);}
+
+/* ── NAV ── */
+.q-nav{display:flex;justify-content:flex-end;}
+.nav-btn{
+  background:none;border:1px solid var(--gold-border);color:var(--gold-dim);
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;padding:12px 28px;
+  cursor:pointer;text-transform:uppercase;transition:all .2s;
+}
+.nav-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(198,161,91,.06);}
+.nav-btn:disabled{opacity:.2;cursor:not-allowed;}
+.nav-btn.primary{border-color:var(--gold);color:var(--gold);background:rgba(198,161,91,.08);}
+
+/* ── ENNEAGRAM ── */
+.enneagram-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;width:100%;max-width:600px;}
+.enn-card{
+  padding:20px 16px;border:1px solid var(--gold-border);background:rgba(7,17,31,.6);
+  cursor:pointer;transition:all .2s;text-align:center;
+}
+.enn-card:hover{border-color:var(--gold);background:rgba(198,161,91,.05);}
+.enn-card.selected{border-color:var(--gold);background:rgba(198,161,91,.1);}
+.enn-num{font-family:var(--mono);font-size:20px;color:var(--gold-dim);margin-bottom:6px;}
+.enn-card.selected .enn-num{color:var(--gold);}
+.enn-name{font-family:var(--serif);font-size:.8rem;color:var(--ivory);margin-bottom:4px;line-height:1.2;}
+.enn-desc{font-family:var(--sans);font-size:.7rem;color:var(--dim);line-height:1.4;font-weight:300;}
+
+/* ── WRITING ── */
+.writing-prompt{
+  border:1px solid var(--gold-border);padding:24px;margin-bottom:20px;
+  width:100%;max-width:600px;background:rgba(7,17,31,.6);
+}
+.writing-prompt p{font-family:var(--sans);font-size:.88rem;color:var(--dim);line-height:1.8;font-weight:300;}
+.writing-prompt strong{color:var(--ivory);font-weight:500;}
+textarea{
+  width:100%;max-width:600px;min-height:160px;
+  background:rgba(7,17,31,.8);border:1px solid var(--gold-border);
+  color:var(--ivory);font-family:var(--sans);font-size:.9rem;font-weight:300;
+  padding:20px;resize:vertical;outline:none;line-height:1.7;
+  transition:border-color .2s;
+}
+textarea:focus{border-color:var(--gold);}
+textarea::placeholder{color:var(--dim);font-style:italic;}
+
+/* ── RESULTS DOSSIER ── */
+#results.screen{align-items:stretch;justify-content:flex-start;}
+.dossier-page{max-width:740px;width:100%;margin:0 auto;padding:100px 24px 100px;}
+.dossier-classified{
+  font-family:var(--mono);font-size:8px;letter-spacing:.35em;
+  color:rgba(139,69,19,.6);text-transform:uppercase;margin-bottom:32px;
+  border:1px solid rgba(139,69,19,.2);display:inline-block;padding:5px 14px;transform:rotate(-.5deg);
+}
+.dossier-header-block{border-bottom:1px solid var(--gold-border);padding-bottom:32px;margin-bottom:40px;}
+.dossier-agent-label{font-family:var(--mono);font-size:8px;letter-spacing:.25em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
+.dossier-agent-name{font-family:var(--serif);font-size:clamp(2rem,6vw,3.2rem);color:var(--gold);line-height:1;margin-bottom:6px;}
+.dossier-agent-id{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--dim);}
+.dossier-logos{display:flex;align-items:center;gap:16px;margin-top:20px;}
+.dossier-logos img{height:28px;width:auto;object-fit:contain;opacity:.7;}
+.dossier-logos-div{width:1px;height:20px;background:var(--gold-border);}
+
+.result-section{margin-bottom:40px;}
+.result-section-label{font-family:var(--mono);font-size:8px;letter-spacing:.25em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--gold-border);}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.result-card{border:1px solid var(--gold-border);padding:24px;background:var(--navy);}
+.result-card-label{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
+.result-card-value{font-family:var(--serif);font-size:1.6rem;color:var(--gold);line-height:1;margin-bottom:4px;}
+.result-card-detail{font-family:var(--sans);font-size:.78rem;color:var(--dim);line-height:1.5;font-weight:300;}
+.result-card-bar{margin-top:14px;height:2px;background:rgba(198,161,91,.1);}
+.result-card-bar-fill{height:100%;background:var(--gold);width:0;transition:width 1.8s cubic-bezier(.4,0,.2,1);}
+
+.result-full-card{border:1px solid var(--gold-border);padding:28px;background:var(--navy);margin-bottom:16px;}
+.result-full-card p{font-family:var(--sans);font-size:.88rem;color:var(--dim);line-height:1.8;font-weight:300;}
+.result-full-card strong{color:var(--ivory);font-weight:500;}
+
+.pillars-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.pillar-card{border:1px solid var(--gold-border);padding:20px 12px;text-align:center;background:var(--navy);opacity:0;transform:translateY(12px);transition:all .5s ease;}
+.pillar-card.show{opacity:1;transform:translateY(0);}
+.pillar-icon-char{font-size:1.6rem;margin-bottom:8px;display:block;}
+.pillar-name{font-family:var(--mono);font-size:8px;letter-spacing:.15em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:4px;}
+.pillar-tier{font-family:var(--serif);font-size:.9rem;color:var(--ivory);}
+
+.recommendation-card{border:1px solid var(--gold);padding:32px;background:rgba(198,161,91,.04);margin-bottom:32px;text-align:center;}
+.rec-label{font-family:var(--mono);font-size:8px;letter-spacing:.25em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:14px;}
+.rec-program{font-family:var(--serif);font-size:clamp(1.4rem,4vw,2rem);color:var(--gold);margin-bottom:8px;}
+.rec-tagline{font-family:var(--sans);font-size:.82rem;color:var(--dim);font-weight:300;font-style:italic;}
+
+.writing-display{border-left:2px solid var(--gold-border);padding:16px 20px;font-family:var(--sans);font-size:.88rem;color:var(--dim);line-height:1.9;font-weight:300;font-style:italic;}
+
+.oral-badge{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.15em;color:rgba(74,124,89,.7);border:1px solid rgba(74,124,89,.25);padding:4px 10px;margin-top:10px;}
+
+.dossier-footer-stamp{margin-top:48px;padding-top:24px;border-top:1px solid var(--gold-border);font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:rgba(198,161,91,.25);text-align:center;}
+
+.result-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;}
+.result-btn{background:none;border:1px solid var(--gold-border);color:var(--gold-dim);font-family:var(--mono);font-size:9px;letter-spacing:.2em;padding:12px 24px;cursor:pointer;text-transform:uppercase;transition:all .2s;text-decoration:none;display:inline-block;}
+.result-btn:hover{border-color:var(--gold);color:var(--gold);}
+.result-btn.primary{border-color:var(--gold);color:var(--gold);background:rgba(198,161,91,.06);}
+
+/* ── SECTION TRANSITIONS ── */
+.section-fade{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s;}
+.section-fade.show{opacity:1;transform:translateY(0);}
+.dossier-card{opacity:0;transform:translateY(16px);transition:all .5s ease;}
+.dossier-card.show{opacity:1;transform:translateY(0);}
+
+/* ── SECTION NAV BAR ── */
+.section-nav{display:flex;justify-content:center;gap:8px;width:100%;max-width:600px;margin-bottom:48px;flex-wrap:wrap;}
+.snav-item{font-family:var(--mono);font-size:7px;letter-spacing:.15em;color:rgba(198,161,91,.2);text-transform:uppercase;padding:4px 10px;border:1px solid rgba(198,161,91,.08);}
+.snav-item.done{color:var(--gold-dim);border-color:var(--gold-border);}
+.snav-item.active{color:var(--gold);border-color:var(--gold);}
+
+@media(max-width:600px){
+  .result-grid{grid-template-columns:1fr;}
+  .pillars-row{grid-template-columns:repeat(2,1fr);}
+  .enneagram-grid{grid-template-columns:repeat(2,1fr);}
+  .site-header{padding:12px 20px;}
+  .site-footer{padding:8px 16px;}
+}
+@media print{
+  .site-header,.site-footer,.result-btns{display:none!important;}
+  .dossier-page{padding:40px 24px;}
+}
+/* ── SPOKEN TASK ── */
+.spoken-label{font-family:var(--mono);font-size:8px;letter-spacing:.3em;color:rgba(198,161,91,.4);text-transform:uppercase;margin-bottom:24px;}
+.spoken-title{font-family:var(--serif);font-size:clamp(1.3rem,4vw,1.9rem);color:var(--ivory);line-height:1.2;margin-bottom:32px;}
+.spoken-prompt-box{border:1px solid var(--gold-border);padding:24px 28px;margin-bottom:32px;background:rgba(7,17,31,.5);}
+.spoken-prompt-box p{font-family:var(--sans);font-size:.9rem;color:var(--dim);line-height:2;font-weight:300;}
+.spoken-prompt-box strong{color:var(--ivory);font-weight:500;}
+.spoken-duration{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:rgba(198,161,91,.3);text-transform:uppercase;margin-bottom:28px;}
+</style>
+</head>
+<body>
+
+<!-- ── FIXED HEADER ── -->
+<header class="site-header">
+  <div class="site-header-logos">
+    <img src="logo-alan-nicolas.png" alt="Alan Nicolas"/>
+    <div class="site-header-div"></div>
+    <img src="logo-aiox.png" alt="AIOX" style="filter:invert(1) sepia(1) saturate(3) hue-rotate(5deg) brightness(.85);opacity:.75;"/>
+  </div>
+  <div class="site-header-badge">AGB // Operative Assessment</div>
+</header>
+
+<!-- ── COVER ── -->
+<div class="screen active" id="cover">
+  <div class="page" style="text-align:center;">
+    <div class="cover-stamp">// for your eyes only</div>
+    <div class="cover-label">AGB Intelligence Division — Classified Briefing</div>
+    <h1 class="cover-name">Alan Nicolas</h1>
+    <p class="cover-sub">Operative Assessment // CIPHER Protocol</p>
+    <div class="cover-rule"></div>
+    <p class="cover-body">
+      This assessment was built for <strong>one operative</strong>.<br><br>
+      What follows is not a generic English test.<br>
+      It is an intelligence file — designed to establish precisely where you stand,
+      how you think, and how you learn.<br><br>
+      The results will be used to calibrate your training path
+      with the precision your level demands.
+    </p>
+    <div class="cover-meta">// 5 sections &nbsp;·&nbsp; 45 minutes &nbsp;·&nbsp; confidential</div>
+    <button class="nav-btn primary" onclick="startAssessment()"><span>// begin protocol</span></button>
+  </div>
+</div>
+
+<!-- ── PROFILE SCREEN ── -->
+<div class="screen" id="profile-screen">
+  <div class="page" style="width:100%;">
+    <div style="max-width:600px;margin:0 auto;width:100%;">
+      <div class="q-num">Part 0 — Operative Context</div>
+      <h2 style="font-family:var(--serif);font-size:clamp(1.4rem,4vw,2rem);color:var(--ivory);line-height:1.2;margin-bottom:8px;">Before We Begin</h2>
+      <p style="font-family:var(--sans);font-size:.88rem;color:var(--dim);line-height:1.85;font-weight:300;margin:16px 0 44px;">Four questions. No right answers. This profile shapes how we structure your programme.</p>
+
+      <!-- Q1: Mission objective -->
+      <div style="margin-bottom:44px;">
+        <div class="q-num">// 01 — mission objective</div>
+        <p class="q-text" style="min-height:auto;margin-bottom:20px;">What would commanding English unlock for you right now?</p>
+        <div class="options" id="p-q1">
+          <button class="opt" data-val="capital" onclick="selectProfileOpt(this,'p-q1')"><span class="opt-letter">A</span><span class="opt-text">Access to global capital — the rooms where decisions are made</span></button>
+          <button class="opt" data-val="brand" onclick="selectProfileOpt(this,'p-q1')"><span class="opt-letter">B</span><span class="opt-text">A global personal brand — my voice beyond Brazil</span></button>
+          <button class="opt" data-val="precision" onclick="selectProfileOpt(this,'p-q1')"><span class="opt-letter">C</span><span class="opt-text">Precision in high-stakes conversations — never losing the room</span></button>
+          <button class="opt" data-val="all" onclick="selectProfileOpt(this,'p-q1')"><span class="opt-letter">D</span><span class="opt-text">All of the above — there is no ceiling</span></button>
+        </div>
+      </div>
+
+      <!-- Q2: Current reality -->
+      <div style="margin-bottom:44px;">
+        <div class="q-num">// 02 — current reality</div>
+        <p class="q-text" style="min-height:auto;margin-bottom:20px;">How often do you currently use English in real professional situations?</p>
+        <div class="options" id="p-q2">
+          <button class="opt" data-val="daily" onclick="selectProfileOpt(this,'p-q2')"><span class="opt-letter">A</span><span class="opt-text">Daily — it's already embedded in my work</span></button>
+          <button class="opt" data-val="weekly" onclick="selectProfileOpt(this,'p-q2')"><span class="opt-letter">B</span><span class="opt-text">Weekly — specific meetings, events, or calls</span></button>
+          <button class="opt" data-val="occasional" onclick="selectProfileOpt(this,'p-q2')"><span class="opt-letter">C</span><span class="opt-text">Occasionally — when international situations arise</span></button>
+          <button class="opt" data-val="rarely" onclick="selectProfileOpt(this,'p-q2')"><span class="opt-letter">D</span><span class="opt-text">Rarely — most of my work is still in Portuguese</span></button>
+        </div>
+      </div>
+
+      <!-- Q3: The gap -->
+      <div style="margin-bottom:44px;">
+        <div class="q-num">// 03 — the gap you feel most</div>
+        <p class="q-text" style="min-height:auto;margin-bottom:20px;">Which part of your English are you most aware of under pressure?</p>
+        <div class="options" id="p-q3">
+          <button class="opt" data-val="vocab" onclick="selectProfileOpt(this,'p-q3')"><span class="opt-letter">A</span><span class="opt-text">Vocabulary — finding the precise word in the moment</span></button>
+          <button class="opt" data-val="pronunciation" onclick="selectProfileOpt(this,'p-q3')"><span class="opt-letter">B</span><span class="opt-text">Pronunciation — how I sound versus how I want to sound</span></button>
+          <button class="opt" data-val="fluency" onclick="selectProfileOpt(this,'p-q3')"><span class="opt-letter">C</span><span class="opt-text">Fluency — the hesitations and gaps between thoughts</span></button>
+          <button class="opt" data-val="grammar" onclick="selectProfileOpt(this,'p-q3')"><span class="opt-letter">D</span><span class="opt-text">Grammar — the structure, correctness under scrutiny</span></button>
+        </div>
+      </div>
+
+      <!-- Q4: One sentence -->
+      <div style="margin-bottom:44px;">
+        <div class="q-num">// 04 — in your own words</div>
+        <p class="q-text" style="min-height:auto;margin-bottom:16px;">One sentence: what would English at its best let you do that you cannot do now?</p>
+        <textarea id="p-goals" placeholder="// write directly in English..." style="width:100%;min-height:80px;background:rgba(7,17,31,.6);border:1px solid var(--gold-border);color:var(--ivory);font-family:var(--sans);font-size:.88rem;font-weight:300;padding:16px;resize:vertical;outline:none;line-height:1.8;transition:border-color .2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--gold-border)'"></textarea>
+      </div>
+
+      <div class="q-nav">
+        <button class="nav-btn primary" id="profile-begin-btn" onclick="beginProtocol()" disabled><span>// begin assessment</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ASSESSMENT SCREEN ── -->
+<div class="screen" id="assessment-screen">
+  <div class="page" style="width:100%;">
+    <div class="progress-wrap">
+      <div class="progress-labels">
+        <span id="q-counter">Section I — Language Intelligence</span>
+        <span id="q-fraction">1 / 20</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:2%"></div></div>
+    </div>
+    <div class="section-nav" id="section-nav">
+      <div class="snav-item active" id="snav-1">I. Language</div>
+      <div class="snav-item" id="snav-2">II. Behaviour</div>
+      <div class="snav-item" id="snav-3">III. Personality</div>
+      <div class="snav-item" id="snav-4">IV. Learning</div>
+      <div class="snav-item" id="snav-5">V. Writing</div>
+    </div>
+    <div class="section-head section-fade show" id="section-head">
+      <div class="section-part" id="section-part">Part I — Language Intelligence</div>
+      <h2 class="section-title" id="section-title">CEFR Language Diagnostic</h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="q-wrap section-fade show" id="q-wrap">
+      <div class="q-num" id="q-num"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-options"></div>
+      <div class="recorder-row">
+        <button class="rec-btn" id="rec-btn" onclick="toggleRecording(currentQ+'', this)">
+          <span>🎤</span><span>// record oral response</span>
+        </button>
+        <div class="playback-controls" id="playback-current">
+          <span>oral response captured</span>
+          <button class="play-btn" onclick="playRecording(currentQ+'')">play</button>
+          <button class="delete-btn" onclick="deleteRecording(currentQ+'', document.getElementById('rec-btn'))">purge</button>
+        </div>
+      </div>
+      <div class="q-nav">
+        <button class="nav-btn primary" id="next-btn" onclick="nextQuestion()" disabled>Continue //</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── RESULTS ── -->
+<div class="screen" id="results">
+  <div class="dossier-page">
+    <div class="dossier-classified">// classified — operative profile — eyes only</div>
+
+    <div class="dossier-header-block">
+      <div class="dossier-agent-label">// operative intelligence dossier</div>
+      <div class="dossier-agent-name">Alan Nicolas</div>
+      <div class="dossier-agent-id" id="r-agent-id"></div>
+      <div class="dossier-logos" style="margin-top:20px;">
+        <img src="logo-alan-nicolas.png" style="height:28px;opacity:.7;"/>
+        <div class="dossier-logos-div"></div>
+        <img src="logo-aiox.png" style="height:22px;opacity:.6;filter:invert(1) sepia(1) saturate(3) hue-rotate(5deg) brightness(.85);"/>
+      </div>
+    </div>
+
+    <!-- Language Level -->
+    <div class="result-section dossier-card">
+      <div class="result-section-label">// Part I — Language Intelligence</div>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="result-card-label">CEFR Operational Level</div>
+          <div class="result-card-value" id="r-cefr-code">B1</div>
+          <div class="result-card-detail" id="r-cefr-label">Operative</div>
+          <div class="result-card-bar"><div class="result-card-bar-fill" id="r-cefr-bar"></div></div>
+        </div>
+        <div class="result-card">
+          <div class="result-card-label">Diagnostic Score</div>
+          <div class="result-card-value" id="r-score-display">—</div>
+          <div class="result-card-detail" id="r-oral-badge"></div>
+        </div>
+      </div>
+      <div class="result-full-card">
+        <p id="r-cefr-desc"></p>
+      </div>
+    </div>
+
+    <!-- DISC Profile -->
+    <div class="result-section dossier-card">
+      <div class="result-section-label">// Part II — Behavioural Profile</div>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="result-card-label">DISC Primary Profile</div>
+          <div class="result-card-value" id="r-disc-code">D</div>
+          <div class="result-card-detail" id="r-disc-name"></div>
+        </div>
+        <div class="result-card">
+          <div class="result-card-label">Communication Archetype</div>
+          <div class="result-card-value" style="font-size:1.1rem;padding-top:4px;" id="r-disc-archetype"></div>
+        </div>
+      </div>
+      <div class="result-full-card">
+        <p id="r-disc-desc"></p>
+      </div>
+    </div>
+
+    <!-- Enneagram + VAK -->
+    <div class="result-section dossier-card">
+      <div class="result-section-label">// Part III & IV — Personality + Learning Architecture</div>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="result-card-label">Personality Type</div>
+          <div class="result-card-value" style="font-size:1rem;padding-top:4px;" id="r-enn-value"></div>
+          <div class="result-card-detail" id="r-enn-detail"></div>
+        </div>
+        <div class="result-card">
+          <div class="result-card-label">Learning Intelligence</div>
+          <div class="result-card-value" id="r-vak-value"></div>
+          <div class="result-card-detail" id="r-vak-detail"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Four Pillars -->
+    <div class="result-section dossier-card">
+      <div class="result-section-label">// The Four Pillars — Priority Map</div>
+      <div class="pillars-row" id="r-pillars"></div>
+    </div>
+
+    <!-- Recommendation -->
+    <div class="recommendation-card dossier-card">
+      <div class="rec-label">// recommended programme</div>
+      <div class="rec-program" id="r-rec-program"></div>
+      <div class="rec-tagline" id="r-rec-tagline"></div>
+    </div>
+
+    <!-- Writing Sample -->
+    <div class="result-section dossier-card">
+      <div class="result-section-label">// Part V — Written Intelligence</div>
+      <div class="result-full-card">
+        <div class="writing-display" id="r-writing"></div>
+      </div>
+      <div id="r-debrief-wrap" style="display:none;margin-top:20px;border-top:1px solid var(--gold-border);padding-top:20px;">
+        <div class="result-section-label" style="margin-top:0;border:none;padding:0 0 8px;">// diagnostic debrief</div>
+        <div class="writing-display" id="r-debrief"></div>
+      </div>
+    </div>
+
+    <!-- Operative Context (profile data) -->
+    <div class="result-section dossier-card" id="r-profile-section" style="display:none;">
+      <div class="result-section-label">// Part 0 — Operative Context</div>
+      <div class="result-full-card">
+        <div id="r-profile-content" style="font-family:var(--sans);font-size:.88rem;color:var(--dim);line-height:2;font-weight:300;"></div>
+      </div>
+    </div>
+
+    <div class="dossier-footer-stamp" id="r-footer-stamp"></div>
+
+    <div class="result-btns">
+      <button class="result-btn" onclick="window.print()">// export as PDF</button>
+      <button class="result-btn" onclick="copyResultsToClipboard()" id="copy-btn">// copy results</button>
+      <button class="result-btn" onclick="sendToTeacher()">// send to teacher</button>
+      <a href="operative-dossier.html" class="result-btn primary">← return to dossier</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── FIXED FOOTER ── -->
+<footer class="site-footer">
+  <span>OPERATIVE: ALAN NICOLAS</span>
+  <span id="footer-ts"></span>
+  <span>AGB INTELLIGENCE DIVISION</span>
+</footer>
+
+<script>
+// ── TIMESTAMP ──
+(function(){
+  const now = new Date();
+  document.getElementById('footer-ts').textContent =
+    now.toISOString().replace('T',' ').slice(0,16) + ' UTC';
+})();
+
+// ── QUESTION BANK ──
+const cefrQuestions = [
+  {part:'I',label:'// grammar — foundation',text:'I ___ working on a new AI project right now.',opts:['am','is','are','be'],ans:0},
+  {part:'I',label:'// vocabulary — foundation',text:'She ___ me that the investor meeting had been confirmed.',opts:['said','told','spoke','talked'],ans:1},
+  {part:'I',label:'// grammar — elementary',text:'We ___ our first 300 students before we had a single product.',opts:['recruit','recruited','have recruit','recruiting'],ans:1},
+  {part:'I',label:'// grammar — elementary',text:'How many people ___ in your company right now?',opts:['there is','there are','are there','is there'],ans:2},
+  {part:'I',label:'// grammar — operative',text:'If I ___ more capital at the time, I would have scaled faster.',opts:['have','had','would have','having'],ans:1},
+  {part:'I',label:'// vocabulary — operative',text:'The company decided to ___ its operations into three new markets.',opts:['expand','wide','grow up','extend out'],ans:0},
+  {part:'I',label:'// grammar — operative',text:'By the end of next year, we ___ the international version.',opts:['launch','launched','will have launched','are launching'],ans:2},
+  {part:'I',label:'// usage — operative',text:'Despite ___ difficult, the transition to AI was the right call.',opts:['be','being','to be','been'],ans:1},
+  {part:'I',label:'// grammar — senior operative',text:'Not until he received the term sheet ___ the deal was real.',opts:['he believed','did he believe','he did believe','believed he'],ans:1},
+  {part:'I',label:'// vocabulary — senior operative',text:'The board was ___ by the startup\'s rapid growth metrics.',opts:['surprised of','impressed','amazed at','struck from'],ans:1},
+  {part:'I',label:'// usage — senior operative',text:'He spoke with such ___ that every investor in the room was convinced.',opts:['conviction','certainty of','believing','confidence of'],ans:0},
+  {part:'I',label:'// grammar — senior operative',text:'Error: "For three months, I am learning English." — Fix:',opts:['For → Since','I am learning → I have been learning','Both A and B','No error'],ans:1},
+  {part:'I',label:'// grammar — executive',text:'Had they invested earlier, they ___ significant returns by now.',opts:['would see','will have seen','would have seen','had seen'],ans:2},
+  {part:'I',label:'// vocabulary — executive',text:'The CEO\'s restructuring decision was seen as ___, given the market conditions.',opts:['justified','justifiable','justifying','just'],ans:1},
+  {part:'I',label:'// usage — executive',text:'The report, ___ last quarter\'s data, suggests a clear upward trend.',opts:['which draws on','that drawing from','which draw','drawing from of'],ans:0},
+  {part:'I',label:'// grammar — executive',text:'Error: "The amount of students are increasing." — Fix:',opts:['amount → number','are → is','Both A and B','No error'],ans:2},
+  {part:'I',label:'// usage — command',text:'___ the complexity of the architecture, the system runs at scale.',opts:['Despite','Although','However','But'],ans:0},
+  {part:'I',label:'// grammar — command',text:'Rarely ___ such strong community traction from a first-year product.',opts:['we see','do we see','we do see','see we'],ans:1},
+  {part:'I',label:'// vocabulary — command',text:'The new strategy represents a ___ shift in how the industry approaches AI education.',opts:['paradigm','paradigmatic','paradigmatical','paradigmed'],ans:1},
+  {part:'I',label:'// usage — command',text:'The ___ between his stated values and his business decisions did not go unnoticed.',opts:['discrepancy','contradiction of','inconsistency between','gap of'],ans:0},
+];
+
+const discQuestions = [
+  {
+    part:'II',label:'// behavioural scenario 1 of 5',
+    text:'You\'re at an AI summit and an investor you\'ve been trying to reach walks past. You...',
+    opts:[
+      'Walk directly to them — introduce yourself, state what you do in one sentence, and propose a meeting',
+      'Find someone who knows both of you — a warm introduction lands better than a cold one',
+      'Wait for the right moment — you want a proper conversation, not a corridor pitch',
+      'Make sure you know their investment thesis before you approach — preparation matters'
+    ],disc:['D','I','S','C']
+  },
+  {
+    part:'II',label:'// behavioural scenario 2 of 5',
+    text:'Your team hits a critical technical problem three hours before a live event with 2,000 students. You...',
+    opts:[
+      'Take charge immediately — delegate fast, make clear decisions, move',
+      'Rally the energy — the team needs confidence right now, not panic',
+      'Work through it systematically — keep everyone calm, step by step',
+      'Diagnose the root cause before touching anything — fixing the wrong thing makes it worse'
+    ],disc:['D','I','S','C']
+  },
+  {
+    part:'II',label:'// behavioural scenario 3 of 5',
+    text:'An American investor says "I\'m not sure your market is big enough." You...',
+    opts:[
+      'Correct them directly. The data is clear. You state it.',
+      'Tell the story — 20,000 students didn\'t happen because the market was small',
+      'Ask them what "big enough" means to them — you want to understand their framework first',
+      'Walk them through the TAM calculation. You\'ve done the analysis. The numbers speak.'
+    ],disc:['D','I','S','C']
+  },
+  {
+    part:'II',label:'// behavioural scenario 4 of 5',
+    text:'When you imagine your English at its best — the version that belongs in every room you\'re entering — what you see is...',
+    opts:[
+      'A version that commands attention before you say a word',
+      'A version that makes people believe in something',
+      'A version that people instinctively trust',
+      'A version where every word is exactly right'
+    ],disc:['D','I','S','C']
+  },
+  {
+    part:'II',label:'// behavioural scenario 5 of 5',
+    text:'Under pressure — a hostile Q&A, a sceptical room, a challenge you didn\'t expect — you tend to...',
+    opts:[
+      'Become more direct and assertive — you don\'t soften under fire',
+      'Stay energised and expressive — confidence is contagious',
+      'Remain steady and deliberate — pressure doesn\'t change your pace',
+      'Focus intensely on precision — the right answer delivered correctly wins'
+    ],disc:['D','I','S','C']
+  }
+];
+
+const enneagramTypes = [
+  {num:1,name:'The Reformer',desc:'Principled, purposeful, perfectionistic'},
+  {num:2,name:'The Helper',desc:'Generous, caring, people-oriented'},
+  {num:3,name:'The Achiever',desc:'Adaptable, driven, results-focused'},
+  {num:4,name:'The Individualist',desc:'Creative, sensitive, introspective'},
+  {num:5,name:'The Investigator',desc:'Analytical, detached, innovative'},
+  {num:6,name:'The Loyalist',desc:'Committed, security-oriented, prepared'},
+  {num:7,name:'The Enthusiast',desc:'Spontaneous, versatile, visionary'},
+  {num:8,name:'The Challenger',desc:'Powerful, decisive, confrontational'},
+  {num:9,name:'The Peacemaker',desc:'Easygoing, reassuring, consensus-driven'}
+];
+
+const vakQuestions = [
+  {
+    part:'IV',label:'// learning style 1 of 3',
+    text:'When learning a new concept — AI architecture, a business framework, a language pattern — you retain it best when you...',
+    opts:['See it: diagrams, written notes, visual frameworks','Hear it: explanations, discussion, conversation','Do it: apply it immediately, learn by executing'],
+    vak:['V','A','K']
+  },
+  {
+    part:'IV',label:'// learning style 2 of 3',
+    text:'During a presentation, you\'re most engaged when...',
+    opts:['There are clear visuals and structured slides','The speaker tells compelling stories and explains out loud','You can interact, take notes, or try things yourself'],
+    vak:['V','A','K']
+  },
+  {
+    part:'IV',label:'// learning style 3 of 3',
+    text:'If you were learning the 10 most important investor vocabulary words in English, the fastest approach for you would be...',
+    opts:['A visual reference sheet with definitions and examples','An audio session where I hear them in context and repeat them','Using them in a real pitch scenario immediately'],
+    vak:['V','A','K']
+  }
+];
+
+// ── STATE ──
+let currentQ = 0;
+let answers = {};
+let enneagramSelected = [];
+let mediaRecorder = null;
+let audioChunks = [];
+let currentRecordingId = null;
+const audioRecordings = {};
+let inWriting = false;
+let writingDone = false;
+let profile = {};
+
+// Steps: 0-19=cefr, 20=spoken-I, 21-25=disc, 26=spoken-II, 27=enn, 28-30=vak, 31=writing
+const TOTAL_STEPS = 32;
+
+// ── SPOKEN TASKS ──
+const spokenTasks = [
+  {
+    label:'// spoken intelligence — I of II',
+    title:'Spontaneous Production Brief',
+    prompt:`You are about to describe <strong>AIOX</strong> and <strong>Academia Lendária</strong> to someone who has never heard of them.<br><br>
+      Speak for <strong>60 seconds</strong> in English. No preparation. No notes. No translating in your head.<br><br>
+      Press record, speak, then press stop.`,
+    duration:'// target: 60 seconds — record when ready'
+  },
+  {
+    label:'// spoken intelligence — II of II',
+    title:'Pressure Response Drill',
+    prompt:`A sceptic says:<br><br>
+      <strong>"AI education? Isn't that just ChatGPT with a Brazilian flag on it?"</strong><br><br>
+      Respond. <strong>90 seconds.</strong> Directly. Show your conviction. Don't explain — defend.<br><br>
+      Press record when ready.`,
+    duration:'// target: 90 seconds — record when ready'
+  }
+];
+
+// ── PROFILE FUNCTIONS ──
+function selectProfileOpt(el, groupId) {
+  document.querySelectorAll('#' + groupId + ' .opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  checkProfileReady();
+}
+
+function checkProfileReady() {
+  const q1 = document.querySelector('#p-q1 .opt.selected');
+  const q2 = document.querySelector('#p-q2 .opt.selected');
+  const q3 = document.querySelector('#p-q3 .opt.selected');
+  const btn = document.getElementById('profile-begin-btn');
+  if (btn) btn.disabled = !(q1 && q2 && q3);
+}
+
+function startAssessment() {
+  document.getElementById('cover').classList.remove('active');
+  document.getElementById('profile-screen').classList.add('active');
+}
+
+function beginProtocol() {
+  profile.unlock    = document.querySelector('#p-q1 .opt.selected')?.dataset.val || '';
+  profile.frequency = document.querySelector('#p-q2 .opt.selected')?.dataset.val || '';
+  profile.weakness  = document.querySelector('#p-q3 .opt.selected')?.dataset.val || '';
+  profile.goals     = (document.getElementById('p-goals')?.value || '').trim();
+  document.getElementById('profile-screen').classList.remove('active');
+  document.getElementById('assessment-screen').classList.add('active');
+  renderStep(0);
+}
+
+let step = 0;
+
+function renderStep(s) {
+  step = s;
+  updateProgress(s);
+
+  if (s < 20)      { renderQ(cefrQuestions[s], s, 'cefr');          updateSectionNav(1); }
+  else if (s === 20) { renderSpoken(spokenTasks[0], s);               updateSectionNav(1); }
+  else if (s < 26)   { renderQ(discQuestions[s-21], s, 'disc');       updateSectionNav(2); }
+  else if (s === 26) { renderSpoken(spokenTasks[1], s);               updateSectionNav(2); }
+  else if (s === 27) { renderEnneagram();                              updateSectionNav(3); }
+  else if (s < 31)   { renderQ(vakQuestions[s-28], s, 'vak');         updateSectionNav(4); }
+  else               { renderWriting();                                updateSectionNav(5); }
+}
+
+function updateSectionNav(active) {
+  for (let i=1;i<=5;i++) {
+    const el = document.getElementById('snav-'+i);
+    el.className = 'snav-item' + (i < active ? ' done' : i === active ? ' active' : '');
+  }
+}
+
+function updateProgress(s) {
+  const pct = Math.max(2, Math.round((s/TOTAL_STEPS)*100));
+  document.getElementById('progress-fill').style.width = pct + '%';
+  if (s < 20) {
+    document.getElementById('q-counter').textContent = 'Section I — Language Intelligence';
+    document.getElementById('q-fraction').textContent = (s+1) + ' / 20';
+  } else if (s === 20) {
+    document.getElementById('q-counter').textContent = '// Spoken Intelligence — I of II';
+    document.getElementById('q-fraction').textContent = '';
+  } else if (s < 26) {
+    document.getElementById('q-counter').textContent = 'Section II — Behavioural Profile';
+    document.getElementById('q-fraction').textContent = (s-20) + ' / 5';
+  } else if (s === 26) {
+    document.getElementById('q-counter').textContent = '// Spoken Intelligence — II of II';
+    document.getElementById('q-fraction').textContent = '';
+  } else if (s === 27) {
+    document.getElementById('q-counter').textContent = 'Section III — Personality Architecture';
+    document.getElementById('q-fraction').textContent = '1 / 1';
+  } else if (s < 31) {
+    document.getElementById('q-counter').textContent = 'Section IV — Learning Intelligence';
+    document.getElementById('q-fraction').textContent = (s-27) + ' / 3';
+  } else {
+    document.getElementById('q-counter').textContent = 'Section V — Written Intelligence';
+    document.getElementById('q-fraction').textContent = '1 / 1';
+  }
+}
+
+function renderQ(q, s, type) {
+  document.getElementById('q-wrap').style.display = '';
+  document.getElementById('section-head').style.display = '';
+
+  document.getElementById('section-part').textContent = q.part ? 'Part ' + q.part : '';
+  document.getElementById('section-title').textContent =
+    type === 'cefr' ? 'Language Diagnostic' :
+    type === 'disc' ? 'Behavioural Profile' : 'Learning Intelligence';
+
+  document.getElementById('q-num').textContent = q.label || '';
+  document.getElementById('q-text').textContent = q.text;
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.disabled = !(answers[s] !== undefined);
+
+  // Playback
+  const pb = document.getElementById('playback-current');
+  const rb = document.getElementById('rec-btn');
+  if (audioRecordings[s+'']) {
+    pb.classList.add('show');
+    rb.className = 'rec-btn recorded';
+  } else {
+    pb.classList.remove('show');
+    rb.className = 'rec-btn';
+  }
+  rb.onclick = () => toggleRecording(s+'', rb);
+  document.querySelector('#playback-current .play-btn').onclick = () => playRecording(s+'');
+  document.querySelector('#playback-current .delete-btn').onclick = () => deleteRecording(s+'', rb);
+
+  const opts = document.getElementById('q-options');
+  opts.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.opts.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt' + (answers[s] === i ? ' selected' : '');
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span class="opt-text">${o}</span>`;
+    btn.onclick = () => {
+      document.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[s] = i;
+      nextBtn.disabled = false;
+    };
+    opts.appendChild(btn);
+  });
+}
+
+function renderSpoken(task, s) {
+  document.getElementById('section-head').style.display = 'none';
+  const qw = document.getElementById('q-wrap');
+  const recId = 'spoken-' + s;
+  qw.innerHTML = `
+    <div class="spoken-label">${task.label}</div>
+    <h3 class="spoken-title">${task.title}</h3>
+    <div class="spoken-prompt-box"><p>${task.prompt}</p></div>
+    <div class="spoken-duration">${task.duration}</div>
+    <div class="recorder-row">
+      <button class="rec-btn" id="spoken-rec-btn"><span>🎤</span><span> // record response</span></button>
+      <div class="playback-controls" id="spoken-playback" style="display:none;">
+        <span>response captured</span>
+        <button class="play-btn" id="spoken-play-btn">play</button>
+      </div>
+    </div>
+    <div class="q-nav">
+      <button class="nav-btn primary" id="spoken-next-btn" ${audioRecordings[recId]?'':'disabled'} onclick="nextQuestion()">Continue //</button>
+    </div>
+  `;
+  const recBtn = document.getElementById('spoken-rec-btn');
+  if (audioRecordings[recId]) {
+    recBtn.className = 'rec-btn recorded';
+    document.getElementById('spoken-playback').style.display = 'flex';
+  }
+  recBtn.onclick = () => toggleSpokenRecording(recId, recBtn);
+  document.getElementById('spoken-play-btn').onclick = () => playRecording(recId);
+}
+
+async function toggleSpokenRecording(id, btn) {
+  if (currentRecordingId === id) {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    return;
+  }
+  if (currentRecordingId) { alert('Stop the current recording first.'); return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+    currentRecordingId = id;
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      audioRecordings[id] = new Blob(audioChunks, {type:'audio/webm'});
+      btn.className = 'rec-btn recorded';
+      const spkp = document.getElementById('spoken-playback');
+      if (spkp) spkp.style.display = 'flex';
+      const nb = document.getElementById('spoken-next-btn');
+      if (nb) nb.disabled = false;
+      stream.getTracks().forEach(t => t.stop());
+      currentRecordingId = null;
+    };
+    mediaRecorder.start();
+    btn.className = 'rec-btn recording';
+  } catch(e) { alert('Microphone access denied — check permissions.'); }
+}
+
+function renderEnneagram() {
+  const qw = document.getElementById('q-wrap');
+  const sh = document.getElementById('section-head');
+  sh.style.display = '';
+  document.getElementById('section-part').textContent = 'Part III';
+  document.getElementById('section-title').textContent = 'Personality Architecture';
+  qw.innerHTML = '';
+
+  const label = document.createElement('div');
+  label.className = 'q-num';
+  label.textContent = '// select 2 types that match your profile';
+  qw.appendChild(label);
+
+  const grid = document.createElement('div');
+  grid.className = 'enneagram-grid';
+
+  enneagramTypes.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = 'enn-card' + (enneagramSelected.includes(i) ? ' selected' : '');
+    card.innerHTML = `<div class="enn-num">${t.num}</div><div class="enn-name">${t.name}</div><div class="enn-desc">${t.desc}</div>`;
+    card.onclick = () => {
+      if (enneagramSelected.includes(i)) {
+        enneagramSelected = enneagramSelected.filter(x=>x!==i);
+        card.classList.remove('selected');
+      } else if (enneagramSelected.length < 2) {
+        enneagramSelected.push(i);
+        card.classList.add('selected');
+      } else {
+        alert('Select 2 types — deselect one first.');
+      }
+      nextBtn.disabled = enneagramSelected.length !== 2;
+    };
+    grid.appendChild(card);
+  });
+  qw.appendChild(grid);
+
+  const nav = document.createElement('div');
+  nav.className = 'q-nav';
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'nav-btn primary';
+  nextBtn.disabled = enneagramSelected.length !== 2;
+  nextBtn.textContent = 'Continue //';
+  nextBtn.onclick = () => { renderStep(28); };
+  nav.appendChild(nextBtn);
+  qw.appendChild(nav);
+}
+
+function renderWriting() {
+  document.getElementById('section-head').style.display = '';
+  const qw = document.getElementById('q-wrap');
+  document.getElementById('section-part').textContent = 'Part V';
+  document.getElementById('section-title').textContent = 'Written Intelligence';
+  qw.innerHTML = '';
+
+  const prompt = document.createElement('div');
+  prompt.className = 'writing-prompt';
+  prompt.innerHTML = `<p><strong>// prompt:</strong><br><br>
+    In English, describe what you built with <strong>Academia Lendária</strong> and <strong>AIOX</strong> —
+    where it started, what it became, and where you are taking it next.<br><br>
+    Write 3–5 sentences. Write directly in English. Do not translate from Portuguese.</p>`;
+  qw.appendChild(prompt);
+
+  const ta = document.createElement('textarea');
+  ta.placeholder = '// begin your response here...';
+  ta.id = 'writing-input';
+  ta.style.marginBottom = '36px';
+  if (answers['writing']) ta.value = answers['writing'];
+  qw.appendChild(ta);
+
+  const prompt2 = document.createElement('div');
+  prompt2.className = 'writing-prompt';
+  prompt2.style.marginBottom = '16px';
+  prompt2.innerHTML = `<p><strong>// one more thing:</strong><br><br>
+    What situation in English makes you hesitate most? Describe a specific moment —
+    a type of meeting, a question you were asked, a phrase you avoided,
+    a time your language didn't match your thinking.</p>`;
+  qw.appendChild(prompt2);
+
+  const ta2 = document.createElement('textarea');
+  ta2.placeholder = '// be specific — one or two sentences is enough...';
+  ta2.id = 'debrief-input';
+  ta2.style.marginBottom = '40px';
+  ta2.style.minHeight = '80px';
+  if (answers['debrief']) ta2.value = answers['debrief'];
+  qw.appendChild(ta2);
+
+  const nav = document.createElement('div');
+  nav.className = 'q-nav';
+  const btn = document.createElement('button');
+  btn.className = 'nav-btn primary';
+  btn.textContent = '// generate dossier';
+  btn.onclick = () => {
+    const val = ta.value.trim();
+    if (!val) { alert('// write your response before generating the dossier.'); return; }
+    answers['writing'] = val;
+    answers['debrief'] = (ta2.value || '').trim();
+    generateDossier();
+  };
+  nav.appendChild(btn);
+  qw.appendChild(nav);
+}
+
+function nextQuestion() {
+  renderStep(step + 1);
+}
+
+// ── VOICE RECORDING ──
+async function toggleRecording(id, btn) {
+  if (currentRecordingId === id) { stopRecording(id, btn); return; }
+  if (currentRecordingId) { alert('Stop the current recording first.'); return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+    currentRecordingId = id;
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      audioRecordings[id] = new Blob(audioChunks, {type:'audio/webm'});
+      btn.className = 'rec-btn recorded';
+      const pb = document.getElementById('playback-current');
+      if (pb) pb.classList.add('show');
+      stream.getTracks().forEach(t=>t.stop());
+      currentRecordingId = null;
+    };
+    mediaRecorder.start();
+    btn.className = 'rec-btn recording';
+  } catch(e) { alert('Microphone access denied — check permissions.'); }
+}
+function stopRecording(id, btn) { if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop(); }
+function playRecording(id) { const b = audioRecordings[id]; if (b) new Audio(URL.createObjectURL(b)).play(); }
+function deleteRecording(id, btn) {
+  if (!confirm('Purge this oral response?')) return;
+  delete audioRecordings[id];
+  btn.className = 'rec-btn';
+  const pb = document.getElementById('playback-current');
+  if (pb) pb.classList.remove('show');
+}
+
+// ── SCORING ──
+function generateDossier() {
+  // CEFR score
+  let cefrScore = 0;
+  cefrQuestions.forEach((q,i) => { if (answers[i] === q.ans) cefrScore++; });
+
+  const cefrLevels = [
+    {min:0,max:3,code:'A1',label:'Foundation',bar:8,
+     desc:'Core mechanics in place. The mission now is to build vocabulary and sentence reflex for functional professional English. You have the raw material — we build the weapon.'},
+    {min:4,max:7,code:'A2',label:'Elementary Operative',bar:22,
+     desc:'Solid base. You can communicate. The gap is speed and range — expanding vocabulary rapidly and drilling structures until they become automatic. The foundation is there. Now we build.'},
+    {min:8,max:11,code:'B1',label:'Operative',bar:45,
+     desc:'Working proficiency. You can be understood in most professional situations. The next level is authority — eliminating the hesitations that read as uncertainty even when you are certain about the business.'},
+    {min:12,max:15,code:'B2',label:'Senior Operative',bar:65,
+     desc:'Strong operational English. The mechanics are mostly there. The gap is register and executive presence — the difference between being understood and being believed.'},
+    {min:16,max:18,code:'C1',label:'Executive Command',bar:82,
+     desc:'Advanced operational English. The mission now is precision and cultural calibration — the final layer that separates a good communicator from someone who commands a room.'},
+    {min:19,max:20,code:'C2',label:'Native Command',bar:96,
+     desc:'Near-native command. The work is stylistic — specific lexical choices, rhetorical timing, and the cultural intelligence that makes the language feel owned, not learned.'}
+  ];
+  const level = cefrLevels.find(l=>cefrScore>=l.min&&cefrScore<=l.max)||cefrLevels[0];
+
+  // DISC score (disc questions are at steps 21-25)
+  const discCount = {D:0,I:0,S:0,C:0};
+  discQuestions.forEach((_,i)=>{
+    const a = answers[21+i];
+    if (a===0) discCount.D++; else if (a===1) discCount.I++; else if (a===2) discCount.S++; else if (a===3) discCount.C++;
+  });
+  const discPrimary = Object.entries(discCount).sort((a,b)=>b[1]-a[1])[0][0];
+  const discProfiles = {
+    D:{name:'Dominance',archetype:'The Commander',desc:'You lead with authority and directness. In English, your power move is the declarative — short, decisive sentences that land like decisions. Your training priority: reflex over reflection. You think fast; your English needs to match.'},
+    I:{name:'Influence',archetype:'The Visionary',desc:'You persuade through narrative and energy. In English, your power move is the story arc — conviction, proof, scale. Your training priority: vocabulary that carries emotional weight. You already know how to make people believe; now we give you the words.'},
+    S:{name:'Steadiness',archetype:'The Architect',desc:'You build trust through consistency and presence. In English, your power move is the considered answer — you use gravity as well as speed. Your training priority: confidence under pressure. You know what to say; we train you to say it without hesitation.'},
+    C:{name:'Conscientiousness',archetype:'The Analyst',desc:'You command through precision and evidence. In English, your power move is the evidence chain — every claim backed, every argument sequenced. Your training priority: delivery speed. Your thinking is already sharp; we train you to express it at the speed the room demands.'}
+  };
+  const disc = discProfiles[discPrimary];
+
+  // VAK (vak questions are at steps 28-30)
+  const vakCount = {V:0,A:0,K:0};
+  vakQuestions.forEach((_,i)=>{
+    const a = answers[28+i];
+    if (a===0) vakCount.V++; else if (a===1) vakCount.A++; else if (a===2) vakCount.K++;
+  });
+  const vakPrimary = Object.entries(vakCount).sort((a,b)=>b[1]-a[1])[0][0];
+  const vakProfiles = {
+    V:{name:'Visual',detail:'Learns through structure, written patterns, and visual frameworks. Training approach: reference sheets, annotation, written model texts.'},
+    A:{name:'Auditory',detail:'Learns through hearing, repetition, and spoken pattern drilling. Training approach: read-aloud exercises, audio models, live conversation.'},
+    K:{name:'Kinesthetic',detail:'Learns by doing — immediate application in real scenarios. Training approach: live simulation, pressure drilling, immediate deployment.'}
+  };
+  const vak = vakProfiles[vakPrimary];
+
+  // Enneagram
+  const ennNames = enneagramSelected.map(i=>`Type ${enneagramTypes[i].num} — ${enneagramTypes[i].name}`).join('<br>');
+  const ennDetail = enneagramSelected.map(i=>enneagramTypes[i].desc).join(' / ');
+
+  // Pillars
+  const pillars = [
+    {icon:'◈',name:'Structure',tier: cefrScore<=7?'Primary Focus':cefrScore<=11?'Active Focus':'Consolidation'},
+    {icon:'◉',name:'Precision',tier: cefrScore<=11?'Primary Focus':cefrScore<=15?'Active Focus':'Refinement'},
+    {icon:'◎',name:'Connection',tier: cefrScore>=8&&cefrScore<=15?'Primary Focus':'Secondary'},
+    {icon:'◇',name:'Authority',tier: cefrScore>=14?'Primary Focus':cefrScore>=10?'Active Focus':'Building'}
+  ];
+
+  const recProgram = cefrScore < 12 ? 'AGB Elite Small Group' : 'AGB 1:1 Authority Protocol';
+  const recTagline = cefrScore < 12
+    ? 'Pressure builds presence. Correction builds dominance.'
+    : 'From Senior Operative to Global Command — in 48 weeks.';
+
+  const agentId = 'AN-' + Date.now().toString(36).toUpperCase().slice(-6);
+  const now = new Date();
+  const stamp = now.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const oralCount = Object.keys(audioRecordings).length;
+
+  // ── RENDER RESULTS ──
+  document.getElementById('assessment-screen').classList.remove('active');
+  document.getElementById('results').classList.add('active');
+  window.scrollTo(0,0);
+
+  document.getElementById('r-agent-id').textContent = `// agent id: ${agentId} · ${stamp}`;
+  document.getElementById('r-cefr-code').textContent = level.code;
+  document.getElementById('r-cefr-label').textContent = level.label;
+  document.getElementById('r-cefr-desc').textContent = level.desc;
+  document.getElementById('r-score-display').textContent = `${cefrScore} / 20`;
+  document.getElementById('r-oral-badge').innerHTML = oralCount > 0 ? `<span class="oral-badge">🎤 ${oralCount} oral response${oralCount>1?'s':''} recorded</span>` : '';
+  document.getElementById('r-disc-code').textContent = discPrimary;
+  document.getElementById('r-disc-name').textContent = disc.name;
+  document.getElementById('r-disc-archetype').textContent = disc.archetype;
+  document.getElementById('r-disc-desc').textContent = disc.desc;
+  document.getElementById('r-enn-value').innerHTML = ennNames;
+  document.getElementById('r-enn-detail').textContent = ennDetail;
+  document.getElementById('r-vak-value').textContent = vak.name;
+  document.getElementById('r-vak-detail').textContent = vak.detail;
+  document.getElementById('r-rec-program').textContent = recProgram;
+  document.getElementById('r-rec-tagline').textContent = recTagline;
+  document.getElementById('r-writing').textContent = answers['writing'] || '';
+
+  // Debrief
+  const debrief = answers['debrief'] || '';
+  if (debrief) {
+    document.getElementById('r-debrief-wrap').style.display = 'block';
+    document.getElementById('r-debrief').textContent = debrief;
+  }
+
+  // Profile context
+  if (Object.keys(profile).length) {
+    const unlockMap = {capital:'Access to global capital',brand:'A global personal brand',precision:'Precision in high-stakes conversations',all:'All of the above'};
+    const freqMap   = {daily:'Daily',weekly:'Weekly',occasional:'Occasionally',rarely:'Rarely'};
+    const gapMap    = {vocab:'Vocabulary',pronunciation:'Pronunciation',fluency:'Fluency',grammar:'Grammar'};
+    const lines = [
+      profile.unlock    ? `Objective: ${unlockMap[profile.unlock]    || profile.unlock}`    : null,
+      profile.frequency ? `Frequency: ${freqMap[profile.frequency]   || profile.frequency}` : null,
+      profile.weakness  ? `Primary gap: ${gapMap[profile.weakness]   || profile.weakness}`  : null,
+      profile.goals     ? `In their words: <em>"${profile.goals}"</em>` : null,
+    ].filter(Boolean);
+    if (lines.length) {
+      document.getElementById('r-profile-section').style.display = 'block';
+      document.getElementById('r-profile-content').innerHTML = lines.map(l=>`<p style="margin-bottom:8px;">${l}</p>`).join('');
+    }
+  }
+
+  document.getElementById('r-footer-stamp').textContent =
+    `— CIPHER PROTOCOL v2.0 — AGB INTELLIGENCE DIVISION — OPERATIVE: ALAN NICOLAS — ${stamp} —`;
+
+  // Animate cards in
+  setTimeout(() => {
+    document.querySelectorAll('.dossier-card').forEach((c,i)=>{
+      setTimeout(()=>c.classList.add('show'), i*120);
+    });
+    // CEFR bar
+    setTimeout(()=>{
+      const bar = document.getElementById('r-cefr-bar');
+      if (bar) bar.style.width = level.bar + '%';
+    }, 500);
+    // Pillars
+    const pillarsEl = document.getElementById('r-pillars');
+    pillarsEl.innerHTML = '';
+    pillars.forEach((p,i)=>{
+      const div = document.createElement('div');
+      div.className = 'pillar-card';
+      div.innerHTML = `<span class="pillar-icon-char" style="color:var(--gold-dim);">${p.icon}</span><div class="pillar-name">${p.name}</div><div class="pillar-tier">${p.tier}</div>`;
+      pillarsEl.appendChild(div);
+      setTimeout(()=>div.classList.add('show'), 600+(i*120));
+    });
+  }, 200);
+
+  // Save to localStorage
+  const spokenCount = [20, 26].filter(s => audioRecordings['spoken-'+s]).length;
+  localStorage.setItem('alanAssessment', JSON.stringify({agentId, cefrScore, cefrLevel:level.code, discPrimary, enneagramSelected, vakPrimary, oralCount, spokenCount, profile, timestamp:now.toISOString()}));
+}
+
+function copyResultsToClipboard() {
+  const lines = [
+    '// AGB OPERATIVE ASSESSMENT — ALAN NICOLAS',
+    '// ' + (document.getElementById('r-agent-id')?.textContent || ''),
+    '',
+    'CEFR LEVEL: ' + (document.getElementById('r-cefr-code')?.textContent || '') + ' — ' + (document.getElementById('r-cefr-label')?.textContent || ''),
+    document.getElementById('r-cefr-desc')?.textContent || '',
+    '',
+    'DISC PROFILE: ' + (document.getElementById('r-disc-code')?.textContent || '') + ' — ' + (document.getElementById('r-disc-archetype')?.textContent || ''),
+    document.getElementById('r-disc-desc')?.textContent || '',
+    '',
+    'PERSONALITY: ' + (document.getElementById('r-enn-value')?.textContent || ''),
+    'LEARNING STYLE: ' + (document.getElementById('r-vak-value')?.textContent || ''),
+    document.getElementById('r-vak-detail')?.textContent || '',
+    '',
+    'RECOMMENDED PROGRAMME: ' + (document.getElementById('r-rec-program')?.textContent || ''),
+    '',
+    'WRITING SAMPLE:',
+    document.getElementById('r-writing')?.textContent || '',
+    '',
+    document.getElementById('r-debrief') ? 'DIAGNOSTIC DEBRIEF:\n' + (document.getElementById('r-debrief').textContent || '') : '',
+    '',
+    profile?.goals ? 'OPERATIVE GOAL: "' + profile.goals + '"' : '',
+  ].filter(l => l !== null).join('\n');
+
+  navigator.clipboard.writeText(lines).then(() => {
+    const btn = document.getElementById('copy-btn');
+    if (btn) { btn.textContent = '// copied ✓'; setTimeout(() => btn.textContent = '// copy results', 2000); }
+  });
+}
+
+function sendToTeacher() {
+  const cefrCode = document.getElementById('r-cefr-code')?.textContent || '?';
+  const cefrLabel = document.getElementById('r-cefr-label')?.textContent || '';
+  const disc = document.getElementById('r-disc-code')?.textContent || '?';
+  const archetype = document.getElementById('r-disc-archetype')?.textContent || '';
+  const vak = document.getElementById('r-vak-value')?.textContent || '?';
+  const enn = document.getElementById('r-enn-value')?.textContent?.replace(/<br>/g,', ') || '?';
+  const writing = document.getElementById('r-writing')?.textContent || '';
+  const debrief = document.getElementById('r-debrief')?.textContent || '';
+  const goal = profile?.goals || '';
+  const agentId = document.getElementById('r-agent-id')?.textContent || '';
+
+  const subject = 'AGB Assessment Results — Alan Nicolas';
+  const body = [
+    'AGB OPERATIVE ASSESSMENT — ALAN NICOLAS',
+    agentId, '',
+    'CEFR: ' + cefrCode + ' — ' + cefrLabel,
+    'DISC: ' + disc + ' (' + archetype + ')',
+    'VAK: ' + vak,
+    'ENNEAGRAM: ' + enn, '',
+    'WRITING SAMPLE:', writing, '',
+    debrief ? 'DIAGNOSTIC DEBRIEF:\n' + debrief : '',
+    goal ? 'STATED GOAL: "' + goal + '"' : '',
+  ].filter(Boolean).join('\n');
+
+  window.location.href = 'mailto:londonbourne81@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+</script>
+</body>
+</html>

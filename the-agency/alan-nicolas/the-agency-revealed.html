@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE AGENCY — REVEALED</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ab:#050505; --cn:#07111F; --bw:#F4EFE7;
+  --ig:#C6A15B; --gb:rgba(198,161,91,.15); --gbd:rgba(198,161,91,.3);
+  --mg:#00ff41; --mb:#0a0e0a;
+  --tm:rgba(244,239,231,.55); --ts:rgba(244,239,231,.78);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{background:#000;font-family:'IBM Plex Mono',monospace;color:var(--mg);}
+
+/* CANVAS */
+#rain{position:fixed;inset:0;z-index:0;}
+
+/* SCENES */
+.scene{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .8s;}
+.scene.active{opacity:1;pointer-events:all;}
+
+/* SCENE 1 — MATRIX TEXT */
+#s1{background:transparent;}
+.matrix-line{font-family:'IBM Plex Mono',monospace;font-size:clamp(1rem,2.5vw,1.4rem);color:var(--mg);text-align:center;letter-spacing:.08em;opacity:0;transform:translateY(8px);transition:opacity .6s,transform .6s;line-height:2.2;text-shadow:0 0 12px var(--mg);}
+.matrix-line.show{opacity:1;transform:translateY(0);}
+.matrix-line.dim{opacity:.35;}
+.cursor-blink{display:inline-block;width:10px;height:1.1em;background:var(--mg);animation:blink .9s infinite;vertical-align:middle;}
+@keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+
+/* TRANSITION SCENE */
+#s-trans{background:transparent;}
+.trans-text{font-family:'IBM Plex Mono',monospace;font-size:clamp(1.2rem,3vw,2rem);text-align:center;letter-spacing:.12em;text-transform:uppercase;opacity:0;transition:opacity 1.2s, color 1.2s, text-shadow 1.2s;}
+.trans-text.show{opacity:1;}
+.trans-text.green{color:var(--mg);text-shadow:0 0 20px var(--mg);}
+.trans-text.gold{color:var(--ig);text-shadow:0 0 20px var(--ig);}
+
+/* AGENCY SCROLL DOCUMENT */
+#s-agency{background:var(--ab);overflow-y:auto;overflow-x:hidden;pointer-events:none;flex-direction:column;align-items:stretch;justify-content:flex-start;padding:0;}
+#s-agency.active{pointer-events:all;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;z-index:1000;}
+
+.agency-doc{max-width:860px;margin:0 auto;padding:0 28px 120px;}
+
+/* AGENCY HEADER */
+.ag-header{padding:80px 0 60px;border-bottom:1px solid var(--gbd);text-align:center;}
+.ag-pre{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--ig);text-transform:uppercase;margin-bottom:24px;opacity:0;animation:fadeUp .8s .2s forwards;}
+.ag-title{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5.5rem);font-weight:700;color:var(--bw);line-height:1.05;margin-bottom:16px;opacity:0;animation:fadeUp .8s .5s forwards;}
+.ag-sub{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ig);letter-spacing:.15em;text-transform:uppercase;opacity:0;animation:fadeUp .8s .8s forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* REVEAL SECTIONS */
+.reveal-sec{opacity:0;transform:translateY(32px);transition:opacity .9s, transform .9s;margin-top:72px;}
+.reveal-sec.visible{opacity:1;transform:translateY(0);}
+
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid rgba(198,161,91,.2);}
+.sec-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ig);letter-spacing:.1em;}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;color:var(--bw);}
+.sec-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--tm);text-transform:uppercase;margin-left:auto;}
+
+/* MANIFESTO LINES */
+.manifesto{display:grid;gap:0;}
+.m-line{padding:20px 0;border-bottom:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:32px 1fr;gap:20px;align-items:center;}
+.m-line:last-child{border-bottom:none;}
+.m-no{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gbd);letter-spacing:.1em;}
+.m-text{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--bw);line-height:1.7;}
+.m-text em{color:var(--ig);font-style:normal;}
+
+/* PILLARS */
+.pillars{display:grid;gap:2px;}
+.pillar{background:var(--cn);border:1px solid var(--gbd);padding:20px 24px;transition:border-color .2s;}
+.pillar:hover{border-color:var(--ig);}
+.pillar-id{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--ig);text-transform:uppercase;margin-bottom:8px;}
+.pillar-name{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--bw);margin-bottom:6px;}
+.pillar-body{font-size:13px;color:var(--tm);line-height:1.6;}
+
+/* INTEL BOX */
+.ib{background:rgba(198,161,91,.07);border:1px solid var(--gbd);border-left:3px solid var(--ig);padding:18px 22px;margin:20px 0;}
+.ib .il{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--ig);text-transform:uppercase;margin-bottom:8px;}
+.ib p{font-size:13px;color:var(--ts);line-height:1.7;}
+
+/* METHODOLOGY */
+.meth-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+@media(max-width:640px){.meth-grid{grid-template-columns:1fr;}}
+.meth-card{background:var(--cn);border:1px solid var(--gbd);padding:22px;border-top:3px solid var(--ig);}
+.meth-id{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--ig);margin-bottom:8px;}
+.meth-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--bw);margin-bottom:8px;}
+.meth-body{font-size:12px;color:var(--tm);line-height:1.6;}
+
+/* VIBE SECTION — special treatment */
+.vibe-block{background:var(--cn);border:1px solid var(--gbd);padding:40px;position:relative;overflow:hidden;}
+.vibe-block::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(198,161,91,.015) 40px,rgba(198,161,91,.015) 41px);}
+.vibe-quote{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--bw);line-height:1.8;position:relative;z-index:1;}
+.vibe-quote em{color:var(--ig);font-style:italic;}
+.vibe-attr{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tm);letter-spacing:.15em;margin-top:20px;position:relative;z-index:1;}
+
+/* BRIDGE SECTION */
+.bridge{text-align:center;padding:60px 0;}
+.bridge-line{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tm);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;}
+.bridge-statement{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);color:var(--bw);line-height:1.5;margin-bottom:8px;}
+.bridge-statement span{color:var(--ig);}
+.back-btn{display:inline-flex;align-items:center;gap:10px;margin-top:40px;background:var(--ig);color:var(--ab);padding:14px 32px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;}
+.back-btn:hover{background:#e8c882;}
+
+/* NOMENCLATURE TABLE */
+.nom-table{width:100%;border-collapse:collapse;margin-top:16px;}
+.nom-table th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--ig);text-transform:uppercase;padding:10px 14px;border-bottom:1px solid var(--gbd);text-align:left;}
+.nom-table td{font-size:13px;color:var(--ts);padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);}
+.nom-table td:first-child{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tm);text-decoration:line-through;}
+.nom-table td:last-child{color:var(--ig);font-family:'IBM Plex Mono',monospace;font-size:11px;}
+
+/* SKIP */
+.skip-btn{position:fixed;bottom:28px;right:24px;background:transparent;border:1px solid rgba(198,161,91,.3);color:var(--tm);padding:10px 18px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;z-index:999;transition:all .2s;}
+.skip-btn:hover{border-color:var(--ig);color:var(--bw);}
+
+/* PROGRESS BAR */
+.prog-line{position:fixed;top:0;left:0;height:2px;background:var(--ig);z-index:9999;transition:width .1s;width:0%;}
+
+/* SIGNATURE LINE */
+.sig{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tm);border-top:1px solid var(--gbd);padding-top:20px;margin-top:60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+</style>
+</head>
+<body>
+
+<canvas id="rain"></canvas>
+<div class="prog-line" id="progLine"></div>
+
+<!-- SCENE 1: MATRIX TEXT SEQUENCE -->
+<div class="scene active" id="s1">
+  <div style="text-align:center;padding:24px;">
+    <div class="matrix-line" id="ml1">You pressed the button.</div>
+    <div class="matrix-line" id="ml2">Most people don't.</div>
+    <div class="matrix-line" id="ml3">Good.</div>
+    <div class="matrix-line" id="ml4" style="margin-top:32px;font-size:.85em;opacity:0">— — —</div>
+    <div class="matrix-line" id="ml5" style="font-size:.85em">What you're about to read is not a curriculum.</div>
+    <div class="matrix-line" id="ml6" style="font-size:.85em">It is a system.</div>
+    <div class="matrix-line" id="ml7" style="font-size:.85em">And the person who built it</div>
+    <div class="matrix-line" id="ml8" style="font-size:.85em">had never written a line of code in their life.</div>
+    <div class="matrix-line" id="ml9" style="margin-top:32px;font-size:.75em;letter-spacing:.05em;color:rgba(0,255,65,.5)">// click or press any key to continue <span class="cursor-blink"></span></div>
+  </div>
+</div>
+
+<!-- SCENE TRANSITION -->
+<div class="scene" id="s-trans">
+  <div class="trans-text green" id="tt1" style="margin-bottom:16px">THERE IS NO SCHOOL.</div>
+  <div class="trans-text gold" id="tt2">There is only The Agency.</div>
+</div>
+
+<!-- SCENE AGENCY DOCUMENT -->
+<div class="scene" id="s-agency">
+  <div class="agency-doc">
+
+    <header class="ag-header">
+      <div class="ag-pre">// AGB Intelligence Division — Classified Brief</div>
+      <h1 class="ag-title">The Agency</h1>
+      <div class="ag-sub">// An institution for strategic communication &amp; language intelligence</div>
+    </header>
+
+    <!-- SECTION 1: THE MANIFESTO -->
+    <section class="reveal-sec" id="rs1">
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">What The Agency Is</h2>
+        <span class="sec-tag">MANIFESTO</span>
+      </div>
+      <div class="manifesto">
+        <div class="m-line"><span class="m-no">I</span><span class="m-text">The Agency is <em>not a school</em>. It is an institutional intelligence training facility.</span></div>
+        <div class="m-line"><span class="m-no">II</span><span class="m-text">We do not sell fluency. <em>We refine control.</em></span></div>
+        <div class="m-line"><span class="m-no">III</span><span class="m-text">Language is leverage. Authority is engineered. <em>Control your message. Control the room.</em></span></div>
+        <div class="m-line"><span class="m-no">IV</span><span class="m-text">Our operatives don't leave better at grammar. They leave <em>clearer, calmer, and more dangerous.</em></span></div>
+        <div class="m-line"><span class="m-no">V</span><span class="m-text">Success is not a test score. Success is the moment the operative <em>realises it's not just English — it's liberation.</em></span></div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE NOMENCLATURE -->
+    <section class="reveal-sec" id="rs2">
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">The Language of The Agency</h2>
+        <span class="sec-tag">SACRED NOMENCLATURE</span>
+      </div>
+      <div class="ib"><div class="il">// why this matters</div><p>Every institution has a language that reflects its values. The Agency's language is not decoration — it is architecture. When you change what you call something, you change what it means. We don't have students because we don't have students. We have operatives, because that's what they are.</p></div>
+      <table class="nom-table">
+        <thead><tr><th>The World Says</th><th>The Agency Says</th><th>Why It Matters</th></tr></thead>
+        <tbody>
+          <tr><td>Students</td><td>Operatives</td><td>Agents with a mission, not recipients of information</td></tr>
+          <tr><td>Classes</td><td>Briefings / Missions</td><td>Every session has objectives, stakes, and a done-state</td></tr>
+          <tr><td>Lessons</td><td>Protocols</td><td>Systematic. Repeatable. Not improvised.</td></tr>
+          <tr><td>Tests</td><td>Clearance Assessments</td><td>You're being cleared for a level of operation</td></tr>
+          <tr><td>Corrections</td><td>Intel Feedback</td><td>Information that makes the operative more effective</td></tr>
+          <tr><td>Grades</td><td>Clearance Tiers</td><td>Progression through operational capacity</td></tr>
+          <tr><td>Exercises</td><td>Drills</td><td>Repetition to automaticity, not practice for a test</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION 3: THE SEVEN PILLARS -->
+    <section class="reveal-sec" id="rs3">
+      <div class="sec-head">
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">The Seven Pillars</h2>
+        <span class="sec-tag">PHILOSOPHICAL FOUNDATION</span>
+      </div>
+      <div class="pillars">
+        <div class="pillar"><div class="pillar-id">// pillar I</div><div class="pillar-name">Unique Essence</div><div class="pillar-body">Architect of realities. Translator of disparate worlds. The Agency reveals the codes of the Matrix for those ready to see them.</div></div>
+        <div class="pillar"><div class="pillar-id">// pillar II</div><div class="pillar-name">Natural Talent</div><div class="pillar-body">Making complex things simple. Connecting ideas others can't connect. What looks like magic is just pattern recognition trained to mastery.</div></div>
+        <div class="pillar"><div class="pillar-id">// pillar III</div><div class="pillar-name">Symbolic Liberation</div><div class="pillar-body">Go beyond the surface. Uncover the hidden codes. Empower through access to new perspectives, new identities, new possible selves.</div></div>
+        <div class="pillar"><div class="pillar-id">// pillar IV</div><div class="pillar-name">Radical Authenticity</div><div class="pillar-body">The courage to be fully yourself — in any language, in any room, in front of any audience. Provoke discomfort. Genuine transformation lives there.</div></div>
+        <div class="pillar"><div class="pillar-id">// pillar V</div><div class="pillar-name">Mastery in Connection</div><div class="pillar-body">Bridge-builder between people, ideas, realities. Transform labyrinths into clear paths. The operative leaves knowing where they are going.</div></div>
+        <div class="pillar"><div class="pillar-id">// pillar VI</div><div class="pillar-name">Purpose</div><div class="pillar-body">Give Brazilians a real voice and an authentic linguistic identity — not borrowed fluency, but genuine authority. A voice that belongs in every room it enters.</div></div>
+        <div class="pillar"><div class="pillar-id">// pillar VII</div><div class="pillar-name">Genius</div><div class="pillar-body">Deconstruct complex systems. Recodify them into emotional logic. Use storytelling. Create a universe where the operative positions themselves and lives a new identity.</div></div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: THE METHODOLOGY -->
+    <section class="reveal-sec" id="rs4">
+      <div class="sec-head">
+        <span class="sec-num">04</span>
+        <h2 class="sec-title">The Methodology</h2>
+        <span class="sec-tag">CIA + DLI + FSI</span>
+      </div>
+      <div class="ib"><div class="il">// intelligence source</div><p>The Agency's methodology is not academic. It is drawn from three of the most effective language training programmes ever built — the CIA, the Defense Language Institute, and the Foreign Service Institute. Not because we romanticise intelligence work, but because these systems were designed to produce results under pressure. That is the only context that matters.</p></div>
+      <div class="meth-grid">
+        <div class="meth-card"><div class="meth-id">// method I</div><div class="meth-title">CIA</div><div class="meth-body">Language utility over mastery. The 1,000 highest-frequency words cover 80% of conversation. Every element must serve a mission-specific context. Emotional anchoring through high-stakes scenarios only.</div></div>
+        <div class="meth-card"><div class="meth-id">// method II</div><div class="meth-title">DLI</div><div class="meth-body">Military precision through pattern drilling. 50–100 repetitions per structure until it fires without thought. Job-specific vocabulary. Native speaker models. Contextual immersion.</div></div>
+        <div class="meth-card"><div class="meth-id">// method III</div><div class="meth-title">FSI</div><div class="meth-body">Diplomatic communication under pressure. Audio-lingual drilling — pattern over explanation. Behavioural conditioning: repetition equals automaticity. Practical over theoretical. Always.</div></div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: AGENT GABRIEL BOURNE -->
+    <section class="reveal-sec" id="rs5">
+      <div class="sec-head">
+        <span class="sec-num">05</span>
+        <h2 class="sec-title">Agent Gabriel Bourne</h2>
+        <span class="sec-tag">THE HANDLER</span>
+      </div>
+      <div class="ib"><div class="il">// operative file</div><p>Gabriel Bourne is a Brazilian English teacher, brand architect, and the founder of The Agency. He built this system not from a position of institutional authority — no linguistics PhD, no accreditation, no years of academic validation. He built it from the opposite direction: a deep belief that the tools to do so had finally arrived, and the audacity to start anyway.</p></div>
+      <div class="pillars">
+        <div class="pillar" style="grid-column:span 1"><div class="pillar-id">// clearance level</div><div class="pillar-name">Lead Handler</div><div class="pillar-body">Primary instructor and program architect for The Agency's Brazilian operative network.</div></div>
+        <div class="pillar" style="grid-column:span 1"><div class="pillar-id">// methodology</div><div class="pillar-name">Intelligence-Based</div><div class="pillar-body">CIA utility + DLI drilling + FSI simulation. Every session a briefing. Every operative a mission.</div></div>
+        <div class="pillar" style="grid-column:span 1"><div class="pillar-id">// philosophy</div><div class="pillar-name">Liberation Through Language</div><div class="pillar-body">Not fluency as performance. Language as access — to rooms, ideas, and versions of yourself you couldn't reach before.</div></div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: THE VIBE-CODING HOMAGE -->
+    <section class="reveal-sec" id="rs6">
+      <div class="sec-head">
+        <span class="sec-num">06</span>
+        <h2 class="sec-title">How This Was Built</h2>
+        <span class="sec-tag">NO CODE. NO CLASSES. NO PERMISSION.</span>
+      </div>
+      <div class="vibe-block">
+        <div class="vibe-quote">
+          "This entire system — every lesson, every drill, every interactive document, every line of code you see on this screen — was built by someone who had <em>never written a single line of code in their life.</em><br><br>
+          No computer science degree. No bootcamp. No Stack Overflow at 3am trying to debug a semicolon. No classes. No certificate. No permission from anyone who thought they got to decide whether this was possible.<br><br>
+          Just a <em>clear vision</em>, a belief that the tools had finally caught up with the idea, and the decision to start before being ready.<br><br>
+          This is what vibe-coding looks like in practice. Not as a trend. Not as a shortcut. As a <em>philosophy of creation</em> — the same philosophy The Agency teaches its operatives about language, and the same philosophy AIOX gives to developers who want to build without being locked inside someone else's system.<br><br>
+          <em>The gatekeepers were always lying.</em><br>
+          You don't need their credentials to build something real.<br><br>
+          You just need to start."
+        </div>
+        <div class="vibe-attr">// built with Claude Code &amp; vibe-coding — AGB, 2026 — The Agency, São Paulo</div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: THE BRIDGE TO AIOX -->
+    <section class="reveal-sec" id="rs7">
+      <div class="sec-head">
+        <span class="sec-num">07</span>
+        <h2 class="sec-title">Why This Lives Inside Your System</h2>
+        <span class="sec-tag">THE BRIDGE</span>
+      </div>
+      <div class="ib"><div class="il">// strategic note</div><p>This program was not built <em>for</em> AIOX. It was built <em>using</em> AIOX's own constitutional principles as its architecture. CLI First became English First. Agent Authority became Voice Authority. Story-Driven Development became Context-Driven Learning. No Invention became No Academic Grammar. The same six non-negotiable articles. A different domain.</p></div>
+      <div class="bridge">
+        <div class="bridge-line">// the connection</div>
+        <div class="bridge-statement">You built AIOX to give people<br>the <span>power to create</span> —<br>without being trapped inside<br>someone else's ecosystem.</div>
+        <div style="margin-top:32px;margin-bottom:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tm);letter-spacing:.1em;">The Agency does the same thing.</div>
+        <div class="bridge-statement" style="font-size:1.2rem;">For language.</div>
+        <div style="margin-top:40px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ig);letter-spacing:.15em;text-transform:uppercase;">Welcome to The Agency, Operative.</div>
+        <button class="back-btn" onclick="window.opener ? window.close() : window.history.back()">← RETURN TO DOSSIER</button>
+      </div>
+    </section>
+
+    <div class="sig">
+      <span>AGB Intelligence Division — The Agency // São Paulo</span>
+      <span>BRIEF-00 // CLASSIFIED // v1.0 // 2026</span>
+    </div>
+
+  </div><!-- /agency-doc -->
+</div><!-- /s-agency -->
+
+<button class="skip-btn" id="skipBtn" onclick="skipToAgency()">SKIP INTRO ▸</button>
+
+<script>
+// ── MATRIX RAIN ──
+const canvas = document.getElementById('rain');
+const ctx = canvas.getContext('2d');
+let W, H, drops, cols, fontSize = 14;
+const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+function initRain() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  cols = Math.floor(W / fontSize);
+  drops = Array(cols).fill(1);
+}
+
+function drawRain(alpha) {
+  ctx.fillStyle = `rgba(0,0,0,${alpha})`;
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#00ff41';
+  ctx.font = fontSize + 'px IBM Plex Mono, monospace';
+  drops.forEach((y, i) => {
+    const char = chars[Math.floor(Math.random() * chars.length)];
+    const x = i * fontSize;
+    ctx.fillStyle = y === 1 ? '#ffffff' : '#00ff41';
+    ctx.globalAlpha = Math.random() > 0.95 ? 1 : 0.7;
+    ctx.fillText(char, x, y * fontSize);
+    ctx.globalAlpha = 1;
+    if (y * fontSize > H && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  });
+}
+
+initRain();
+window.addEventListener('resize', initRain);
+
+// ── SCENE MANAGER ──
+let currentScene = 1;
+let rainInterval, rainAlpha = 0.05, rainFading = false;
+let advancing = false;
+
+rainInterval = setInterval(() => drawRain(rainFading ? 0.08 : rainAlpha), 50);
+
+// ── SCENE 1: TEXT SEQUENCE ──
+const lines = ['ml1','ml2','ml3','ml4','ml5','ml6','ml7','ml8','ml9'];
+const delays = [400, 1100, 1700, 2400, 2800, 3600, 4400, 5200, 6200];
+let seq1Done = false;
+
+delays.forEach((d, i) => {
+  setTimeout(() => {
+    const el = document.getElementById(lines[i]);
+    if(el) el.classList.add('show');
+    if(i < delays.length - 1 && i > 0) {
+      document.getElementById(lines[i-1])?.classList.add('dim');
+    }
+    if(i === delays.length - 1) seq1Done = true;
+  }, d);
+});
+
+function advanceFromScene1() {
+  if (advancing) return;
+  advancing = true;
+  showScene('s-trans');
+  const s1 = document.getElementById('s1');
+  s1.style.transition = 'opacity .6s';
+  s1.style.opacity = '0';
+  setTimeout(() => { s1.classList.remove('active'); }, 600);
+
+  rainFading = true;
+  const tt1 = document.getElementById('tt1');
+  const tt2 = document.getElementById('tt2');
+  tt1.classList.add('show');
+  setTimeout(() => { tt2.classList.add('show'); }, 1000);
+  setTimeout(() => {
+    clearInterval(rainInterval);
+    ctx.clearRect(0, 0, W, H);
+    showScene('s-agency');
+    document.getElementById('s-trans').classList.remove('active');
+    initIntersectionObserver();
+    document.getElementById('skipBtn').style.display = 'none';
+    updateProgress();
+  }, 3000);
+}
+
+document.addEventListener('click', () => { if(seq1Done) advanceFromScene1(); });
+document.addEventListener('keydown', (e) => { if(e.key !== 'Tab' && seq1Done) advanceFromScene1(); });
+
+function showScene(id) {
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  el.style.transition = 'opacity .8s';
+}
+
+function skipToAgency() {
+  clearInterval(rainInterval);
+  ctx.clearRect(0, 0, W, H);
+  document.getElementById('s1').classList.remove('active');
+  document.getElementById('s-trans').classList.remove('active');
+  document.getElementById('skipBtn').style.display = 'none';
+  showScene('s-agency');
+  initIntersectionObserver();
+}
+
+// ── SCROLL REVEAL ──
+function initIntersectionObserver() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal-sec').forEach(el => observer.observe(el));
+}
+
+// ── PROGRESS BAR ──
+function updateProgress() {
+  const doc = document.getElementById('s-agency');
+  doc.addEventListener('scroll', () => {
+    const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progLine').style.width = pct + '%';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gilson Marques 2026 | Questionario Preenchivel</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --forest: #27452d;
+    --forest-strong: #1d3421;
+    --forest-soft: #eef3eb;
+    --ink: #1f2328;
+    --muted: #667085;
+    --paper: #f7f5f0;
+    --white: #ffffff;
+    --line: #d9dfd2;
+    --gold: #ae8b3a;
+    --saved: #2d7a3e;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(180deg, var(--forest) 0%, var(--forest-strong) 100%);
+    color: var(--white);
+    padding: 44px 24px 36px;
+    text-align: center;
+  }
+
+  .header-inner,
+  .intro,
+  .section,
+  .actions,
+  .footer {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2.6px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: normal;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .header-sub {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .progress-shell {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(8px);
+  }
+
+  .progress {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .progress-label,
+  .save-indicator {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .save-indicator {
+    color: var(--saved);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .save-indicator.visible {
+    opacity: 1;
+  }
+
+  .track {
+    flex: 1;
+    height: 6px;
+    background: #e6ebdf;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--forest) 0%, var(--gold) 100%);
+    transition: width 0.35s ease;
+  }
+
+  .intro {
+    padding: 34px 24px 0;
+  }
+
+  .intro-box,
+  .card,
+  .note,
+  .bonus {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(17, 24, 39, 0.05);
+  }
+
+  .intro-box {
+    padding: 28px 30px;
+    border-left: 4px solid var(--forest);
+  }
+
+  .intro-box p,
+  .card p,
+  .note p,
+  .meta,
+  .help {
+    line-height: 1.72;
+  }
+
+  .intro-box p + p {
+    margin-top: 12px;
+  }
+
+  .section {
+    padding: 40px 24px 0;
+  }
+
+  .section-head {
+    margin-bottom: 18px;
+  }
+
+  .section-kicker {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2.6px;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 6px;
+  }
+
+  .section-desc {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .card,
+  .bonus {
+    padding: 26px 28px;
+    margin-top: 16px;
+  }
+
+  .bonus {
+    background: linear-gradient(180deg, var(--forest) 0%, var(--forest-strong) 100%);
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .q-number {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-bottom: 10px;
+  }
+
+  .bonus .q-number {
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .q-text {
+    font-size: 18px;
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+
+  .bonus .q-text {
+    color: var(--white);
+  }
+
+  .why,
+  .follow-up,
+  .meta {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .bonus .why,
+  .bonus .follow-up,
+  .bonus .meta {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .why {
+    margin-bottom: 16px;
+    padding-left: 12px;
+    border-left: 2px solid #d8e0d0;
+  }
+
+  .bonus .why {
+    border-left-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .follow-up {
+    margin-bottom: 14px;
+    background: var(--forest-soft);
+    border: 1px solid #dfe6d8;
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+
+  .bonus .follow-up {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 170px;
+    resize: vertical;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fbfbf8;
+    color: var(--ink);
+    padding: 16px;
+    font: 16px/1.7 Georgia, "Times New Roman", serif;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  textarea:focus {
+    border-color: var(--forest);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(39, 69, 45, 0.08);
+  }
+
+  .bonus textarea {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  .bonus textarea:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+  }
+
+  textarea::placeholder {
+    color: #99a2ad;
+    font-style: italic;
+  }
+
+  .bonus textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .note {
+    margin-top: 16px;
+    padding: 18px 20px;
+  }
+
+  .note-title {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--forest);
+    margin-bottom: 8px;
+  }
+
+  .actions {
+    padding: 36px 24px 72px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 14px 20px;
+    font: 700 12px/1 Arial, sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background: var(--forest);
+    color: var(--white);
+  }
+
+  .btn-secondary {
+    background: var(--white);
+    color: var(--forest);
+    border: 1px solid var(--forest);
+  }
+
+  .btn-danger {
+    background: #8d2f2f;
+    color: var(--white);
+  }
+
+  .toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    background: var(--ink);
+    color: var(--white);
+    padding: 14px 18px;
+    border-radius: 6px;
+    font: 12px Arial, sans-serif;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .footer {
+    padding: 0 24px 34px;
+    text-align: center;
+    font: 11px Arial, sans-serif;
+    letter-spacing: 1px;
+    color: #98a2ad;
+  }
+
+  @media (max-width: 720px) {
+    .progress {
+      flex-wrap: wrap;
+    }
+
+    .actions {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+    }
+
+    .card,
+    .bonus,
+    .intro-box {
+      padding: 22px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="eyebrow">Confidencial | Uso interno da campanha</div>
+    <h1>Questionario de Arquetipo e Arco do Heroi</h1>
+    <div class="header-sub">Gilson Marques 2026 | Versao preenchivel</div>
+  </div>
+</header>
+
+<div class="progress-shell">
+  <div class="progress">
+    <span class="progress-label">Progresso</span>
+    <div class="track"><div class="fill" id="progressFill"></div></div>
+    <span class="progress-label" id="progressText">0 / 16</span>
+    <span class="save-indicator" id="saveIndicator">salvo automaticamente</span>
+  </div>
+</div>
+
+<section class="intro">
+  <div class="intro-box">
+    <p><strong>Gilson,</strong></p>
+    <p>Estas perguntas nao sao sobre discurso pronto. Sao sobre identidade.</p>
+    <p>Nao existe resposta certa, resposta bonita, nem resposta segura. O que interessa aqui sao respostas verdadeiras: as que explicam por que voce age como age, por que certas batalhas te movem, e por que voce escolheu pagar certos custos.</p>
+    <p>Pode responder por escrito no seu tempo. O arquivo salva automaticamente no navegador deste computador, e tambem permite exportar tudo em TXT ou JSON no final.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="section-kicker">Layer 1 | 5 perguntas</div>
+    <div class="section-title">Origem e Centro Moral</div>
+    <div class="section-desc">O que moldou sua visao de mundo</div>
+  </div>
+
+  <article class="card">
+    <div class="q-number">Pergunta 01</div>
+    <div class="q-text">A mudanca que mais te marcou.</div>
+    <p class="help">Seu pai trabalhava na Caixa e a familia se mudava com frequencia. Entre essas mudancas, qual foi a que mais te marcou? O que essa fase te ensinou sobre adaptacao, inseguranca, responsabilidade ou independencia?</p>
+    <div class="why">Por que perguntamos: sua origem nao precisa virar drama para ser poderosa. O ponto aqui e entender o que a infancia itinerante deixou como marca de carater.</div>
+    <textarea id="q1" placeholder="Descreva a mudanca, a cena, o que voce sentiu e o que ficou disso em voce."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 02</div>
+    <div class="q-text">O que seu pai te ensinou sem dizer.</div>
+    <p class="help">O que ele te ensinou sobre trabalho, disciplina e dignidade? E onde voce acha que seu caminho passou a divergir do mundo que ele representava?</p>
+    <div class="why">Por que perguntamos: essa resposta ajuda a separar ressentimento de conviccao. Isso muda o tom inteiro da marca.</div>
+    <textarea id="q2" placeholder="Conte o que ele te ensinou na pratica, e onde seu caminho se separou do dele."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 03</div>
+    <div class="q-text">O momento em que voce decidiu sair da arquibancada.</div>
+    <p class="help">Qual foi o momento exato em que a indignacao com Lava-Jato e Petrolao deixou de ser indignacao e virou decisao? O que voce leu, viu ou entendeu tecnicamente que fez voce pensar: "ou eu entro, ou vou me arrepender de ficar fora"?</p>
+    <div class="why">Por que perguntamos: a origem da missao precisa ter um ponto de virada claro, nao apenas uma conviccao abstrata.</div>
+    <textarea id="q3" placeholder="Conte o episodio especifico, o contexto, e o pensamento que virou chave."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 04</div>
+    <div class="q-text">O que Santa Catarina representa em voce.</div>
+    <p class="help">Quando voce pensa em Santa Catarina, o que esse lugar simboliza em termos de comportamento, moral e modo de viver? O que Brasilia nao entende sobre esse jeito de viver?</p>
+    <div class="why">Por que perguntamos: sua ligacao com SC nao e geografica; ela e moral. Precisamos nomear isso com precisao.</div>
+    <div class="follow-up">Se a resposta vier muito geral, puxe para uma pessoa concreta: onde ela trabalha, o que ela tolera, e o que ela nao tolera.</div>
+    <textarea id="q4" placeholder="Descreva o tipo de vida e de comportamento que SC representa para voce."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 05</div>
+    <div class="q-text">O que voce sabia que teria de sacrificar.</div>
+    <p class="help">Antes da politica, voce tinha carreira, rotina, reputacao local e vida em familia. Quando decidiu entrar, o que voce ja sabia que iria perder ou colocar em risco? O que esse custo significou concretamente para Camila e para seus filhos?</p>
+    <div class="why">Por que perguntamos: o publico confia mais num homem que escolheu pagar um preco do que num homem que parece nao arriscar nada.</div>
+    <textarea id="q5" placeholder="Seja concreto sobre perda, custo, medo e efeito real na familia."></textarea>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="section-kicker">Layer 2 | 5 perguntas</div>
+    <div class="section-title">A Prova</div>
+    <div class="section-desc">Os atos que definiram sua identidade publica</div>
+  </div>
+
+  <article class="card">
+    <div class="q-number">Pergunta 06</div>
+    <div class="q-text">O dia em que voce recusou o jogo.</div>
+    <p class="help">No primeiro dia de mandato, voce recusou privilegios que quase todos tratam como normais. Conte esse dia em detalhes: onde voce estava, quem falou com voce, o que tentaram normalizar, quais beneficios estavam na sua frente, e o que voce sentiu ao dizer nao.</p>
+    <div class="why">Por que perguntamos: este e o momento em que o discurso vira carater. Precisamos da historia concreta, nao apenas da mensagem.</div>
+    <textarea id="q6" placeholder="Descreva a cena, as pessoas, as palavras, a decisao e a sensacao."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 07</div>
+    <div class="q-text">O momento em que voce soube que estava certo antes de todo mundo.</div>
+    <p class="help">No caso do fundao eleitoral, e em outros episodios parecidos, como e esse momento para voce? E tecnica, intuicao, desconfianca, irritacao? O que acontece na sua cabeca antes de os outros perceberem?</p>
+    <div class="why">Por que perguntamos: isso revela se sua arma principal e o estudo, o instinto ou a combinacao dos dois.</div>
+    <textarea id="q7" placeholder="Explique como voce percebe a armadilha antes dos demais."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 08</div>
+    <div class="q-text">A vitoria que mais te representa.</div>
+    <p class="help">Entre tudo o que voce ja barrou, expos, economizou, corrigiu ou aprovou, qual vitoria mais representa quem voce e? Nao a mais famosa. A mais reveladora.</p>
+    <div class="why">Por que perguntamos: nem sempre o feito mais conhecido e o mais identitario. Essa resposta ajuda a achar o centro da narrativa.</div>
+    <textarea id="q8" placeholder="Escolha uma vitoria e explique por que ela diz mais sobre voce do que qualquer outra."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 09</div>
+    <div class="q-text">Quando o coveiro apareceu.</div>
+    <p class="help">Voce passou a ser chamado de coveiro da CCJ, parede, goleiro, cavalo de Troia. Qual desses simbolos mais te representa de verdade? E qual deles voce sente que as pessoas entendem errado?</p>
+    <div class="why">Por que perguntamos: essas imagens sao fortes, mas podem puxar sua marca para lugares diferentes. Precisamos saber qual e a leitura correta na sua propria voz.</div>
+    <textarea id="q9" placeholder="Escolha o simbolo mais verdadeiro, explique por que, e diga o que os outros distorcem."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 10</div>
+    <div class="q-text">O limite entre firmeza e vaidade.</div>
+    <p class="help">Em que momento o confronto deixa de ser dever e vira ego? Como voce evita cruzar essa linha?</p>
+    <div class="why">Por que perguntamos: um arquetipo forte sem autocontrole parece performance. Com autocontrole, parece lideranca.</div>
+    <div class="follow-up">Se a resposta ficar defensiva, volte para um caso concreto: houve algum momento em que voce percebeu que quase cruzou essa linha? O que te puxou de volta?</div>
+    <textarea id="q10" placeholder="Explique onde esta essa linha e como voce se vigia para nao ultrapassa-la."></textarea>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="section-kicker">Layer 3 | 5 perguntas</div>
+    <div class="section-title">Missao e Futuro</div>
+    <div class="section-desc">O que ainda move sua luta</div>
+  </div>
+
+  <article class="card">
+    <div class="q-number">Pergunta 11</div>
+    <div class="q-text">O que ainda te indigna hoje.</div>
+    <p class="help">Depois de anos em Brasilia, muito politico se acomoda. O que ainda te tira do eixo? Qual forma de abuso, omissao ou excesso de poder mais rapidamente acende voce hoje?</p>
+    <div class="why">Por que perguntamos: sem indignacao viva, a marca perde fogo e vira apenas reputacao passada.</div>
+    <textarea id="q11" placeholder="Diga o que ainda acende voce de forma imediata e por que isso continua vivo."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 12</div>
+    <div class="q-text">O que voce quer proteger, nao apenas combater.</div>
+    <p class="help">Que tipo de Brasil, de Santa Catarina, de familia e de liberdade voce acha que ainda vale defender com firmeza?</p>
+    <div class="why">Por que perguntamos: seu arquetipo nao pode ser so de bloqueio. Ele tambem precisa mostrar o que esta sendo protegido.</div>
+    <div class="follow-up">Diga um exemplo concreto de uma familia, rotina, empresa ou cidade que representa isso que voce quer proteger.</div>
+    <textarea id="q12" placeholder="Descreva o que precisa ser preservado e por que isso importa de forma concreta."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 13</div>
+    <div class="q-text">Quem e a pessoa real que voce carrega na cabeca quando vota.</div>
+    <p class="help">Quando voce fala em contribuinte, familia, trabalhador, catarinense, quem e essa pessoa na sua mente? O que ela enfrenta no dia a dia? O que ela nunca diria num discurso, mas sente no bolso, na empresa, em casa ou na escola dos filhos?</p>
+    <div class="why">Por que perguntamos: a marca ganha humanidade quando o cidadao deixa de ser abstrato.</div>
+    <textarea id="q13" placeholder="Descreva essa pessoa real com o maximo de concretude possivel."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 14</div>
+    <div class="q-text">O que voce nao negocia.</div>
+    <p class="help">Qual e o seu ponto inegociavel? O que, se pedirem para voce ceder, voce prefere perder espaco, cargo, apoio ou projeto a aceitar?</p>
+    <div class="why">Por que perguntamos: toda marca forte precisa de uma linha vermelha clara.</div>
+    <textarea id="q14" placeholder="Escreva qual e sua linha vermelha e o que voce prefere perder antes de cruza-la."></textarea>
+  </article>
+
+  <article class="card">
+    <div class="q-number">Pergunta 15</div>
+    <div class="q-text">A frase que precisa sobreviver a tudo.</div>
+    <p class="help">Daqui a 20 anos, quando falarem de voce como homem e nao apenas como politico, o que voce gostaria que fosse dito? Nao sobre cargo. Nao sobre campanha. Sobre carater.</p>
+    <div class="why">Por que perguntamos: essa e a frase final que ancora toda a narrativa publica.</div>
+    <textarea id="q15" placeholder="Escreva a frase ou a ideia central que voce gostaria de deixar como legado de carater."></textarea>
+  </article>
+
+  <article class="bonus">
+    <div class="q-number">Pergunta bonus</div>
+    <div class="q-text">Se voce tivesse que escolher uma imagem, um objeto, um lugar, um gesto ou um momento que resumisse quem voce e e o que voce protege, qual seria?</div>
+    <div class="why">Esta e a busca pelo simbolo visceral da marca. Nao force. Se vier naturalmente, e ouro.</div>
+    <textarea id="q16" placeholder="Se vier algo forte e verdadeiro, descreva aqui."></textarea>
+  </article>
+
+  <div class="note">
+    <div class="note-title">Observacao</div>
+    <p>As respostas ficam salvas automaticamente neste navegador. Quando terminar, use os botoes abaixo para exportar uma copia em TXT ou JSON.</p>
+  </div>
+</section>
+
+<div class="actions">
+  <button class="btn btn-primary" type="button" onclick="exportTXT()">Exportar respostas em TXT</button>
+  <button class="btn btn-secondary" type="button" onclick="exportJSON()">Exportar respostas em JSON</button>
+  <button class="btn btn-secondary" type="button" onclick="copyAll()">Copiar tudo</button>
+  <button class="btn btn-danger" type="button" onclick="clearAll()">Limpar tudo</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="footer">
+  GILSON MARQUES 2026 | questionario preenchivel | confidencial
+</footer>
+
+<script>
+  const STORAGE_KEY = 'gilson_archetype_questionnaire_fillable_v1';
+  const TOTAL = 16;
+  const TITLE = 'GILSON MARQUES 2026 - QUESTIONARIO DE ARQUETIPO E ARCO DO HEROI';
+  const questions = [
+    'Q01 - A mudanca que mais te marcou',
+    'Q02 - O que seu pai te ensinou sem dizer',
+    'Q03 - O momento em que voce decidiu sair da arquibancada',
+    'Q04 - O que Santa Catarina representa em voce',
+    'Q05 - O que voce sabia que teria de sacrificar',
+    'Q06 - O dia em que voce recusou o jogo',
+    'Q07 - O momento em que voce soube que estava certo antes de todo mundo',
+    'Q08 - A vitoria que mais te representa',
+    'Q09 - Quando o coveiro apareceu',
+    'Q10 - O limite entre firmeza e vaidade',
+    'Q11 - O que ainda te indigna hoje',
+    'Q12 - O que voce quer proteger, nao apenas combater',
+    'Q13 - Quem e a pessoa real que voce carrega na cabeca quando vota',
+    'Q14 - O que voce nao negocia',
+    'Q15 - A frase que precisa sobreviver a tudo',
+    'Q16 - Pergunta bonus'
+  ];
+
+  window.addEventListener('load', () => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      for (let i = 1; i <= TOTAL; i++) {
+        const field = document.getElementById('q' + i);
+        if (field && data['q' + i]) field.value = data['q' + i];
+      }
+    }
+    updateProgress();
+  });
+
+  let saveTimer;
+  document.addEventListener('input', (event) => {
+    if (!event.target.matches('textarea')) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      saveToStorage();
+      flashSaved();
+    }, 500);
+    updateProgress();
+  });
+
+  function saveToStorage() {
+    const data = {};
+    for (let i = 1; i <= TOTAL; i++) {
+      const field = document.getElementById('q' + i);
+      if (field) data['q' + i] = field.value;
+    }
+    data._saved = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function updateProgress() {
+    let filled = 0;
+    for (let i = 1; i <= TOTAL; i++) {
+      const field = document.getElementById('q' + i);
+      if (field && field.value.trim().length > 20) filled++;
+    }
+    const percentage = Math.round((filled / TOTAL) * 100);
+    document.getElementById('progressFill').style.width = percentage + '%';
+    document.getElementById('progressText').textContent = filled + ' / ' + TOTAL;
+  }
+
+  function flashSaved() {
+    const indicator = document.getElementById('saveIndicator');
+    indicator.classList.add('visible');
+    setTimeout(() => indicator.classList.remove('visible'), 1600);
+  }
+
+  function getStoredData() {
+    saveToStorage();
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  }
+
+  function buildTextExport() {
+    const data = getStoredData();
+    const date = new Date().toLocaleString('pt-BR');
+    let text = TITLE + '\n';
+    text += 'Exportado em: ' + date + '\n';
+    text += 'CONFIDENCIAL - USO INTERNO DA CAMPANHA\n';
+    text += '==================================================\n\n';
+
+    for (let i = 1; i <= TOTAL; i++) {
+      text += questions[i - 1] + '\n';
+      text += '--------------------------------------------------\n';
+      text += (data['q' + i] && data['q' + i].trim()) ? data['q' + i].trim() : '[Nao respondida]';
+      text += '\n\n';
+    }
+    return text;
+  }
+
+  function exportTXT() {
+    const filename = 'GILSON_QUESTIONARIO_RESPOSTAS_' + buildDateStamp() + '.txt';
+    downloadFile(filename, buildTextExport(), 'text/plain;charset=utf-8');
+    showToast('Arquivo TXT exportado.');
+  }
+
+  function exportJSON() {
+    const data = getStoredData();
+    const payload = {
+      candidate: 'Gilson Marques',
+      campaign: 'Gilson Marques 2026',
+      exported_at: new Date().toISOString(),
+      source_file: 'GILSON_ARCHETYPE_QUESTIONNAIRE_FILLABLE.html',
+      answers: {}
+    };
+
+    for (let i = 1; i <= TOTAL; i++) {
+      payload.answers['q' + i] = {
+        question: questions[i - 1],
+        answer: data['q' + i] || ''
+      };
+    }
+
+    downloadFile(
+      'GILSON_QUESTIONARIO_RESPOSTAS_' + buildDateStamp() + '.json',
+      JSON.stringify(payload, null, 2),
+      'application/json;charset=utf-8'
+    );
+    showToast('Arquivo JSON exportado.');
+  }
+
+  async function copyAll() {
+    const text = buildTextExport();
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast('Conteudo copiado.');
+    } catch (error) {
+      showToast('Nao foi possivel copiar automaticamente.');
+    }
+  }
+
+  function clearAll() {
+    const confirmed = window.confirm('Tem certeza? Todas as respostas salvas neste navegador serao apagadas.');
+    if (!confirmed) return;
+
+    localStorage.removeItem(STORAGE_KEY);
+    for (let i = 1; i <= TOTAL; i++) {
+      const field = document.getElementById('q' + i);
+      if (field) field.value = '';
+    }
+    updateProgress();
+    showToast('Respostas apagadas.');
+  }
+
+  function buildDateStamp() {
+    const now = new Date();
+    const pad = (value) => String(value).padStart(2, '0');
+    return now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate()) + '_' + pad(now.getHours()) + pad(now.getMinutes());
+  }
+
+  function downloadFile(filename, content, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  setInterval(() => {
+    saveToStorage();
+  }, 30000);
+</script>
+</body>
+</html>

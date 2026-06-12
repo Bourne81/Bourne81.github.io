@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AGB // Teacher Intelligence Brief — Alan Nicolas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --midnight:#0C1B2A;--navy:#07111F;--charcoal:#1A1A1A;
+  --ivory:#F4EFE7;--stone:#D8CFC4;--dim:rgba(244,239,231,.6);
+  --gold:#C6A15B;--gold-border:rgba(198,161,91,.2);--gold-dim:rgba(198,161,91,.5);
+  --red:rgba(180,40,40,.7);--red-border:rgba(180,40,40,.25);
+  --green:rgba(60,120,80,.7);--green-border:rgba(60,120,80,.25);
+  --serif:'Playfair Display',serif;--sans:'Inter',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+html,body{background:var(--midnight);color:var(--ivory);font-family:var(--sans);font-size:14px;line-height:1.7;}
+.page{max-width:800px;margin:0 auto;padding:60px 32px 100px;}
+
+/* HEADER */
+.doc-header{border-bottom:1px solid var(--gold-border);padding-bottom:32px;margin-bottom:56px;}
+.doc-stamp{display:inline-block;border:1px solid var(--red-border);color:var(--red);font-family:var(--mono);font-size:8px;letter-spacing:.3em;padding:5px 16px;margin-bottom:24px;transform:rotate(-1deg);}
+.doc-label{font-family:var(--mono);font-size:8px;letter-spacing:.25em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:12px;}
+.doc-title{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);color:var(--gold);line-height:1.1;margin-bottom:8px;}
+.doc-sub{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;}
+
+/* SECTIONS */
+.section{margin-bottom:64px;}
+.section-label{font-family:var(--mono);font-size:8px;letter-spacing:.3em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
+.section-title{font-family:var(--serif);font-size:1.5rem;color:var(--ivory);line-height:1.2;margin-bottom:4px;}
+.section-rule{width:40px;height:1px;background:var(--gold-border);margin:12px 0 32px;}
+.section-body{color:var(--dim);font-size:.9rem;line-height:1.9;font-weight:300;margin-bottom:24px;}
+.section-body strong{color:var(--ivory);font-weight:500;}
+
+/* CARDS */
+.card{border:1px solid var(--gold-border);padding:20px 24px;margin-bottom:12px;background:rgba(7,17,31,.4);}
+.card-label{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
+.card-title{font-size:.95rem;color:var(--ivory);font-weight:500;margin-bottom:6px;}
+.card-body{font-size:.85rem;color:var(--dim);line-height:1.8;font-weight:300;}
+.card-example{font-family:var(--mono);font-size:.8rem;color:rgba(198,161,91,.4);margin-top:8px;line-height:1.7;}
+.card.flag{border-left:3px solid var(--red);}
+.card.note{border-left:3px solid rgba(100,140,200,.4);}
+.card.priority{border-left:3px solid var(--gold);}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;margin-top:8px;}
+.tbl th{font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;padding:10px 16px;border-bottom:1px solid var(--gold-border);text-align:left;}
+.tbl td{padding:12px 16px;border-bottom:1px solid rgba(198,161,91,.08);font-size:.85rem;color:var(--dim);line-height:1.7;vertical-align:top;}
+.tbl td:first-child{color:var(--ivory);font-weight:500;white-space:nowrap;}
+.tbl tr:last-child td{border-bottom:none;}
+
+/* QUESTION LIST */
+.q-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.q-list li{padding:14px 18px;border:1px solid var(--gold-border);background:rgba(7,17,31,.3);}
+.q-list li .q-tag{font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;display:block;margin-bottom:4px;}
+.q-list li .q-text{font-size:.9rem;color:var(--ivory);font-style:italic;}
+.q-list li .q-why{font-size:.8rem;color:var(--dim);margin-top:4px;}
+
+/* PILLARS */
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.pillar-card{border:1px solid var(--gold-border);padding:18px 20px;}
+.pillar-name{font-family:var(--serif);font-size:1rem;color:var(--gold);margin-bottom:4px;}
+.pillar-body{font-size:.82rem;color:var(--dim);line-height:1.75;font-weight:300;}
+
+/* PRINT */
+@media print{
+  body{background:#fff;color:#000;}
+  .page{padding:20px 24px;}
+  .card{border-color:#ccc;}
+  .tbl td,.tbl th{border-color:#ddd;}
+  .doc-stamp,.section-label{color:#666;}
+  .doc-title,.section-title,.card-title{color:#000;}
+  .section-body,.card-body,.q-why{color:#333;}
+  .card-example{color:#888;}
+}
+@media(max-width:600px){.pillars{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="doc-header">
+  <a href="operative-dossier.html" style="display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.15em;color:rgba(198,161,91,.4);text-decoration:none;border:1px solid rgba(198,161,91,.12);padding:5px 12px;margin-bottom:20px;transition:all .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(198,161,91,.4)'">← return to dossier</a>
+  <div class="doc-stamp">// teacher copy — not for student</div>
+  <div class="doc-label">AGB Intelligence Division — Class Preparation Brief</div>
+  <h1 class="doc-title">Teacher's Observation Guide</h1>
+  <div class="doc-sub">Operative: Alan Nicolas &nbsp;·&nbsp; CIPHER Protocol v2.0 &nbsp;·&nbsp; Session 01</div>
+</div>
+
+<!-- SECTION 1: WHY THIS GUIDE EXISTS -->
+<div class="section">
+  <div class="section-label">// 01</div>
+  <h2 class="section-title">What We're Trying to Identify</h2>
+  <div class="section-rule"></div>
+  <p class="section-body">The assessment gives you Alan's self-reported data and MCQ performance. The class gives you live production data — the stuff MCQs can't measure. Your job in Session 01 is to listen, note, and map what you hear to teaching priorities. Every question you ask him, every task you give him, is a diagnostic instrument.</p>
+  <p class="section-body">The five things you need to know by the end of Session 01:</p>
+  <div class="pillars">
+    <div class="pillar-card">
+      <div class="pillar-name">1. Transfer interference</div>
+      <div class="pillar-body">Which specific Brazilian Portuguese patterns are bleeding into his English? These are systematic — they will repeat every session until you name them and drill against them.</div>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-name">2. Confidence gap</div>
+      <div class="pillar-body">Where does his language collapse under pressure? Is it vocabulary, structure, or does he simply shut down? The gap between his thinking and his English is the programme.</div>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-name">3. Register range</div>
+      <div class="pillar-body">Can he shift from casual English to investor English to interview English? Which registers does he avoid? The one he avoids most is the one he needs most.</div>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-name">4. Avoidance patterns</div>
+      <div class="pillar-body">What structures or vocabulary does he never attempt? Avoidance is diagnostic gold — it tells you where he's already aware of a weakness and compensating around it.</div>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-name">5. Natural rhythm</div>
+      <div class="pillar-body">What is his default sentence length, pace, and filler style in English? This is his starting point. Everything you teach needs to be scaffolded from this baseline.</div>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-name">6. Written vs spoken gap</div>
+      <div class="pillar-body">Compare his writing sample (from the assessment) to his spoken production. Many learners write far better than they speak — the gap tells you where to focus first.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: BRAZILIAN PORTUGUESE INTERFERENCE CHECKLIST -->
+<div class="section">
+  <div class="section-label">// 02</div>
+  <h2 class="section-title">Brazilian Interference Checklist</h2>
+  <div class="section-rule"></div>
+  <p class="section-body">These are the most common Brazilian Portuguese → English transfer errors at B1–C1 level. Tick each one you hear during the session. The most frequently occurring patterns become Priority 1 items in the programme.</p>
+
+  <div class="card flag">
+    <div class="card-label">// HIGH PRIORITY — very common at B1–B2</div>
+    <div class="card-title">1. Present perfect vs simple past</div>
+    <div class="card-body">Brazilian Portuguese uses the simple past where English uses the present perfect. Result: "I did it yesterday" ✓ but also "I worked here for three years" (when still working) ✗.</div>
+    <div class="card-example">Listen for: "I started my company in 2019 and I built it since then." → should be "have been building"</div>
+  </div>
+
+  <div class="card flag">
+    <div class="card-label">// HIGH PRIORITY — systematic error</div>
+    <div class="card-title">2. Subject omission</div>
+    <div class="card-body">Portuguese is a pro-drop language — the subject is implied. English requires it always. Result: "Is difficult to explain" / "Was the right decision".</div>
+    <div class="card-example">Listen for: "Is hard to describe, but basically is a platform that..."</div>
+  </div>
+
+  <div class="card flag">
+    <div class="card-label">// HIGH PRIORITY — affects professional credibility</div>
+    <div class="card-title">3. False cognates (the lethal ones)</div>
+    <div class="card-body"><strong>actually</strong> (used for Portuguese "atualmente" = currently/nowadays) — "I actually work with AI" meaning "I currently work with AI". In English "actually" signals a correction. <br>
+    <strong>eventually</strong> (used for Portuguese "eventualmente" = possibly/sometimes) — "Eventually we do conferences" meaning "sometimes we do conferences".<br>
+    <strong>pretend</strong> (used for "pretender" = to intend) — "I pretend to expand globally" meaning "I intend to expand globally".</div>
+    <div class="card-example">Note every false cognate use — they will damage credibility in investor contexts</div>
+  </div>
+
+  <div class="card flag">
+    <div class="card-label">// HIGH PRIORITY — grammar</div>
+    <div class="card-title">4. Uncountable nouns treated as countable</div>
+    <div class="card-body">Portuguese speakers regularly pluralise: "informations", "advices", "feedbacks", "knowledges", "researches". These are all uncountable in English.</div>
+    <div class="card-example">Listen for: "I have many feedbacks from students" / "We do many researches"</div>
+  </div>
+
+  <div class="card note">
+    <div class="card-label">// MEDIUM PRIORITY — affects fluency</div>
+    <div class="card-title">5. Gerund vs infinitive after certain verbs</div>
+    <div class="card-body">"enjoy to work" → "enjoy working" / "avoid to use" → "avoid using" / "suggest to do" → "suggest doing"</div>
+    <div class="card-example">Listen for: "I enjoy to speak English" / "I avoid to make mistakes"</div>
+  </div>
+
+  <div class="card note">
+    <div class="card-label">// MEDIUM PRIORITY — preposition transfer</div>
+    <div class="card-title">6. Preposition errors</div>
+    <div class="card-body">"in Monday" → "on Monday" / "in the morning of Monday" → common compound confusion / "explain me" → "explain to me" / "depend of" → "depend on"</div>
+  </div>
+
+  <div class="card note">
+    <div class="card-label">// MEDIUM PRIORITY — syntax</div>
+    <div class="card-title">7. Indirect question word order</div>
+    <div class="card-body">"Can you tell me where is the meeting?" → "Can you tell me where the meeting is?" — Portuguese syntax inverts the verb; English indirect questions do not.</div>
+  </div>
+
+  <div class="card note">
+    <div class="card-label">// MEDIUM PRIORITY — register</div>
+    <div class="card-title">8. Make vs do confusion</div>
+    <div class="card-body">"make a decision" ✓ / "do a decision" ✗ — "make a course" → "take a course" / "make an effort" ✓ / "do an effort" ✗</div>
+  </div>
+
+  <div class="card note">
+    <div class="card-label">// WATCH FOR — discourse structure</div>
+    <div class="card-title">9. Portuguese sentence structure imposed on English</div>
+    <div class="card-body">Long subordinate clauses stacked in Portuguese order before the main point. In English, the main point leads. Listen for heavily front-loaded sentences that bury the key idea.</div>
+    <div class="card-example">Portuguese pattern: "Because of the fact that we had already developed the technology, and given that the market was ready for it, we decided to launch."<br>English pattern: "We launched — the tech was ready and the market was too."</div>
+  </div>
+
+  <div class="card note">
+    <div class="card-label">// WATCH FOR — pronunciation</div>
+    <div class="card-title">10. Phonological transfer</div>
+    <div class="card-body">Key sounds to listen for:<br>
+    • <strong>th</strong> → often /d/ or /t/ ("dis" for "this", "tree" for "three")<br>
+    • <strong>Final consonant clusters</strong> → "tests" → "tes-tis", "months" → simplification<br>
+    • <strong>Vowel reduction</strong> → "economy" stress misplaced<br>
+    • <strong>-ed past tense</strong> → /ɪd/ added where not needed ("worked" → "worked-id")<br>
+    • <strong>Nasal vowels</strong> → English vowels nasalised unnecessarily</div>
+  </div>
+</div>
+
+<!-- SECTION 3: QUESTIONS TO ASK IN CLASS -->
+<div class="section">
+  <div class="section-label">// 03</div>
+  <h2 class="section-title">Live Elicitation Questions</h2>
+  <div class="section-rule"></div>
+  <p class="section-body">These questions look like conversation but are structured to extract specific data. Ask naturally, in sequence, noting what you hear. Each question is designed to elicit a different aspect of his production.</p>
+
+  <ul class="q-list">
+    <li>
+      <span class="q-tag">// spontaneous production — fluency baseline</span>
+      <span class="q-text">"Tell me what you're working on right now — the most important thing on your plate today."</span>
+      <div class="q-why">Diagnostic: You get unprepared, topic-specific English. Note: sentence length, fillers ("like", "basically", "you know"), tense consistency, subject omission.</div>
+    </li>
+    <li>
+      <span class="q-tag">// narrative production — past tense / present perfect</span>
+      <span class="q-text">"Walk me through how Academia Lendária started — from the very beginning. What actually happened?"</span>
+      <div class="q-why">Diagnostic: Forces a past-tense narrative. Listen for: present perfect vs simple past confusion, false cognate "actually", verb sequence errors. Does he use "I started" or "I have started"?</div>
+    </li>
+    <li>
+      <span class="q-tag">// pressure response — directness test</span>
+      <span class="q-text">"If I told you right now that your English sounds like someone who learned from textbooks, not from life — what would you say?"</span>
+      <div class="q-why">Diagnostic: High pressure response. Does his English deteriorate? Does he hedge or stay direct? Note: conditional structures, vocabulary reach, confidence markers.</div>
+    </li>
+    <li>
+      <span class="q-tag">// register shift — investor register</span>
+      <span class="q-text">"Pretend I've never heard of AIOX. Pitch it to me in 60 seconds — I'm a US-based edtech investor."</span>
+      <div class="q-why">Diagnostic: Forces investor register. Does he shift register from casual? Note: precision of language, structure of argument, use of numbers and specifics, pronunciation under performance pressure.</div>
+    </li>
+    <li>
+      <span class="q-tag">// meta-awareness — self-diagnosis</span>
+      <span class="q-text">"When you imagine yourself speaking perfect English — the version you want — what sounds different from what you do now?"</span>
+      <div class="q-why">Diagnostic: Reveals what Alan already knows about his gaps. Self-awareness is teaching gold — it tells you what he'll be motivated to fix. Also forces him to use hedging, conditional language, and abstract vocabulary.</div>
+    </li>
+    <li>
+      <span class="q-tag">// vocabulary probe — range test</span>
+      <span class="q-text">"Describe the difference between AIOX and a regular online course platform — but without using the words 'content', 'course', or 'platform'."</span>
+      <div class="q-why">Diagnostic: Vocabulary constraints force precision. Can he find synonyms and paraphrases? Does he freeze or adapt? This reveals his active vocabulary range beyond stock phrases.</div>
+    </li>
+    <li>
+      <span class="q-tag">// written vs spoken gap</span>
+      <span class="q-text">"Read me what you wrote in the assessment — out loud, slowly, as if you were presenting it."</span>
+      <div class="q-why">Diagnostic: Compares his written and spoken English. Reveals pronunciation issues on his own words and whether he sounds as good aloud as on paper. Also listen for whether he auto-corrects while reading.</div>
+    </li>
+    <li>
+      <span class="q-tag">// interference trap — false cognates</span>
+      <span class="q-text">"What do you eventually want to do with AIOX internationally — what actually comes next?"</span>
+      <div class="q-why">Diagnostic: Uses "eventually" and "actually" naturally in the question. Does he echo them back with the wrong meaning? A positive sign if he uses them correctly unprompted. A flag if he mirrors the usage incorrectly.</div>
+    </li>
+    <li>
+      <span class="q-tag">// discourse structure — argument building</span>
+      <span class="q-text">"Make the case for why AI education will be the most important category in global edtech by 2030. You have 90 seconds."</span>
+      <div class="q-why">Diagnostic: Extended argument production. Does he structure: claim → evidence → conclusion? Or does he list points without connecting them? This reveals his English discourse logic vs Portuguese discourse logic.</div>
+    </li>
+    <li>
+      <span class="q-tag">// emotional register — personal language</span>
+      <span class="q-text">"What do you want people to feel when they finish a course on your platform?"</span>
+      <div class="q-why">Diagnostic: Forces emotional/abstract vocabulary — the hardest register for technical founders. Note: does he reach for specific words or retreat to generics ("good", "happy", "better")?</div>
+    </li>
+  </ul>
+</div>
+
+<!-- SECTION 4: SPOKEN TASK ANALYSIS GUIDE -->
+<div class="section">
+  <div class="section-label">// 04</div>
+  <h2 class="section-title">Spoken Task Analysis Guide</h2>
+  <div class="section-rule"></div>
+  <p class="section-body">The assessment contains two recorded spoken tasks. Before Session 01, listen to both recordings with the checklist below. Use what you find to calibrate which live questions to lead with.</p>
+
+  <div class="card priority">
+    <div class="card-label">// spoken I — spontaneous production (60 seconds on AIOX + Academia Lendária)</div>
+    <div class="card-title">What to listen for</div>
+    <div class="card-body">
+      □ How long is his first sentence before he pauses?<br>
+      □ Does he use filler phrases? (basically, like, you know, kind of, so...)<br>
+      □ How quickly does he get to the main point? (Portuguese speakers often delay)<br>
+      □ Does he use present tense for past facts? ("We have 20,000 students" → past or current?)<br>
+      □ Are there false cognate moments?<br>
+      □ Does pronunciation clarity drop on longer words?<br>
+      □ How does he end? Confident landing or trailing off?
+    </div>
+  </div>
+
+  <div class="card priority">
+    <div class="card-label">// spoken II — pressure response (responding to "isn't that just ChatGPT?")</div>
+    <div class="card-title">What to listen for</div>
+    <div class="card-body">
+      □ Does his sentence structure change under pressure? (Does he get shorter and choppier?)<br>
+      □ Does he use hedging ("I think maybe..." vs "No — here's why...")?<br>
+      □ Does his vocabulary precision improve or decline under challenge?<br>
+      □ Is his argument structured (claim → rebuttal → evidence) or reactive (emotional, scattered)?<br>
+      □ Does he finish strong or trail off?<br>
+      □ How is his pronunciation under emotional engagement?
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: MAPPING ERRORS TO PROGRAMME PRIORITIES -->
+<div class="section">
+  <div class="section-label">// 05</div>
+  <h2 class="section-title">Error → Priority Mapping</h2>
+  <div class="section-rule"></div>
+  <p class="section-body">After Session 01, use this table to map what you observed to the programme structure. The most frequent, highest-impact errors become Sessions 2–4. Lower-frequency errors get woven in as correction moments, not full sessions.</p>
+
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>Error type observed</th>
+        <th>Programme impact</th>
+        <th>First intervention</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Present perfect / past confusion</td>
+        <td>High — damages credibility in narrative</td>
+        <td>Session 2: Tense precision module</td>
+      </tr>
+      <tr>
+        <td>False cognates (actually / eventually)</td>
+        <td>Critical — creates wrong meaning, looks like lack of proficiency</td>
+        <td>Session 2: Hot list card — 12 lethal false cognates</td>
+      </tr>
+      <tr>
+        <td>Subject omission</td>
+        <td>High — marks him as intermediate to native listeners</td>
+        <td>Session 3: Subject-first drilling, correction reflex</td>
+      </tr>
+      <tr>
+        <td>Uncountable nouns</td>
+        <td>Medium — noticeable to educated speakers</td>
+        <td>Session 3: Target list for his specific vocabulary set</td>
+      </tr>
+      <tr>
+        <td>Sentence structure (point-last)</td>
+        <td>High — affects persuasion and investor communication</td>
+        <td>Session 4: The Inverted Pyramid — claim first, always</td>
+      </tr>
+      <tr>
+        <td>Fluency / filler overload</td>
+        <td>Medium-high — reads as uncertainty even when he's certain</td>
+        <td>Sessions 2–4: Pause training, silence-as-authority drills</td>
+      </tr>
+      <tr>
+        <td>Register rigidity</td>
+        <td>High — cannot show range = cannot show mastery</td>
+        <td>Session 5+: Register switching drills, investor/casual/interview modes</td>
+      </tr>
+      <tr>
+        <td>Pronunciation (th, clusters)</td>
+        <td>Medium — affects how "native" he sounds</td>
+        <td>Embedded in every session — not a dedicated unit</td>
+      </tr>
+      <tr>
+        <td>Vocabulary precision (reaching for generics)</td>
+        <td>Medium-high — limits expressiveness in key registers</td>
+        <td>Sessions 3+: Active vocabulary expansion in his domain</td>
+      </tr>
+      <tr>
+        <td>Indirect question structure</td>
+        <td>Low-medium — rare but notable when it occurs</td>
+        <td>Address on occurrence, not as standalone unit</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 6: DISC-INFORMED TEACHING APPROACH -->
+<div class="section">
+  <div class="section-label">// 06</div>
+  <h2 class="section-title">DISC-Informed Approach</h2>
+  <div class="section-rule"></div>
+  <p class="section-body">Alan's DISC profile (from the assessment) determines how to deliver corrections and new material. Different DISC profiles respond very differently to the same teaching technique.</p>
+
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>If his primary DISC is</th>
+        <th>How to frame corrections</th>
+        <th>What to avoid</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>D — Dominance</td>
+        <td>Direct and fast. "That was wrong — here's the right one. Again." No softening. He respects precision and speed. Give him the pattern, then let him drill it to mastery himself.</td>
+        <td>Over-explaining. He doesn't need the theory — he needs the result. Don't ask "how do you feel about the correction?"</td>
+      </tr>
+      <tr>
+        <td>I — Influence</td>
+        <td>Frame errors as performance upgrades. "The way you said that now is B2. This version is C1 — it's more you." He responds to the idea of the best version of himself.</td>
+        <td>Dry repetition without narrative. He needs the story of why this matters, not just the drill.</td>
+      </tr>
+      <tr>
+        <td>S — Steadiness</td>
+        <td>Predictable structure, consistent feedback. Build slowly. He will improve steadily if the environment feels safe. Name errors gently — he's self-aware and already knows.</td>
+        <td>Surprise challenges, sudden high-pressure tasks without warning. Ease into the pressure drills.</td>
+      </tr>
+      <tr>
+        <td>C — Conscientiousness</td>
+        <td>Evidence-based. Show him the rule, the exception, the data. He will want to understand why before he accepts the correction. Give him reference material.</td>
+        <td>Vague feedback. "That wasn't quite right" is useless to him. He needs "that was X, the correct form is Y because Z."</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 7: SESSION 01 STRUCTURE -->
+<div class="section">
+  <div class="section-label">// 07</div>
+  <h2 class="section-title">Suggested Session 01 Flow</h2>
+  <div class="section-rule"></div>
+
+  <div class="card">
+    <div class="card-label">// 00:00–05:00 — establish baseline</div>
+    <div class="card-title">Open with question 1 (what's on his plate today)</div>
+    <div class="card-body">Don't correct yet. Just listen. You're calibrating his natural baseline — sentence length, filler patterns, default tense. Take notes only, say nothing about what you're observing.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">// 05:00–15:00 — narrative elicitation</div>
+    <div class="card-title">Questions 2 and 5 (origin story + self-diagnosis)</div>
+    <div class="card-body">The origin story forces past tense. The self-diagnosis reveals what he already knows about himself — this tells you what he's motivated to fix. Start introducing light corrections here: echo the correct form back in your response without flagging it explicitly.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">// 15:00–30:00 — pressure tasks</div>
+    <div class="card-title">Questions 3 and 4 (pressure response + investor pitch)</div>
+    <div class="card-body">This is where you'll get the most diagnostic data. Push back. Ask follow-up questions that weren't prepared. Note exactly where the language breaks down — this is his ceiling for now. Tell him what you observed: "When I pushed back, you switched to shorter sentences and dropped the conditional structure. That's the work."</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">// 30:00–45:00 — register and vocabulary range</div>
+    <div class="card-title">Questions 6 and 9 (vocabulary constraint + argument building)</div>
+    <div class="card-body">The vocabulary constraint task (without the words "content", "course", "platform") is often the most revealing. Does he freeze or adapt? The argument task shows you his discourse logic in English. Compare it to how he'd naturally structure it in Portuguese.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">// 45:00–55:00 — read-back and debrief</div>
+    <div class="card-title">Question 7 (read the written sample aloud) + your observations</div>
+    <div class="card-body">Have him read his written assessment response out loud. Then share your top 3 observations from the session — direct, specific, without softening. End with: "These three things are your first 90 days. Everything else comes after."</div>
+  </div>
+
+  <div class="card priority">
+    <div class="card-label">// session output — what you should have by the end</div>
+    <div class="card-title">Your 3 primary teaching targets for Alan Nicolas</div>
+    <div class="card-body">After Session 01, you should be able to complete this sentence: <em>"Alan's English works well in [X], breaks down in [Y], and is most limited by [Z]. Sessions 2–4 will address Z as Priority 1."</em></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="border-top:1px solid var(--gold-border);padding-top:24px;margin-top:40px;font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:rgba(198,161,91,.2);text-align:center;">
+  — AGB INTELLIGENCE DIVISION — TEACHER COPY — OPERATIVE: ALAN NICOLAS — CIPHER PROTOCOL v2.0 —
+</div>
+
+</div>
+</body>
+</html>

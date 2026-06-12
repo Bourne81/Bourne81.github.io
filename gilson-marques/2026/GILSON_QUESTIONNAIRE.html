@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionário Estratégico — Gilson Marques 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green: #2D5016;
+    --green-light: #3a6b1e;
+    --green-pale: #f0f4eb;
+    --charcoal: #2a2a2a;
+    --charcoal-mid: #444;
+    --white: #ffffff;
+    --stone: #f7f6f3;
+    --border: #d4dcc8;
+    --saved: #4a7c20;
+  }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--stone);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--green);
+    color: var(--white);
+    padding: 48px 0 40px;
+    text-align: center;
+    position: relative;
+  }
+  .header-inner { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  .header-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .header-sub {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    opacity: 0.75;
+    font-style: italic;
+  }
+  .brand-line {
+    width: 48px;
+    height: 2px;
+    background: rgba(255,255,255,0.4);
+    margin: 20px auto 0;
+  }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-bar-wrap .label {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    color: var(--charcoal-mid);
+    white-space: nowrap;
+  }
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .save-indicator {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: var(--saved);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .save-indicator.visible { opacity: 1; }
+
+  /* INTRO */
+  .intro {
+    max-width: 720px;
+    margin: 48px auto 0;
+    padding: 0 24px;
+  }
+  .intro-box {
+    background: var(--white);
+    border-left: 4px solid var(--green);
+    padding: 32px 36px;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .intro-box p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--charcoal-mid);
+    margin-bottom: 14px;
+  }
+  .intro-box p:last-child { margin-bottom: 0; }
+  .intro-box strong { color: var(--charcoal); }
+
+  /* LAYER HEADER */
+  .layer-header {
+    max-width: 720px;
+    margin: 56px auto 0;
+    padding: 0 24px;
+  }
+  .layer-number {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .layer-title {
+    font-size: 22px;
+    color: var(--charcoal);
+    font-weight: normal;
+    margin-bottom: 6px;
+  }
+  .layer-desc {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    color: #888;
+    font-style: italic;
+  }
+  .layer-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin-top: 20px;
+  }
+
+  /* QUESTION CARD */
+  .questions { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
+  .q-card {
+    background: var(--white);
+    border-radius: 4px;
+    padding: 32px 36px;
+    margin-top: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s;
+  }
+  .q-card:focus-within {
+    box-shadow: 0 2px 12px rgba(45,80,22,0.12);
+  }
+  .q-number {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+  .q-text {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--charcoal);
+    margin-bottom: 10px;
+  }
+  .q-why {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 2px solid var(--border);
+    line-height: 1.6;
+  }
+  textarea {
+    width: 100%;
+    min-height: 140px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 16px;
+    font-family: 'Georgia', serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--charcoal);
+    background: var(--stone);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  textarea:focus {
+    border-color: var(--green);
+    background: var(--white);
+  }
+  textarea::placeholder { color: #bbb; font-style: italic; }
+
+  /* BONUS */
+  .bonus-card {
+    background: var(--green);
+    color: var(--white);
+    border-radius: 4px;
+    padding: 32px 36px;
+    margin-top: 24px;
+  }
+  .bonus-card .q-number { color: rgba(255,255,255,0.6); }
+  .bonus-card .q-text { color: var(--white); }
+  .bonus-card .q-why { color: rgba(255,255,255,0.65); border-left-color: rgba(255,255,255,0.2); }
+  .bonus-card textarea {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    color: var(--white);
+  }
+  .bonus-card textarea:focus {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.5);
+  }
+  .bonus-card textarea::placeholder { color: rgba(255,255,255,0.4); }
+
+  /* ACTIONS */
+  .actions {
+    max-width: 720px;
+    margin: 40px auto 0;
+    padding: 0 24px 80px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: var(--green-light); }
+  .btn-secondary {
+    background: var(--white);
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+  .btn-secondary:hover { background: var(--green-pale); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--charcoal);
+    color: var(--white);
+    padding: 14px 24px;
+    border-radius: 4px;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.green { background: var(--green); }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: #bbb;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-label">Confidencial — Uso Interno da Campanha</div>
+    <h1>Questionário de Inteligência Estratégica</h1>
+    <div class="header-sub">Gilson Marques — Senado 2026</div>
+    <div class="brand-line"></div>
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <span class="label">Progresso</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="label" id="progressText">0 / 16</span>
+  <span class="save-indicator" id="saveIndicator">✓ Salvo automaticamente</span>
+</div>
+
+<div class="intro">
+  <div class="intro-box">
+    <p><strong>Gilson,</strong></p>
+    <p>Estas perguntas não são sobre política. São sobre você.</p>
+    <p>Não existe resposta certa ou errada. Não existe resposta que soe bem ou mal. O que precisamos são das respostas verdadeiras — as que você nunca colocaria num press release, as que você guarda pra si mesmo.</p>
+    <p>O trabalho de comunicação que estamos construindo é baseado na sua história real. <strong>Quanto mais honesto você for aqui, mais poderoso fica tudo o que produzimos.</strong></p>
+    <p>Suas respostas são salvas automaticamente a cada tecla digitada. Use o botão "Exportar Respostas" a qualquer momento para fazer um backup em arquivo.</p>
+  </div>
+</div>
+
+<!-- LAYER 1 -->
+<div class="layer-header">
+  <div class="layer-number">Camada 1 — 5 perguntas</div>
+  <div class="layer-title">Origem & Ferida</div>
+  <div class="layer-desc">Quem você era antes de tudo isso</div>
+  <div class="layer-divider"></div>
+</div>
+
+<div class="questions">
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 01</div>
+    <div class="q-text">Dentre todas as cidades — Pinhalzinho, Fraiburgo, Blumenau, Rodeio, Pomerode — qual mudança foi a mais difícil? O que você perdeu nela que nunca recuperou completamente?</div>
+    <div class="q-why">A ferida de origem é o que torna o lado humano crível. Não queremos a versão bonita. Queremos o momento que ainda pesa.</div>
+    <textarea id="q1" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 02</div>
+    <div class="q-text">Seu pai era funcionário da Caixa Econômica Federal — uma instituição do Estado que você hoje critica. Como era a relação com ele? Você via nele um homem preso no sistema, ou alguém que acreditava no que fazia? Essa tensão influenciou sua visão sobre o Estado?</div>
+    <div class="q-why">A relação pai-filho neste contexto específico é narrativa cinematográfica. Precisamos saber se há conflito real ou reconciliação — ambos funcionam, de formas diferentes.</div>
+    <textarea id="q2" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 03</div>
+    <div class="q-text">Qual foi o momento exato — um indiciamento, uma notícia, uma conversa — em que você sentiu que não conseguia mais ficar só observando a Lava-Jato de Pomerode? O que passou pela sua cabeça naquele momento?</div>
+    <div class="q-why">"Entrei por indignação, não por ambição" é poderoso — mas precisamos do momento específico que torna essa afirmação irrefutável.</div>
+    <textarea id="q3" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 04</div>
+    <div class="q-text">O que Pomerode te ensinou sobre como viver que Brasília tenta fazer você esquecer?</div>
+    <div class="q-why">Pomerode é o símbolo visual e cultural do que você representa. É a âncora do lado humano — precisamos saber o que você sente sobre esse lugar.</div>
+    <textarea id="q4" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 05</div>
+    <div class="q-text">O que você tinha mais medo de perder quando decidiu que ia entrar na política? Esse medo se confirmou em alguma parte?</div>
+    <div class="q-why">Vulnerabilidade autêntica aqui é ouro. O Rebel que tem algo a perder é mais humano do que o que não tem nada a perder.</div>
+    <textarea id="q5" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+</div>
+
+<!-- LAYER 2 -->
+<div class="layer-header">
+  <div class="layer-number">Camada 2 — 5 perguntas</div>
+  <div class="layer-title">A Rebelião</div>
+  <div class="layer-desc">O que você fez — e como foi</div>
+  <div class="layer-divider"></div>
+</div>
+
+<div class="questions">
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 06</div>
+    <div class="q-text">No seu primeiro dia como deputado federal, você renunciou a todos os privilégios parlamentares. Descreva esse dia em detalhes. Alguém tentou te convencer a não fazer? O que você sentiu quando se recusou a assinar?</div>
+    <div class="q-why">Este é o seu momento definidor e nunca foi contado com detalhes reais. Precisamos de cada detalhe — onde você estava, quem estava na sala, o que a secretária disse.</div>
+    <textarea id="q6" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 07</div>
+    <div class="q-text">Em 2019, vocês identificaram que o governo havia inflado o Fundo Eleitoral. Vocês foram acusados de fake news. O governo depois confirmou o erro. Descreva o período entre a acusação e a confirmação. O que você sentiu quando provaram que você estava certo?</div>
+    <div class="q-why">Esta é a história perfeita do advogado como arma — precisamos da emoção real, não da versão parlamentar.</div>
+    <textarea id="q7" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 08</div>
+    <div class="q-text">Além dos privilégios formais que você renunciou publicamente, houve alguma situação — um acordo não dito, uma pressão de bastidores, uma oferta — que você recusou e que nunca foi a público? Não precisa dar nomes. Mas existiu?</div>
+    <div class="q-why">Se existir, é o momento mais poderoso que ninguém conhece. Se não existir, a própria pergunta já revela o caráter.</div>
+    <textarea id="q8" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 09</div>
+    <div class="q-text">Você entrou no NOVO, passou pelo processo meritocrático, foi o primeiro deputado NOVO eleito em SC. Mas sua identidade pública é claramente pessoal, não partidária. Como você define sua relação com o partido hoje? Onde o NOVO termina e você começa?</div>
+    <div class="q-why">Precisamos saber onde você mesmo traça essa linha para nunca cruzá-la na comunicação.</div>
+    <textarea id="q9" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 10</div>
+    <div class="q-text">Dentro do campo político — não precisa ser do seu lado — existe alguém com quem você discorda mas respeita genuinamente? Por quê?</div>
+    <div class="q-why">A resposta revela o que você valoriza além da ideologia. Um político que respeita adversários honestos é mais crível do que um que só ataca.</div>
+    <textarea id="q10" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+</div>
+
+<!-- LAYER 3 -->
+<div class="layer-header">
+  <div class="layer-number">Camada 3 — 5 perguntas</div>
+  <div class="layer-title">A Missão</div>
+  <div class="layer-desc">O que você quer — de verdade</div>
+  <div class="layer-divider"></div>
+</div>
+
+<div class="questions">
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 11</div>
+    <div class="q-text">Você poderia se reeleger deputado com conforto. Por que o Senado especificamente? Qual batalha existe lá que não existe na Câmara?</div>
+    <div class="q-why">A resposta a esta pergunta é o núcleo do discurso de candidatura. Precisa ser visceral, não estratégica.</div>
+    <textarea id="q11" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 12</div>
+    <div class="q-text">Qual seria a primeira coisa concreta e específica que você faria no primeiro dia como senador — que nenhum senador atual faria?</div>
+    <div class="q-why">Especificidade é credibilidade. "Vou lutar por SC" não funciona. "No dia 1 vou protocolar X" funciona.</div>
+    <textarea id="q12" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 13</div>
+    <div class="q-text">Quando você pensa no catarinense que quer representar no Senado — não o eleitor abstrato, mas uma pessoa real que você conhece ou imagina — quem é essa pessoa? O que ela faz, o que ela teme, o que ela merece que ainda não tem?</div>
+    <div class="q-why">O lado humano precisa de um rosto concreto. A resposta alimenta diretamente o tom de toda a comunicação.</div>
+    <textarea id="q13" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 14</div>
+    <div class="q-text">Se você for para o Senado e travar as batalhas que você diz que vai travar — STF, orçamento, prerrogativas parlamentares — você vai fazer inimigos poderosos. O que você está disposto a perder para fazer isso?</div>
+    <div class="q-why">Um político que sabe exatamente o que está apostando é humano e crível. Um que não tem limite parece performático.</div>
+    <textarea id="q14" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 15</div>
+    <div class="q-text">Não sobre sua carreira política. Não sobre sua legislação. Sobre você como pessoa. Quando as pessoas que te conhecem falam sobre quem você foi daqui a 20 anos — o que você quer que digam?</div>
+    <div class="q-why">Esta é a resposta que ancora tudo. É o que você quer deixar para trás. A resposta a esta pergunta é a última linha de cada discurso de campanha.</div>
+    <textarea id="q15" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+  <!-- BONUS -->
+  <div class="q-card bonus-card">
+    <div class="q-number">Pergunta Bônus — só se o momento for certo</div>
+    <div class="q-text">Se você tivesse que escolher uma imagem — um objeto, um lugar, um momento — que representasse tudo que você é e tudo que você está lutando por, o que seria?</div>
+    <div class="q-why">Esta é a busca pelo símbolo que torna tudo concreto. Não force. Se vier naturalmente, é a resposta mais valiosa de todas.</div>
+    <textarea id="q16" placeholder="Escreva aqui..." oninput="autoSave(this)"></textarea>
+  </div>
+
+</div>
+
+<div class="actions">
+  <button class="btn btn-primary" onclick="exportAnswers()">Exportar Respostas (.txt)</button>
+  <button class="btn btn-secondary" onclick="exportJSON()">Exportar para Sistema (.json)</button>
+  <button class="btn btn-secondary" onclick="clearConfirm()">Limpar Tudo</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="footer">
+  GILSON MARQUES 2026 — CONFIDENCIAL — USO INTERNO DA CAMPANHA
+</div>
+
+<script>
+  const STORAGE_KEY = 'gilson_questionnaire_2026';
+  const TOTAL = 16;
+
+  const questions = [
+    "Q01 — A mudança mais difícil",
+    "Q02 — Relação com o pai e o Estado",
+    "Q03 — O momento que não pôde mais ficar em casa",
+    "Q04 — O que Pomerode te ensinou",
+    "Q05 — O que você temia perder",
+    "Q06 — O dia da renúncia",
+    "Q07 — O Fundo Eleitoral e a fake news",
+    "Q08 — A recusa que ninguém sabe",
+    "Q09 — Sua relação real com o NOVO",
+    "Q10 — O adversário que você respeita",
+    "Q11 — Por que o Senado",
+    "Q12 — O primeiro dia no Senado",
+    "Q13 — O catarinense que você representa",
+    "Q14 — O que você está disposto a perder",
+    "Q15 — O que você quer que digam daqui a 20 anos",
+    "Q16 — BÔNUS: O símbolo"
+  ];
+
+  // Load saved data on page load
+  window.addEventListener('load', () => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      for (let i = 1; i <= TOTAL; i++) {
+        const el = document.getElementById('q' + i);
+        if (el && data['q' + i]) el.value = data['q' + i];
+      }
+    }
+    updateProgress();
+  });
+
+  let saveTimer;
+  function autoSave(el) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      saveToStorage();
+      showSaveIndicator();
+    }, 600);
+    updateProgress();
+  }
+
+  function saveToStorage() {
+    const data = {};
+    for (let i = 1; i <= TOTAL; i++) {
+      const el = document.getElementById('q' + i);
+      if (el) data['q' + i] = el.value;
+    }
+    data._saved = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function showSaveIndicator() {
+    const ind = document.getElementById('saveIndicator');
+    ind.classList.add('visible');
+    setTimeout(() => ind.classList.remove('visible'), 2000);
+  }
+
+  function updateProgress() {
+    let filled = 0;
+    for (let i = 1; i <= TOTAL; i++) {
+      const el = document.getElementById('q' + i);
+      if (el && el.value.trim().length > 10) filled++;
+    }
+    const pct = Math.round((filled / TOTAL) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = filled + ' / ' + TOTAL;
+  }
+
+  function exportAnswers() {
+    saveToStorage();
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const date = new Date().toLocaleDateString('pt-BR');
+    let text = '=====================================\n';
+    text += 'GILSON MARQUES 2026\n';
+    text += 'QUESTIONÁRIO ESTRATÉGICO — RESPOSTAS\n';
+    text += 'Exportado em: ' + date + '\n';
+    text += 'CONFIDENCIAL — USO INTERNO\n';
+    text += '=====================================\n\n';
+
+    for (let i = 1; i <= TOTAL; i++) {
+      text += '-------------------------------------\n';
+      text += questions[i-1] + '\n';
+      text += '-------------------------------------\n';
+      text += (data['q' + i] || '[Não respondida]') + '\n\n';
+    }
+
+    text += '=====================================\n';
+    text += 'Documento gerado para uso interno da campanha Gilson Marques 2026\n';
+    text += '=====================================\n';
+
+    download('GILSON_RESPOSTAS_' + date.replace(/\//g, '-') + '.txt', text);
+    showToast('Respostas exportadas com sucesso.', 'green');
+  }
+
+  function exportJSON() {
+    saveToStorage();
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const output = {
+      candidate: 'Gilson Marques',
+      campaign: 'Senado 2026',
+      exported: new Date().toISOString(),
+      answers: {}
+    };
+    for (let i = 1; i <= TOTAL; i++) {
+      output.answers['q' + i] = {
+        question: questions[i-1],
+        answer: data['q' + i] || ''
+      };
+    }
+    download('GILSON_SISTEMA_' + Date.now() + '.json', JSON.stringify(output, null, 2));
+    showToast('Arquivo JSON exportado para o sistema.', 'green');
+  }
+
+  function clearConfirm() {
+    if (confirm('Tem certeza? Todas as respostas serão apagadas. Esta ação não pode ser desfeita.')) {
+      localStorage.removeItem(STORAGE_KEY);
+      for (let i = 1; i <= TOTAL; i++) {
+        const el = document.getElementById('q' + i);
+        if (el) el.value = '';
+      }
+      updateProgress();
+      showToast('Respostas apagadas.');
+    }
+  }
+
+  function download(filename, text) {
+    const a = document.createElement('a');
+    a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  function showToast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (type ? ' ' + type : '') + ' show';
+    setTimeout(() => t.className = 'toast', 3000);
+  }
+
+  // Auto-save every 30 seconds regardless
+  setInterval(() => {
+    saveToStorage();
+    showSaveIndicator();
+  }, 30000);
+</script>
+</body>
+</html>

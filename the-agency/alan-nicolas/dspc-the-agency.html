@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSPC — The Agency × AGB | Forja Lendár[IA]</title>
+<!--
+  DSPC MAP — The Agency / AGB
+  Metodologia: DSPC de Alan Nicolas (AIOX na Prática · Academia Lendária)
+  Preenchido por: Gabriel Bourne — na noite do live, com a ferramenta que você nos deu.
+  Design: Forja Lendár[IA] — em homenagem ao sistema visual de Alan.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cinzel:wght@400;500;600;700;800;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --preto:#131109; --preto-2:#1B1810; --preto-3:#221E14;
+  --bege:#E8DCC4; --amarelo:#F6C324; --vermelho:#E63946;
+  --bronze:#9A7D56; --bronze-claro:#A88A5C; --brasa:#8B0000;
+  --fg1:#E8DCC4; --fg2:rgba(232,220,196,.72); --fg3:rgba(232,220,196,.52);
+  --fg-bronze:#9A7D56; --fg-amarelo:#F6C324;
+  --linha-bronze:rgba(154,125,86,.40); --linha-fraca:rgba(139,111,71,.18);
+  --amarelo-08:rgba(246,195,36,.08); --amarelo-12:rgba(246,195,36,.12);
+  --brasa-14:rgba(139,0,0,.14);
+  --fogo:linear-gradient(180deg,#F6C324,#E63946,#8B0000);
+  --ouro:linear-gradient(135deg,#8B6F47,#F6C324,#8B6F47);
+  --voz-monumental:'Archivo Black','Arial Black',sans-serif;
+  --voz-sagrada:'Cinzel','Trajan Pro',serif;
+  --voz-operacional:'EB Garamond',Georgia,serif;
+  --max:1060px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--preto);color:var(--fg1);font-family:var(--voz-operacional);font-size:17px;line-height:1.75;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(1200px 600px at 80% 0%,var(--amarelo-08),transparent 60%),radial-gradient(900px 560px at -12% 12%,var(--brasa-14),transparent 55%);pointer-events:none;z-index:0;}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:64px 32px 120px;position:relative;z-index:1;}
+
+/* ── TYPOGRAPHY ── */
+.kicker{font-family:var(--voz-sagrada);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--amarelo);margin-bottom:14px;}
+.meta{font-family:var(--voz-sagrada);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--bronze);}
+h1.title{font-family:var(--voz-monumental);text-transform:uppercase;letter-spacing:-.02em;line-height:.92;color:var(--bege);font-size:clamp(38px,7.5vw,80px);margin-bottom:16px;}
+h1.title .highlight{background:var(--ouro);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.subtitle{font-family:var(--voz-sagrada);font-size:clamp(16px,2.3vw,22px);color:var(--bronze-claro);letter-spacing:.03em;line-height:1.4;margin-bottom:28px;}
+.lead{font-size:18px;color:var(--fg2);max-width:68ch;line-height:1.8;}
+.lead strong{color:var(--bege);}
+
+/* ── MASTHEAD ── */
+.masthead{border-bottom:1px solid var(--linha-bronze);padding-bottom:36px;margin-bottom:0;}
+.brandline{display:flex;align-items:center;gap:14px;margin-bottom:28px;flex-wrap:wrap;}
+.seal{width:36px;height:36px;border:1.5px solid var(--bronze);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--voz-sagrada);color:var(--amarelo);font-size:14px;flex:0 0 auto;}
+.firebar{height:3px;width:120px;background:var(--fogo);margin:0 0 28px;}
+
+/* ── DSPC BLOCKS ── */
+.dspc-grid{display:grid;gap:3px;margin-top:48px;}
+
+.dspc-block{background:linear-gradient(180deg,var(--preto-2),var(--preto));border:1px solid var(--linha-fraca);position:relative;overflow:hidden;}
+.dspc-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--fogo);}
+
+.dspc-header{display:grid;grid-template-columns:80px 1fr;gap:0;border-bottom:1px solid var(--linha-fraca);}
+.dspc-letter{background:rgba(246,195,36,.06);border-right:1px solid var(--linha-fraca);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px;gap:4px;}
+.dspc-letter .big{font-family:var(--voz-monumental);font-size:3rem;color:var(--amarelo);line-height:1;text-shadow:0 0 40px rgba(246,195,36,.3);}
+.dspc-letter .word{font-family:var(--voz-sagrada);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);text-align:center;}
+.dspc-title-block{padding:20px 24px;}
+.dspc-title-block .label{font-family:var(--voz-sagrada);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--fg-bronze);margin-bottom:6px;}
+.dspc-title-block .main-title{font-family:var(--voz-sagrada);font-size:clamp(18px,2.5vw,24px);color:var(--bege);letter-spacing:.03em;line-height:1.25;}
+
+.dspc-body{padding:28px 28px 28px 84px;}
+@media(max-width:600px){.dspc-body{padding:20px 20px 20px 20px;}.dspc-header{grid-template-columns:60px 1fr;}}
+
+.layer{margin-bottom:22px;}
+.layer:last-child{margin-bottom:0;}
+.layer-tag{font-family:var(--voz-sagrada);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--bronze);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.layer-tag::after{content:'';flex:1;height:1px;background:var(--linha-fraca);}
+.layer-content{font-size:16px;color:var(--fg1);line-height:1.75;}
+.layer-content em{color:var(--amarelo);font-style:normal;}
+.layer-content .sub-point{display:flex;gap:10px;margin-top:8px;align-items:flex-start;font-size:15px;color:var(--fg2);}
+.layer-content .sub-point::before{content:'▸';color:var(--bronze);font-size:11px;margin-top:4px;flex-shrink:0;}
+
+.quote-pull{border-left:3px solid var(--amarelo);background:var(--amarelo-08);padding:14px 18px;margin:16px 0;font-size:16px;color:var(--fg1);font-style:italic;line-height:1.7;}
+
+/* ── DOR BANK ── */
+.dor-section{margin-top:64px;}
+.sec-kicker{font-family:var(--voz-sagrada);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--amarelo);margin-bottom:10px;}
+.sec-title{font-family:var(--voz-monumental);text-transform:uppercase;color:var(--bege);font-size:clamp(22px,3.5vw,36px);letter-spacing:-.01em;margin-bottom:6px;line-height:1.1;}
+.sec-sub{font-family:var(--voz-sagrada);font-size:15px;color:var(--bronze-claro);letter-spacing:.02em;margin-bottom:28px;}
+.sec-divider{height:1px;background:var(--linha-bronze);margin-bottom:32px;}
+
+.dores{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;}
+@media(max-width:720px){.dores{grid-template-columns:1fr;}}
+
+.dor{border:1px solid var(--linha-fraca);background:linear-gradient(180deg,var(--preto-2),var(--preto));padding:22px 22px 22px 24px;position:relative;overflow:hidden;}
+.dor::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--fogo);opacity:.75;}
+.dor-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.dor-badge{font-size:13px;flex-shrink:0;margin-top:2px;color:var(--amarelo);}
+.dor-title{font-family:var(--voz-sagrada);color:var(--bege);font-size:17px;line-height:1.25;letter-spacing:.01em;}
+.dor-body{font-size:14.5px;color:var(--fg2);line-height:1.65;}
+.dor-price{display:inline-block;margin-top:10px;font-family:var(--voz-sagrada);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--amarelo);border:1px solid rgba(246,195,36,.25);padding:4px 10px;}
+
+/* ── MARKET BLOCK ── */
+.market-block{margin-top:48px;background:linear-gradient(135deg,var(--preto-2),var(--preto-3));border:1px solid var(--linha-bronze);padding:36px;position:relative;overflow:hidden;}
+.market-block::before{content:'';position:absolute;inset:0;background:radial-gradient(600px 400px at 80% 50%,rgba(246,195,36,.04),transparent);}
+.market-numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:24px 0;}
+@media(max-width:600px){.market-numbers{grid-template-columns:1fr;}}
+.mnum{text-align:center;}
+.mnum .n{font-family:var(--voz-monumental);font-size:clamp(2rem,5vw,3rem);color:var(--amarelo);line-height:1;margin-bottom:6px;}
+.mnum .nl{font-family:var(--voz-sagrada);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);}
+.mnum .ns{font-size:13px;color:var(--fg3);margin-top:4px;}
+
+/* ── BRIDGE ── */
+.bridge{margin-top:48px;border:1px solid var(--linha-bronze);padding:36px;position:relative;background:var(--preto-2);}
+.bridge::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ouro);}
+.bridge-title{font-family:var(--voz-sagrada);font-size:clamp(20px,3vw,28px);color:var(--bege);letter-spacing:.04em;margin-bottom:20px;}
+.bridge-body{font-size:16px;color:var(--fg2);line-height:1.8;max-width:70ch;}
+.bridge-body em{color:var(--amarelo);font-style:normal;}
+.bridge-body strong{color:var(--bege);}
+
+/* ── NEXT STEPS ── */
+.nextsteps{margin-top:36px;display:grid;gap:10px;}
+.step{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:16px 20px;border:1px solid var(--linha-fraca);background:var(--preto);}
+.step-num{font-family:var(--voz-monumental);color:var(--amarelo);font-size:1.4rem;line-height:1;}
+.step-content .step-title{font-family:var(--voz-sagrada);color:var(--bege);font-size:16px;margin-bottom:4px;}
+.step-content .step-body{font-size:14px;color:var(--fg3);line-height:1.6;}
+
+/* ── FOOTER ── */
+.footer{margin-top:72px;padding-top:28px;border-top:1px solid var(--linha-bronze);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;}
+.footer-brand{font-family:var(--voz-sagrada);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);}
+.footer-note{font-family:var(--voz-operacional);font-size:14px;color:var(--fg3);font-style:italic;text-align:right;max-width:44ch;line-height:1.5;}
+.footer-note em{color:var(--amarelo);font-style:normal;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="brandline">
+    <div class="seal">A</div>
+    <div>
+      <div class="kicker">Academia Lendária × AGB Intelligence Division</div>
+      <div class="meta">DSPC Map — Aplicado na Noite do Live</div>
+    </div>
+  </div>
+  <div class="firebar"></div>
+  <h1 class="title">DSPC<br><span class="highlight">The Agency</span></h1>
+  <div class="subtitle">O primeiro serviço de IA da AGB — mapeado com a ferramenta<br>que você nos entregou ontem.</div>
+  <p class="lead">
+    Você nos deu o mapa DSPC e disse: <strong>"usa hoje."</strong><br>
+    Isso aqui é o que acontece quando alguém ouve de verdade.
+  </p>
+</header>
+
+<!-- DSPC GRID -->
+<div class="dspc-grid">
+
+  <!-- D — DOR -->
+  <div class="dspc-block">
+    <div class="dspc-header">
+      <div class="dspc-letter"><span class="big">D</span><span class="word">Dor</span></div>
+      <div class="dspc-title-block">
+        <div class="label">// a dor cara</div>
+        <div class="main-title">O Teto de Vidro do Inglês — Você Chega até Aqui</div>
+      </div>
+    </div>
+    <div class="dspc-body">
+      <div class="layer">
+        <div class="layer-tag">superficial — o que dizem</div>
+        <div class="layer-content">
+          "Meu inglês não é bom o suficiente para falar com investidores."<br>
+          "Fico travado quando o assunto é importante."<br>
+          "Perco autoridade quando troco de idioma."
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">profundo — o que mostram</div>
+        <div class="layer-content">
+          Não é o vocabulário. Não é a gramática. É a <em>identidade</em>.<br>
+          Em português são líderes, decisivos, magnéticos.<br>
+          Em inglês ficam menores do que são — e sabem disso.
+          <div class="sub-point">Founders brilhantes que assistem pessoas com ideias inferiores captando capital que deveria ser deles.</div>
+          <div class="sub-point">Execução de nível mundial que não chega ao Silicon Valley porque a língua não acompanha.</div>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">oculto — onde se vende</div>
+        <div class="layer-content">
+          <em>Pertencimento.</em> Eles querem entrar no quarto — o boardroom, o palco, o jantar de founders — e sentir que pertencem lá. Não como o "brasileiro que fala inglês." Como o líder que pensa e opera em qualquer língua sem perder um centímetro de autoridade.
+        </div>
+      </div>
+      <div class="quote-pull">
+        "Eu tenho a ideia. Eu tenho o produto. Eu tenho a tração. O que me falta é conseguir expressar isso com a autoridade que tenho em português — em inglês, na frente de quem importa."
+        <br><span style="font-family:var(--voz-sagrada);font-size:11px;letter-spacing:.15em;color:var(--bronze);font-style:normal;display:block;margin-top:6px;">— voz do avatar. Pode ser qualquer pessoa na sua Academia.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- S — SOLUÇÃO -->
+  <div class="dspc-block">
+    <div class="dspc-header">
+      <div class="dspc-letter"><span class="big">S</span><span class="word">Solução</span></div>
+      <div class="dspc-title-block">
+        <div class="label">// o mecanismo</div>
+        <div class="main-title">Metodologia de Inteligência — CIA + DLI + FSI</div>
+      </div>
+    </div>
+    <div class="dspc-body">
+      <div class="layer">
+        <div class="layer-tag">o que não funciona (erros comuns)</div>
+        <div class="layer-content">
+          <div class="sub-point">Curso de inglês genérico — sem contexto de negócios, sem stakes reais, sem identidade profissional</div>
+          <div class="sub-point">Apps (Duolingo, Babbel) — linguagem turística, não linguagem de liderança</div>
+          <div class="sub-point">Aula de conversação — desenvolve fluência mas não autoridade executiva</div>
+          <div class="sub-point">Imersão passiva — sem drilling de padrões, sem feedback de interferência do português</div>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">o mecanismo único — por que funciona</div>
+        <div class="layer-content">
+          Três sistemas de inteligência reais — CIA, DLI, FSI — adaptados para comunicação executiva em Silicon Valley:
+          <div class="sub-point"><em>CIA</em> — As 1.000 palavras mais frequentes cobrem 80% de qualquer conversa. Utilidade acima de perfeição. Contextos de missão específica apenas.</div>
+          <div class="sub-point"><em>DLI</em> — Drilling de padrões para automaticidade: 50–100 repetições por estrutura até executar sem pensar. O reflexo substitui a tradução.</div>
+          <div class="sub-point"><em>FSI</em> — Simulação de alta pressão. VC em frente, 90 segundos, câmera ligada. Não é ensaio — é o cenário real com feedback imediato.</div>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">o insight que muda tudo</div>
+        <div class="layer-content">
+          O problema não é inglês. <em>O problema é identidade em inglês.</em><br>
+          A solução não é fluência. A solução é <em>autoridade transferível</em> — o mesmo líder, em qualquer idioma, em qualquer quarto.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- P — PRODUTO -->
+  <div class="dspc-block">
+    <div class="dspc-header">
+      <div class="dspc-letter"><span class="big">P</span><span class="word">Produto</span></div>
+      <div class="dspc-title-block">
+        <div class="label">// o que entregamos</div>
+        <div class="main-title">The Agency — Programa de Inteligência em Inglês</div>
+      </div>
+    </div>
+    <div class="dspc-body">
+      <div class="layer">
+        <div class="layer-tag">estrutura — 16 sprints · 3 épicos</div>
+        <div class="layer-content">
+          <div class="sub-point"><em>Épico 1 — The Pitch</em> (Sprint 01–04): Arquitectura do pitch de captação. A declaração de visão de 90 segundos. Manejo de objeções de VC. Protocolos de follow-up.</div>
+          <div class="sub-point"><em>Épico 2 — The Stage</em> (Sprint 05–08): Palestras e painéis. Abertura de keynote. Gestão de Q&A ao vivo. Storytelling executivo.</div>
+          <div class="sub-point"><em>Épico 3 — The Room</em> (Sprint 09–12): Small talk estratégico. Reuniões de boardroom. Negociação e discordância com autoridade. Inteligência cultural Silicon Valley.</div>
+          <div class="sub-point"><em>QA Gate Final</em> (Sprint 13–16): Simulação completa. IPVA re-assessment. Clearance upgrade. Deploy autorizado.</div>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">o diferencial — mapeamento de arquétipos</div>
+        <div class="layer-content">
+          O currículo se adapta ao perfil do operativo — não ao contrário.<br>
+          <em>1.200+ combinações de arquétipos</em> mapeados através de 7 frameworks diagnósticos.<br>
+          Cada sessão recalibra o programa. Cada missão usa a linguagem do próprio operativo.
+          <div class="sub-point">Zona Genialidade · Clifton Strengths · Kolbe · Hogshead · Sullivan · Schwartz · Hamilton</div>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">gamificação — o que Alan conhece bem</div>
+        <div class="layer-content">
+          Story-driven development aplicado ao aprendizado:<br>
+          <div class="sub-point">Clearance Tiers (1–5) com critérios de aprovação mensuráveis</div>
+          <div class="sub-point">IPVA Validation — 7 dimensões, 100 pontos, PASS/REVISE por missão</div>
+          <div class="sub-point">Spaced repetition scheduling (método Bjork)</div>
+          <div class="sub-point">XP acumulado por sprint, badges por épico, clearance upgrade ceremony</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C — CLIENTE -->
+  <div class="dspc-block">
+    <div class="dspc-header">
+      <div class="dspc-letter"><span class="big">C</span><span class="word">Cliente</span></div>
+      <div class="dspc-title-block">
+        <div class="label">// quem é o operativo</div>
+        <div class="main-title">O Alan Nicolas — e os Milhares Como Ele</div>
+      </div>
+    </div>
+    <div class="dspc-body">
+      <div class="layer">
+        <div class="layer-tag">perfil — 3 arquétipos confirmados</div>
+        <div class="layer-content">
+          <div class="sub-point"><em>O Founder Técnico:</em> Construiu algo real. Tem tração. Não tem acesso ao capital americano porque no pitch room não consegue transmitir o que sabe.</div>
+          <div class="sub-point"><em>O Executivo de Alta Performance:</em> C-level, bilíngue em resultado mas não em autoridade. Nas reuniões internacionais perde 40% da sua influência quando troca de idioma.</div>
+          <div class="sub-point"><em>O Membro da Academia Lendária:</em> Aprendeu com Alan a pensar em sistemas, a construir com IA, a escalar com intenção. A última fronteira é o inglês — e ele sabe que é hora de atravessar.</div>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">onde está o teto — o Silicon Valley ceiling</div>
+        <div class="layer-content">
+          O teto não é de competência. É de <em>acesso</em>.<br>
+          Silicon Valley não é um lugar — é uma frequência de comunicação.<br>
+          Quem opera nessa frequência acessa capital, rede, palcos, mídia, parceiros.<br>
+          Quem não opera, assiste de longe pessoas menos capazes fazerem o que deveriam fazer.
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">o que ele precisa — não o que pede</div>
+        <div class="layer-content">
+          Ele pede: <span style="color:var(--fg3)">"Quero melhorar meu inglês."</span><br>
+          Ele precisa: <em>Uma identidade em inglês que seja tão forte quanto a identidade que já tem em português.</em><br><br>
+          E o lugar onde essa identidade se constrói não é uma escola.<br>
+          É <em>The Agency.</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /dspc-grid -->
+
+<!-- BANCO DE DORES -->
+<section class="dor-section">
+  <div class="sec-kicker">// banco de dores caras — silicon valley english ceiling</div>
+  <div class="sec-title">As Dores que Custam Mais Caro</div>
+  <div class="sec-sub">Cada uma dessas dores existe na sua Academia, no seu network, em cada sala que você entra.</div>
+  <div class="sec-divider"></div>
+  <div class="dores">
+
+    <div class="dor">
+      <div class="dor-top">
+        <div class="dor-badge">●</div>
+        <div class="dor-title">O Pitch Que Não Converteu</div>
+      </div>
+      <div class="dor-body">Founder com produto de categoria, tração real, equipe sólida. Foi a San Francisco. O VC gostou do produto. Não investiu. O feedback informal: "Hard to follow him when he gets into detail." Não era o produto. Era o pitch.<br><br>Custo real: round perdido. Estimativa conservadora: $500k–$2M de capital não captado.</div>
+      <div class="dor-price">● dor ancorada em caso real</div>
+    </div>
+
+    <div class="dor">
+      <div class="dor-top">
+        <div class="dor-badge">●</div>
+        <div class="dor-title">O Painel que Passou em Branco</div>
+      </div>
+      <div class="dor-body">Executiva convidada para painel em conferência internacional. Sentou ao lado de pessoas menos experientes. Respondeu bem — mas em português era magnética, em inglês foi "adequate." Ninguém a procurou depois. Ninguém tirou foto. Nenhum follow-up.<br><br>Custo real: oportunidade de posicionamento de marca pessoal desperdiçada. Não tem preço.</div>
+      <div class="dor-price">● dor ancorada — padrão recorrente</div>
+    </div>
+
+    <div class="dor">
+      <div class="dor-top">
+        <div class="dor-badge">○</div>
+        <div class="dor-title">A Reunião de Boardroom Que Ele Não Liderou</div>
+      </div>
+      <div class="dor-body">CTO brilhante, arquiteto de sistemas que os outros não conseguem ver. Na reunião com o board internacional, deixou outros falarem por ele. Não porque não sabia — porque não conseguiu interromper com autoridade, construir na frente de outros, discordar com elegância. Em inglês. Ao vivo.<br><br>Custo real: influência perdida. Percepção de liderança comprometida.</div>
+      <div class="dor-price">○ derivada do método — plausível</div>
+    </div>
+
+    <div class="dor">
+      <div class="dor-top">
+        <div class="dor-badge">●</div>
+        <div class="dor-title">O Demo Day Sem Follow-Up</div>
+      </div>
+      <div class="dor-body">Startup brasileira no Y Combinator. Demo Day com 300 investidores na sala. Pitch decorado, entregue, funcional. Zero perguntas no Q&A. Zero e-mails nas 48h seguintes. O produto era real. A entrega foi tecnicamente correta mas emocionalmente plana — sem ritmo, sem presença, sem "essa pessoa vai longe."<br><br>Custo real: a janela de acesso mais valiosa do ecossistema de startups — fechada.</div>
+      <div class="dor-price">● dor ancorada — padrão YC</div>
+    </div>
+
+    <div class="dor">
+      <div class="dor-top">
+        <div class="dor-badge">○</div>
+        <div class="dor-title">O Jantar Que Não Virou Parceria</div>
+      </div>
+      <div class="dor-body">Executivo convidado para jantar com líderes de mercado em SF. Small talk foi desconfortável — a conversa ficou na superfície porque não sabia navegar o humor, as referências culturais, os ritmos sociais americanos. O jantar terminou sem o cartão que precisava. A parceria nunca aconteceu.<br><br>Custo real: o network não se constrói em reuniões formais. Constrói-se em jantares. E jantares exigem inglês social de alta performance.</div>
+      <div class="dor-price">○ derivada do método — plausível</div>
+    </div>
+
+    <div class="dor">
+      <div class="dor-top">
+        <div class="dor-badge">●</div>
+        <div class="dor-title">A Mídia Que Não Veio</div>
+      </div>
+      <div class="dor-body">Empreendedor com história poderosa, produto relevante, momento de mercado perfeito. Jornalista de publicação tier-1 interessado. A entrevista em inglês foi boa — mas não foi memorable. A história não saiu. Outro founder (com produto inferior) foi featured porque soou mais quotable, mais confiante, mais "founder material."<br><br>Custo real: posicionamento de thought leadership perdido. PR orgânica de categoria = incalculável.</div>
+      <div class="dor-price">● dor ancorada — padrão recorrente</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MARKET INTELLIGENCE -->
+<div class="market-block">
+  <div class="sec-kicker">// tamanho do mercado — inteligência de campo</div>
+  <div class="sec-title" style="font-size:clamp(20px,3vw,30px);margin-bottom:16px;">O Mercado Que Não Tem Solução Ainda</div>
+  <div class="market-numbers">
+    <div class="mnum">
+      <div class="n">4.2M</div>
+      <div class="nl">Executivos Brasileiros</div>
+      <div class="ns">com nível universitário e ambição internacional, inglês intermediário ou abaixo do necessário para operar com autoridade em contextos globais</div>
+    </div>
+    <div class="mnum">
+      <div class="n">~0</div>
+      <div class="nl">Soluções de Nicho</div>
+      <div class="ns">programas existentes para ensino de inglês de autoridade executiva com metodologia de inteligência, gamificação adaptativa e mapeamento de arquétipos</div>
+    </div>
+    <div class="mnum">
+      <div class="n">1</div>
+      <div class="nl">Operativo Ativo</div>
+      <div class="ns">o sistema tem um operativo. O que ele experimenta nos próximos 16 sprints determina se deve existir para todos como ele.</div>
+    </div>
+  </div>
+</div>
+
+<!-- BRIDGE -->
+<div class="bridge">
+  <div class="bridge-title">O Que Isso Tem a Ver com Você</div>
+  <div class="bridge-body">
+    Você construiu o AIOX para <em>devolver às pessoas o poder de criar</em> — sem depender da infraestrutura de outros.<br><br>
+    The Agency foi construída com a mesma filosofia: <em>devolver às pessoas o poder de se expressar</em> — sem perder autoridade ao trocar de idioma.<br><br>
+    Os seus membros da Academia Lendária são exatamente o avatar que The Agency serve.<br>
+    Founders. Executivos. Pessoas que já chegaram longe e precisam do próximo nível.<br><br>
+    A pergunta que fica — <strong>e que não é retórica</strong>:<br><br>
+    <em>"Quantas pessoas no seu network batem exatamente nesse teto?"</em>
+  </div>
+
+  <div class="nextsteps" style="margin-top:28px;">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Sprint 01 — Alan Nicolas como Operative #001</div>
+        <div class="step-body">O programa começa com você. 16 sprints. Silicon Valley clearance. O que você experimenta é o produto. E o produto é o proof of concept.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Sprint 16 — A Conversa Sobre Escala</div>
+        <div class="step-body">Se o programa funciona para você — e vai funcionar — a pergunta natural é: o que acontece se isso existir para os membros da sua Academia? Para os founders do seu network? Para cada brasileiro que vai bater nesse teto em 2026?</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">A Academia Lendária × The Agency</div>
+        <div class="step-body">Não estou vendendo uma parceria. Estou deixando a possibilidade aqui — visível mas não empurrada. Você vai saber quando a hora for certa. E se não for, tudo bem também. O programa existe para você de qualquer jeito.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>
+    <div class="footer-brand">AGB Intelligence Division — The Agency</div>
+    <div class="meta" style="margin-top:6px;">DSPC-001 // GABRIEL BOURNE // JUNHO 2026</div>
+  </div>
+  <div class="footer-note">
+    Este documento foi construído com o mapa DSPC que você nos entregou ontem no live.<br>
+    <em>Isso é o que acontece quando alguém usa a ferramenta no mesmo dia.</em>
+  </div>
+</footer>
+
+</div><!-- /wrap -->
+</body>
+</html>

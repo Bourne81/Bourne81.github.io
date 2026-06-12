@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AGB // Mission 01 — Live Exchange Protocol</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --midnight:#0C1B2A;--navy:#07111F;--charcoal:#1A1A1A;
+  --ivory:#F4EFE7;--stone:#D8CFC4;--dim:rgba(244,239,231,.55);
+  --gold:#C6A15B;--gold-border:rgba(198,161,91,.2);--gold-dim:rgba(198,161,91,.5);
+  --red:#C6453A;--red-dim:rgba(198,69,58,.6);--red-border:rgba(198,69,58,.25);
+  --green:#3A7A5A;--green-dim:rgba(58,122,90,.7);
+  --serif:'Playfair Display',serif;--sans:'Inter',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+html,body{height:100%;background:var(--midnight);color:var(--ivory);font-family:var(--sans);overflow:hidden;}
+
+/* ── LAYOUT ── */
+.shell{display:flex;flex-direction:column;height:100vh;}
+.top-bar{
+  flex-shrink:0;background:var(--navy);border-bottom:1px solid var(--gold-border);
+  padding:12px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.top-bar-left{display:flex;align-items:center;gap:16px;}
+.top-bar-title{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--gold-dim);text-transform:uppercase;}
+.top-bar-badge{font-family:var(--mono);font-size:8px;letter-spacing:.15em;border:1px solid var(--gold-border);padding:4px 10px;color:rgba(198,161,91,.35);}
+.timer-display{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--gold-dim);cursor:pointer;}
+.timer-display.running{color:var(--gold);}
+
+/* ── MAIN CONTENT ── */
+.content{flex:1;display:flex;overflow:hidden;}
+
+/* ── TASK PANE ── */
+.task-pane{
+  flex:1;min-width:0;display:flex;flex-direction:column;
+  padding:48px 56px;overflow-y:auto;
+  border-right:1px solid var(--gold-border);
+}
+.task-code{font-family:var(--mono);font-size:8px;letter-spacing:.3em;color:rgba(198,161,91,.35);text-transform:uppercase;margin-bottom:10px;}
+.task-section{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:20px;}
+.task-title{font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.6rem);color:var(--gold);line-height:1.1;margin-bottom:32px;}
+.task-rule{width:48px;height:1px;background:var(--gold-border);margin-bottom:40px;}
+.task-prompt-label{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:16px;}
+.task-prompt{
+  border:1px solid var(--gold-border);padding:28px 32px;
+  font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.55rem);
+  color:var(--ivory);line-height:1.55;
+  background:rgba(7,17,31,.4);margin-bottom:32px;
+}
+.task-prompt em{color:var(--gold-dim);font-style:italic;}
+.task-prompt strong{color:var(--gold);}
+.fuel-label{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:rgba(198,161,91,.3);text-transform:uppercase;margin-bottom:12px;}
+.fuel-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;}
+.fuel-chip{
+  font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--dim);
+  border:1px solid rgba(198,161,91,.12);padding:6px 12px;cursor:pointer;transition:all .2s;
+}
+.fuel-chip:hover{border-color:var(--gold-border);color:var(--ivory);}
+.task-duration{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:rgba(198,161,91,.25);}
+
+/* ── TEACHER PANEL ── */
+.teacher-pane{
+  width:320px;flex-shrink:0;display:flex;flex-direction:column;
+  background:var(--navy);overflow-y:auto;
+  transition:transform .3s,opacity .3s;
+}
+.teacher-pane.hidden{transform:translateX(320px);opacity:0;pointer-events:none;position:absolute;right:0;}
+.teacher-section{padding:20px 20px 0;border-bottom:1px solid rgba(198,161,91,.08);}
+.teacher-section:last-child{border-bottom:none;}
+.teacher-label{font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:rgba(198,161,91,.35);text-transform:uppercase;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid rgba(198,161,91,.08);}
+
+/* Observe list */
+.observe-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.observe-list li{font-size:.78rem;color:var(--dim);line-height:1.55;font-weight:300;padding-left:12px;position:relative;}
+.observe-list li::before{content:'→';position:absolute;left:0;color:var(--gold-dim);font-size:.7rem;}
+
+/* Error tagger */
+.error-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;}
+.etag{
+  font-family:var(--mono);font-size:7.5px;letter-spacing:.08em;
+  border:1px solid rgba(198,161,91,.15);color:var(--dim);
+  padding:7px 10px;cursor:pointer;transition:all .18s;text-align:center;
+  background:rgba(7,17,31,.3);
+}
+.etag:hover{border-color:var(--gold-dim);color:var(--ivory);}
+.etag.fired{border-color:var(--red-dim);color:var(--red-dim);background:rgba(198,69,58,.07);}
+.etag .etag-count{font-size:8px;opacity:.7;margin-left:4px;}
+
+/* Pronunciation buttons */
+.phon-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;}
+.phon-tag{
+  font-family:var(--mono);font-size:7px;letter-spacing:.06em;
+  border:1px solid rgba(100,150,200,.15);color:rgba(150,190,220,.5);
+  padding:6px 8px;cursor:pointer;transition:all .18s;text-align:center;
+  background:rgba(7,17,31,.3);
+}
+.phon-tag:hover{border-color:rgba(100,150,200,.4);color:rgba(150,190,220,.9);}
+.phon-tag.fired{border-color:rgba(100,150,200,.5);color:rgba(150,190,220,.9);background:rgba(100,150,200,.07);}
+.phon-tag .etag-count{font-size:7px;opacity:.7;margin-left:3px;}
+
+/* Notes textarea */
+.teacher-note{
+  width:100%;min-height:72px;background:rgba(0,0,0,.25);
+  border:1px solid rgba(198,161,91,.1);color:var(--dim);
+  font-family:var(--mono);font-size:.72rem;padding:10px 12px;
+  resize:vertical;outline:none;line-height:1.6;margin-bottom:16px;
+  transition:border-color .2s;
+}
+.teacher-note:focus{border-color:var(--gold-border);}
+
+/* Rec button in teacher pane */
+.pane-rec-btn{
+  width:100%;padding:10px;font-family:var(--mono);font-size:8px;
+  letter-spacing:.15em;text-transform:uppercase;
+  background:rgba(7,17,31,.5);border:1px solid rgba(198,161,91,.15);
+  color:var(--dim);cursor:pointer;transition:all .2s;margin-bottom:16px;
+}
+.pane-rec-btn:hover{border-color:var(--gold-border);color:var(--gold);}
+.pane-rec-btn.recording{border-color:var(--red-dim);color:var(--red-dim);background:rgba(198,69,58,.07);}
+.pane-rec-btn.recorded{border-color:var(--green-dim);color:var(--green-dim);background:rgba(58,122,90,.06);}
+
+/* ── BOTTOM BAR ── */
+.bottom-bar{
+  flex-shrink:0;background:var(--charcoal);border-top:1px solid var(--gold-border);
+  padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.bottom-bar-left{display:flex;align-items:center;gap:12px;}
+.bottom-bar-right{display:flex;align-items:center;gap:12px;}
+.progress-dots{display:flex;gap:6px;align-items:center;}
+.dot{width:6px;height:6px;background:rgba(198,161,91,.15);transition:all .3s;}
+.dot.done{background:rgba(198,161,91,.4);}
+.dot.active{background:var(--gold);width:18px;}
+.dot.prn{background:rgba(100,150,200,.4);}
+.dot.sum{background:rgba(58,122,90,.4);}
+.ctrl-btn{
+  font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;
+  background:none;border:1px solid var(--gold-border);color:var(--gold-dim);
+  padding:9px 18px;cursor:pointer;transition:all .2s;
+}
+.ctrl-btn:hover{border-color:var(--gold);color:var(--gold);}
+.ctrl-btn.primary{border-color:var(--gold);color:var(--gold);background:rgba(198,161,91,.05);}
+.ctrl-btn.teacher-toggle{border-color:rgba(100,150,200,.25);color:rgba(100,150,200,.5);}
+.ctrl-btn.teacher-toggle.on{border-color:rgba(100,150,200,.6);color:rgba(150,190,220,.8);background:rgba(100,150,200,.07);}
+
+/* ── PRONUNCIATION SCREEN ── */
+#pronunciation-screen{display:none;flex:1;flex-direction:column;overflow-y:auto;padding:48px 56px;}
+.prn-title{font-family:var(--serif);font-size:clamp(1.4rem,3vw,2.2rem);color:var(--ivory);margin-bottom:8px;}
+.prn-sub{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:40px;}
+.prn-block{margin-bottom:44px;}
+.prn-block-label{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--gold-border);}
+.prn-pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:8px;}
+.prn-pair{
+  border:1px solid var(--gold-border);padding:14px 16px;background:rgba(7,17,31,.4);
+  cursor:pointer;transition:all .2s;
+}
+.prn-pair:hover{border-color:var(--gold);}
+.prn-pair .word{font-family:var(--serif);font-size:1.1rem;color:var(--ivory);margin-bottom:4px;}
+.prn-pair .ipa{font-family:var(--mono);font-size:.75rem;color:var(--gold-dim);}
+.prn-pair .trap{font-size:.72rem;color:var(--dim);margin-top:4px;font-weight:300;}
+.prn-drill-box{border:1px solid var(--gold-border);padding:20px 24px;background:rgba(7,17,31,.4);margin-top:12px;}
+.prn-drill-prompt{font-family:var(--serif);font-size:1rem;color:var(--ivory);margin-bottom:8px;}
+.prn-drill-note{font-family:var(--mono);font-size:.72rem;color:var(--dim);line-height:1.7;}
+
+/* ── SUMMARY SCREEN ── */
+#summary-screen{display:none;flex:1;flex-direction:column;overflow-y:auto;padding:48px 56px;}
+.sum-title{font-family:var(--serif);font-size:clamp(1.4rem,3vw,2.2rem);color:var(--ivory);margin-bottom:8px;}
+.sum-sub{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:40px;}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:40px;}
+.sum-card{border:1px solid var(--gold-border);padding:16px 20px;background:rgba(7,17,31,.4);}
+.sum-card-label{font-family:var(--mono);font-size:7px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:6px;}
+.sum-card-value{font-family:var(--serif);font-size:1.6rem;color:var(--gold);}
+.sum-card-detail{font-size:.8rem;color:var(--dim);margin-top:4px;}
+.priority-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:40px;}
+.priority-list li{display:flex;align-items:center;gap:16px;padding:14px 18px;border:1px solid var(--gold-border);background:rgba(7,17,31,.3);}
+.priority-rank{font-family:var(--mono);font-size:.8rem;color:var(--gold-dim);min-width:28px;}
+.priority-tag{font-family:var(--mono);font-size:.8rem;color:var(--ivory);}
+.priority-count{font-family:var(--mono);font-size:.75rem;color:var(--dim);margin-left:auto;}
+.priority-bar-wrap{flex:1;height:2px;background:rgba(198,161,91,.1);}
+.priority-bar{height:100%;background:var(--gold);transition:width .6s;}
+.notes-block{margin-bottom:32px;}
+.notes-block-label{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--gold-border);}
+.notes-block-item{font-size:.82rem;color:var(--dim);line-height:1.8;padding:8px 0;border-bottom:1px solid rgba(198,161,91,.05);}
+.notes-block-item strong{color:var(--ivory);font-weight:500;}
+
+@media(max-width:900px){
+  .teacher-pane{width:260px;}
+  .task-pane{padding:32px 28px;}
+}
+@media(max-width:700px){
+  .teacher-pane{display:none;}
+  .task-pane{padding:28px 20px;}
+  .sum-grid{grid-template-columns:1fr;}
+}
+@media print{
+  body{background:#fff;color:#000;overflow:visible;}
+  .shell{display:block;height:auto;}
+  .top-bar,.bottom-bar,.teacher-pane{display:none!important;}
+  .task-pane,#pronunciation-screen,#summary-screen{display:block;padding:20px;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ── TOP BAR ── -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a href="operative-dossier.html" style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;color:rgba(198,161,91,.35);text-decoration:none;border:1px solid rgba(198,161,91,.12);padding:5px 12px;transition:all .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(198,161,91,.35)'">← dossier</a>
+    <div class="top-bar-title">AGB // Mission 01 — Live Exchange Protocol</div>
+    <div class="top-bar-badge">Operative: Alan Nicolas</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <div class="timer-display" id="timer" onclick="toggleTimer()" title="Click to start/stop timer">00:00</div>
+    <button class="ctrl-btn teacher-toggle on" id="teacher-toggle-btn" onclick="toggleTeacherPane()">// teacher panel</button>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="content" id="main-content">
+
+  <!-- TASK PANE -->
+  <div class="task-pane" id="task-pane">
+    <div class="task-code" id="t-code"></div>
+    <div class="task-section" id="t-section"></div>
+    <h1 class="task-title" id="t-title"></h1>
+    <div class="task-rule"></div>
+    <div class="task-prompt-label">// prompt — read aloud or display to operative</div>
+    <div class="task-prompt" id="t-prompt"></div>
+    <div class="fuel-label">// conversation fuel — keep him talking</div>
+    <div class="fuel-list" id="t-fuel"></div>
+    <div class="task-duration" id="t-duration"></div>
+  </div>
+
+  <!-- PRONUNCIATION SCREEN -->
+  <div id="pronunciation-screen">
+    <div class="task-code">// diagnostic module</div>
+    <h2 class="prn-title">Pronunciation Drill</h2>
+    <div class="prn-sub">Target sounds for Brazilian English speakers — drill as needed</div>
+
+    <div class="prn-block">
+      <div class="prn-block-label">// th sounds — /θ/ and /ð/</div>
+      <div class="prn-pairs">
+        <div class="prn-pair"><div class="word">think</div><div class="ipa">/θɪŋk/</div><div class="trap">→ not "tink"</div></div>
+        <div class="prn-pair"><div class="word">this</div><div class="ipa">/ðɪs/</div><div class="trap">→ not "dis"</div></div>
+        <div class="prn-pair"><div class="word">three</div><div class="ipa">/θriː/</div><div class="trap">→ not "tree"</div></div>
+        <div class="prn-pair"><div class="word">the</div><div class="ipa">/ðə/</div><div class="trap">→ not "da"</div></div>
+        <div class="prn-pair"><div class="word">growth</div><div class="ipa">/ɡrəʊθ/</div><div class="trap">→ not "groce"</div></div>
+        <div class="prn-pair"><div class="word">month</div><div class="ipa">/mʌnθ/</div><div class="trap">→ not "monchi"</div></div>
+      </div>
+      <div class="prn-drill-box">
+        <div class="prn-drill-prompt">"The growth of this platform over three months has been remarkable."</div>
+        <div class="prn-drill-note">→ 4 th-sounds. Drill until natural. Record the attempt.</div>
+      </div>
+    </div>
+
+    <div class="prn-block">
+      <div class="prn-block-label">// -ed endings — three sounds</div>
+      <div class="prn-pairs">
+        <div class="prn-pair"><div class="word">launched</div><div class="ipa">/lɔːntʃt/</div><div class="trap">→ not "launchid"</div></div>
+        <div class="prn-pair"><div class="word">scaled</div><div class="ipa">/skeɪld/</div><div class="trap">→ not "scal-id"</div></div>
+        <div class="prn-pair"><div class="word">invested</div><div class="ipa">/ɪnˈvestɪd/</div><div class="trap">→ /ɪd/ correct here</div></div>
+        <div class="prn-pair"><div class="word">raised</div><div class="ipa">/reɪzd/</div><div class="trap">→ not "raise-id"</div></div>
+        <div class="prn-pair"><div class="word">reached</div><div class="ipa">/riːtʃt/</div><div class="trap">→ not "reach-id"</div></div>
+        <div class="prn-pair"><div class="word">worked</div><div class="ipa">/wɜːkt/</div><div class="trap">→ not "work-id"</div></div>
+      </div>
+      <div class="prn-drill-box">
+        <div class="prn-drill-prompt">"We launched the platform, scaled it, and reached 20,000 students."</div>
+        <div class="prn-drill-note">→ 3 different -ed endings in one sentence. Say it at speed.</div>
+      </div>
+    </div>
+
+    <div class="prn-block">
+      <div class="prn-block-label">// word stress — high-frequency business vocabulary</div>
+      <div class="prn-pairs">
+        <div class="prn-pair"><div class="word">entrepreneur</div><div class="ipa">ˌɒntrəprəˈnɜː</div><div class="trap">stress: final syllable</div></div>
+        <div class="prn-pair"><div class="word">investment</div><div class="ipa">ɪnˈvestmənt</div><div class="trap">stress: 2nd syllable</div></div>
+        <div class="prn-pair"><div class="word">economy</div><div class="ipa">ɪˈkɒnəmi</div><div class="trap">stress: 2nd syllable</div></div>
+        <div class="prn-pair"><div class="word">technology</div><div class="ipa">tekˈnɒlədʒi</div><div class="trap">stress: 2nd syllable</div></div>
+        <div class="prn-pair"><div class="word">artificial</div><div class="ipa">ˌɑːtɪˈfɪʃl</div><div class="trap">stress: 3rd syllable</div></div>
+        <div class="prn-pair"><div class="word">education</div><div class="ipa">ˌedjuˈkeɪʃn</div><div class="trap">stress: 3rd syllable</div></div>
+        <div class="prn-pair"><div class="word">opportunity</div><div class="ipa">ˌɒpəˈtjuːnɪti</div><div class="trap">stress: 3rd syllable</div></div>
+        <div class="prn-pair"><div class="word">international</div><div class="ipa">ˌɪntəˈnæʃnl</div><div class="trap">stress: 3rd syllable</div></div>
+      </div>
+    </div>
+
+    <div class="prn-block">
+      <div class="prn-block-label">// vowels — the trap sounds</div>
+      <div class="prn-pairs">
+        <div class="prn-pair"><div class="word">ship / sheep</div><div class="ipa">/ɪ/ vs /iː/</div><div class="trap">short vs long i</div></div>
+        <div class="prn-pair"><div class="word">bit / beat</div><div class="ipa">/ɪ/ vs /iː/</div><div class="trap">feel the difference</div></div>
+        <div class="prn-pair"><div class="word">man / men</div><div class="ipa">/æ/ vs /e/</div><div class="trap">/æ/ opens the jaw</div></div>
+        <div class="prn-pair"><div class="word">bad / bed</div><div class="ipa">/æ/ vs /e/</div><div class="trap">mouth fully open for /æ/</div></div>
+        <div class="prn-pair"><div class="word">full / fool</div><div class="ipa">/ʊ/ vs /uː/</div><div class="trap">short vs long u</div></div>
+        <div class="prn-pair"><div class="word">cut / cart</div><div class="ipa">/ʌ/ vs /ɑː/</div><div class="trap">unstressed schwa</div></div>
+      </div>
+    </div>
+
+    <div class="prn-block">
+      <div class="prn-block-label">// his domain — key terms to lock in</div>
+      <div class="prn-drill-box">
+        <div class="prn-drill-prompt" style="margin-bottom:16px;">"Artificial intelligence is reshaping the education economy. AIOX was built for entrepreneurs who think in systems."</div>
+        <div class="prn-drill-note">→ Contains: entrepreneur, artificial, intelligence, education, economy. Say it 3× at increasing speed. Record the third take.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY SCREEN -->
+  <div id="summary-screen">
+    <div class="task-code">// session complete</div>
+    <h2 class="sum-title">Session Intelligence Report</h2>
+    <div class="sum-sub">Operative: Alan Nicolas — Mission 01</div>
+    <div class="sum-grid" id="sum-grid"></div>
+    <div style="font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:16px;">// error frequency — teaching priorities</div>
+    <ul class="priority-list" id="priority-list"></ul>
+    <div class="notes-block">
+      <div class="notes-block-label">// session notes — by exchange</div>
+      <div id="notes-by-task"></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:24px;">
+      <button class="ctrl-btn" onclick="window.print()">// export report</button>
+      <button class="ctrl-btn primary" onclick="resetSession()">// new session</button>
+    </div>
+  </div>
+
+  <!-- TEACHER PANEL -->
+  <div class="teacher-pane" id="teacher-pane">
+
+    <!-- Observe -->
+    <div class="teacher-section">
+      <div class="teacher-label">// listen for</div>
+      <ul class="observe-list" id="obs-list"></ul>
+    </div>
+
+    <!-- Grammar error tags -->
+    <div class="teacher-section" style="padding-top:16px;">
+      <div class="teacher-label">// grammar &amp; vocabulary errors</div>
+      <div class="error-grid" id="error-grid"></div>
+    </div>
+
+    <!-- Pronunciation tags -->
+    <div class="teacher-section" style="padding-top:14px;">
+      <div class="teacher-label">// pronunciation flags</div>
+      <div class="phon-grid" id="phon-grid"></div>
+    </div>
+
+    <!-- Notes -->
+    <div class="teacher-section" style="padding-top:14px;">
+      <div class="teacher-label">// specific words / notes</div>
+      <textarea class="teacher-note" id="task-note" placeholder="// note exact words or phrases heard..."></textarea>
+    </div>
+
+    <!-- Record -->
+    <div class="teacher-section" style="padding-top:0;padding-bottom:16px;">
+      <button class="pane-rec-btn" id="pane-rec-btn" onclick="togglePaneRecording()">🎤  // record this exchange</button>
+      <div id="pane-playback" style="display:none;font-family:var(--mono);font-size:7px;color:var(--green-dim);letter-spacing:.1em;cursor:pointer;padding-bottom:4px;" onclick="playPaneRecording()">▶  play recording</div>
+    </div>
+
+  </div>
+</div><!-- /.content -->
+
+<!-- ── BOTTOM BAR ── -->
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <button class="ctrl-btn" id="prev-btn" onclick="prevTask()" disabled>← prev</button>
+    <div class="progress-dots" id="progress-dots"></div>
+  </div>
+  <div class="bottom-bar-right">
+    <button class="ctrl-btn primary" id="next-btn" onclick="nextTask()">next →</button>
+  </div>
+</div>
+
+</div><!-- /.shell -->
+
+<script>
+// ── TASK DATA ──
+const TASKS = [
+  {
+    code:'EX-01',
+    section:'Part I — Operative Baseline',
+    title:'The Arrival',
+    prompt:'Introduce yourself in English — as if we are meeting for the first time at a technology conference in London. You have two minutes. Go.',
+    fuel:['And what does that mean in practice?','Who is the typical person who uses what you\'ve built?','How long have you been working on this?'],
+    duration:'// 2–3 minutes',
+    observe:['Sentence length before first pause','Filler phrases (basically, like, so, you know)','Article usage: a / the / zero article','Default register — formal or casual?','Subject omission: "Is interesting" vs "It is interesting"'],
+    elicits:'Self-presentation, natural rhythm, default register, article system'
+  },
+  {
+    code:'EX-02',
+    section:'Part II — Narrative Production',
+    title:'The Origin Story',
+    prompt:'Take me from the moment <strong>Academia Lendária</strong> started to where it is today. Chronologically. Don\'t skip the part about what almost didn\'t work.',
+    fuel:['What happened next?','What did you almost do differently?','And how did that feel at the time?','Give me a specific number — how many? when exactly?'],
+    duration:'// 5–8 minutes',
+    observe:['Present perfect vs simple past: "I started" / "I have started" / "I have been building"','Discourse connectors: "then", "after that", "by the time"','Subject omission in rapid narration','False cognate: "actually" used for "currently/nowadays"','Sentence structure — does the main point come first or last?'],
+    elicits:'Past tense accuracy, narrative structure, discourse connectors, present perfect confusion'
+  },
+  {
+    code:'EX-03',
+    section:'Part III — Pressure Response',
+    title:'The Defence',
+    prompt:'You have 20,000 students. <em>I\'ve seen that number before. I want to know what\'s actually hard about what you\'ve built — what couldn\'t someone else copy tomorrow?</em>',
+    fuel:['Be more specific.','What does that mean technically?','Give me one thing — not three.','Why should I believe that?'],
+    duration:'// 3–5 minutes',
+    observe:['Sentence structure under pressure — does it get shorter and choppier?','Hedging vs directness: "I think maybe..." vs "The answer is..."','Vocabulary precision — does he reach or retreat to generics?','Conditional structure under pressure: "If someone tried..."','Register maintenance — does he stay professional under challenge?'],
+    elicits:'Argumentation under pressure, vocabulary precision, response to interruption'
+  },
+  {
+    code:'EX-04',
+    section:'Part IV — Future & Speculation',
+    title:'The Vision',
+    prompt:'Where does <strong>AIOX</strong> exist in five years? Describe the company, the product, and who it\'s serving. Be specific — not aspirational. Specific.',
+    fuel:['What does the team look like?','Which market comes first?','What\'s the revenue model at that point?','And if it doesn\'t go to plan — what\'s the version where it still works?'],
+    duration:'// 4–6 minutes',
+    observe:['"will" vs "going to" vs present progressive for future','Conditional language: "If we..." / "Assuming that..."','Speculative vocabulary: "likely", "potentially", "by that point"','Number precision in English: billions, market size','Point-first or point-last? "We will dominate edtech" vs long preamble'],
+    elicits:'Future tenses, speculative language, conditional structures'
+  },
+  {
+    code:'EX-05',
+    section:'Part V — Vocabulary Range',
+    title:'The Constraint',
+    prompt:'Tell me what makes your platform genuinely different from Coursera or any other online learning tool.<br><br><em>You cannot use the words: content, course, platform, AI, or technology.</em>',
+    fuel:['Say that again a different way.','What word would you use instead?','Give me an analogy.','If you had to describe it in three verbs — what happens when someone uses it?'],
+    duration:'// 3–4 minutes',
+    observe:['Paraphrasing ability — can he find synonyms fast?','Avoidance: does he freeze or adapt?','Concrete vs abstract vocabulary — which does he default to?','Verb range: verbs he chooses when nouns are removed','Sentence structure when forced to think carefully'],
+    elicits:'Active vocabulary range, paraphrasing, avoidance patterns, vocabulary depth'
+  },
+  {
+    code:'EX-06',
+    section:'Part VI — Investor Register',
+    title:'The 90-Second Pitch',
+    prompt:'The investor across from you has heard 40 pitches this week. You have exactly <strong>90 seconds</strong>. Every word has to earn its place.<br><br>Start now.',
+    fuel:['Again — but cut it by half.','What\'s the one sentence that makes someone lean forward?','Say the number out loud. Don\'t soften it.'],
+    duration:'// 90 seconds — strict',
+    observe:['Opening line — does it land or wind up?','Concision: length of sentences, information per sentence','Tense consistency in pitch language','Precision of numbers: exact vs "around" / "approximately"','Energy and pace — does he sound like he believes it?'],
+    elicits:'Investor register, concision, tense control, opening impact'
+  },
+  {
+    code:'EX-07',
+    section:'Part VII — Opinion & Argument',
+    title:'The Opinion',
+    prompt:'Do you think English will still be the dominant language of global business in 20 years — or will something shift? Make the argument. Take a position.',
+    fuel:['What would someone who disagrees say?','Push back on your own point.','Give me the strongest version of the opposite argument.','And what does that mean for you personally?'],
+    duration:'// 4–5 minutes',
+    observe:['Opinion markers: "I believe", "In my view", "I\'d argue"','Hedging language: "It\'s likely that", "probably", "it seems"','Conditional: "If X happens, then..."','Argument structure — does he build or just state?','Register shift: does he stay formal when arguing?'],
+    elicits:'Opinion language, hedging, conditionals, academic register, discourse building'
+  },
+  {
+    code:'EX-08',
+    section:'Part VIII — Unguarded Production',
+    title:'The Free Zone',
+    prompt:'Talk to me about anything you\'re excited about right now — a project, an idea, something you read, something you\'re building. In English, for as long as you want. Nothing to prove.',
+    fuel:['Tell me more about that.','What\'s the thing about it that excites you most?','What would you do differently if you started again?'],
+    duration:'// 5+ minutes — uninterrupted where possible',
+    observe:['Baseline error rate when he\'s not monitoring himself','Filler frequency drops when engaged — note when','Natural sentence rhythm: how long before he self-corrects','False cognates in unguarded speech','Pronunciation on technical terms he loves — engagement improves pronunciation'],
+    elicits:'Natural unguarded production — most diagnostic errors appear here'
+  }
+];
+
+const ERROR_TAGS = [
+  {id:'TNS', label:'Tense error'},
+  {id:'SBJ', label:'Subject omit'},
+  {id:'FCG', label:'False cognate'},
+  {id:'UNC', label:'Uncountable'},
+  {id:'ART', label:'Article error'},
+  {id:'PRE', label:'Preposition'},
+  {id:'GRD', label:'Gerund/infin'},
+  {id:'STR', label:'Structure'},
+  {id:'VOC', label:'Vocab gap'},
+  {id:'REG', label:'Register'},
+  {id:'FLR', label:'Filler heavy'},
+  {id:'HED', label:'No hedging'},
+];
+
+const PHON_TAGS = [
+  {id:'TH', label:'th → d/t'},
+  {id:'ED', label:'-ed ending'},
+  {id:'CLS', label:'Cluster'},
+  {id:'STR', label:'Stress err'},
+  {id:'VWL', label:'Vowel'},
+  {id:'NSL', label:'Nasal'},
+];
+
+// ── STATE ──
+let currentTask = 0;
+let showingPronunciation = false;
+let showingSummary = false;
+const MAX_TASK = TASKS.length - 1;
+const TOTAL_SCREENS = TASKS.length + 2; // tasks + pronunciation + summary
+
+let sessionData = TASKS.map(() => ({
+  errorCounts: {}, // {tagId: count}
+  phonCounts: {}, // {tagId: count}
+  note: '',
+  recording: null
+}));
+
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+
+let recorderRunning = false;
+let paneMediaRecorder = null;
+let paneAudioChunks = [];
+let paneAudioBlob = null;
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', () => {
+  buildProgressDots();
+  renderTask(0);
+  buildTeacherPanel(0);
+});
+
+function buildProgressDots() {
+  const container = document.getElementById('progress-dots');
+  container.innerHTML = '';
+  TASKS.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.id = 'dot-' + i;
+    d.title = TASKS[i].title;
+    container.appendChild(d);
+  });
+  const dp = document.createElement('div');
+  dp.className = 'dot prn'; dp.id = 'dot-prn'; dp.title = 'Pronunciation Drill';
+  container.appendChild(dp);
+  const ds = document.createElement('div');
+  ds.className = 'dot sum'; ds.id = 'dot-sum'; ds.title = 'Session Summary';
+  container.appendChild(ds);
+}
+
+function updateDots() {
+  TASKS.forEach((_, i) => {
+    const d = document.getElementById('dot-' + i);
+    if (!d) return;
+    d.className = 'dot' + (i < currentTask ? ' done' : i === currentTask && !showingPronunciation && !showingSummary ? ' active' : '');
+  });
+  document.getElementById('dot-prn').className = 'dot prn' + (showingPronunciation ? ' active' : '');
+  document.getElementById('dot-sum').className = 'dot sum' + (showingSummary ? ' active' : '');
+}
+
+// ── TASK RENDER ──
+function renderTask(idx) {
+  const t = TASKS[idx];
+  document.getElementById('t-code').textContent = t.code;
+  document.getElementById('t-section').textContent = t.section;
+  document.getElementById('t-title').textContent = t.title;
+  document.getElementById('t-prompt').innerHTML = t.prompt;
+  document.getElementById('t-duration').textContent = t.duration;
+
+  const fuelEl = document.getElementById('t-fuel');
+  fuelEl.innerHTML = '';
+  t.fuel.forEach(f => {
+    const chip = document.createElement('div');
+    chip.className = 'fuel-chip';
+    chip.textContent = '"' + f + '"';
+    fuelEl.appendChild(chip);
+  });
+
+  // Show task pane, hide others
+  document.getElementById('task-pane').style.display = 'flex';
+  document.getElementById('pronunciation-screen').style.display = 'none';
+  document.getElementById('summary-screen').style.display = 'none';
+  showingPronunciation = false;
+  showingSummary = false;
+
+  document.getElementById('prev-btn').disabled = idx === 0;
+  document.getElementById('next-btn').textContent = 'next →';
+
+  resetTimer();
+}
+
+// ── TEACHER PANEL ──
+function buildTeacherPanel(idx) {
+  if (idx >= TASKS.length) return;
+  const t = TASKS[idx];
+  const data = sessionData[idx];
+
+  // Observe list
+  const obsList = document.getElementById('obs-list');
+  obsList.innerHTML = '';
+  t.observe.forEach(o => {
+    const li = document.createElement('li');
+    li.textContent = o;
+    obsList.appendChild(li);
+  });
+
+  // Error tags
+  const errGrid = document.getElementById('error-grid');
+  errGrid.innerHTML = '';
+  ERROR_TAGS.forEach(tag => {
+    const count = data.errorCounts[tag.id] || 0;
+    const btn = document.createElement('button');
+    btn.className = 'etag' + (count > 0 ? ' fired' : '');
+    btn.innerHTML = `[${tag.id}] ${tag.label}<span class="etag-count">${count > 0 ? '×' + count : ''}</span>`;
+    btn.onclick = () => {
+      data.errorCounts[tag.id] = (data.errorCounts[tag.id] || 0) + 1;
+      buildTeacherPanel(currentTask);
+    };
+    errGrid.appendChild(btn);
+  });
+
+  // Phon tags
+  const phonGrid = document.getElementById('phon-grid');
+  phonGrid.innerHTML = '';
+  PHON_TAGS.forEach(tag => {
+    const count = data.phonCounts[tag.id] || 0;
+    const btn = document.createElement('button');
+    btn.className = 'phon-tag' + (count > 0 ? ' fired' : '');
+    btn.innerHTML = `[${tag.id}] ${tag.label}<span class="etag-count">${count > 0 ? '×' + count : ''}</span>`;
+    btn.onclick = () => {
+      data.phonCounts[tag.id] = (data.phonCounts[tag.id] || 0) + 1;
+      buildTeacherPanel(currentTask);
+    };
+    phonGrid.appendChild(btn);
+  });
+
+  // Note
+  const noteEl = document.getElementById('task-note');
+  noteEl.value = data.note;
+  noteEl.oninput = () => { data.note = noteEl.value; };
+
+  // Recorder state
+  const recBtn = document.getElementById('pane-rec-btn');
+  const playEl = document.getElementById('pane-playback');
+  if (data.recording) {
+    recBtn.className = 'pane-rec-btn recorded';
+    recBtn.textContent = '✓  // recording captured';
+    playEl.style.display = 'block';
+  } else {
+    recBtn.className = 'pane-rec-btn';
+    recBtn.textContent = '🎤  // record this exchange';
+    playEl.style.display = 'none';
+  }
+}
+
+// ── NAVIGATION ──
+function nextTask() {
+  // Save current note
+  if (!showingPronunciation && !showingSummary) {
+    sessionData[currentTask].note = document.getElementById('task-note').value;
+  }
+
+  if (!showingPronunciation && !showingSummary && currentTask < MAX_TASK) {
+    currentTask++;
+    renderTask(currentTask);
+    buildTeacherPanel(currentTask);
+    resetTimer();
+  } else if (!showingPronunciation && !showingSummary && currentTask === MAX_TASK) {
+    showPronunciation();
+  } else if (showingPronunciation) {
+    showSummary();
+  } else if (showingSummary) {
+    return;
+  }
+  updateDots();
+}
+
+function prevTask() {
+  if (showingSummary) {
+    showPronunciation();
+  } else if (showingPronunciation) {
+    showingPronunciation = false;
+    renderTask(currentTask);
+    buildTeacherPanel(currentTask);
+    document.getElementById('next-btn').textContent = 'next →';
+  } else if (currentTask > 0) {
+    currentTask--;
+    renderTask(currentTask);
+    buildTeacherPanel(currentTask);
+    resetTimer();
+  }
+  document.getElementById('prev-btn').disabled = !showingPronunciation && !showingSummary && currentTask === 0;
+  updateDots();
+}
+
+function showPronunciation() {
+  sessionData[currentTask].note = document.getElementById('task-note').value;
+  document.getElementById('task-pane').style.display = 'none';
+  document.getElementById('pronunciation-screen').style.display = 'flex';
+  document.getElementById('summary-screen').style.display = 'none';
+  document.getElementById('teacher-pane').style.display = 'none';
+  showingPronunciation = true;
+  showingSummary = false;
+  document.getElementById('prev-btn').disabled = false;
+  document.getElementById('next-btn').textContent = '// session report →';
+  resetTimer();
+}
+
+function showSummary() {
+  document.getElementById('task-pane').style.display = 'none';
+  document.getElementById('pronunciation-screen').style.display = 'none';
+  document.getElementById('summary-screen').style.display = 'flex';
+  document.getElementById('teacher-pane').style.display = 'none';
+  showingPronunciation = false;
+  showingSummary = true;
+  document.getElementById('prev-btn').disabled = false;
+  document.getElementById('next-btn').textContent = '// done';
+  buildSummary();
+}
+
+// ── TEACHER PANEL TOGGLE ──
+function toggleTeacherPane() {
+  const pane = document.getElementById('teacher-pane');
+  const btn = document.getElementById('teacher-toggle-btn');
+  if (pane.style.display === 'none' || showingPronunciation || showingSummary) {
+    if (!showingPronunciation && !showingSummary) {
+      pane.style.display = 'flex';
+      btn.classList.add('on');
+    }
+  } else {
+    pane.style.display = 'none';
+    btn.classList.remove('on');
+  }
+}
+
+// ── TIMER ──
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timer').classList.remove('running');
+  } else {
+    timerRunning = true;
+    document.getElementById('timer').classList.add('running');
+    timerInterval = setInterval(() => {
+      timerSeconds++;
+      const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+      const s = String(timerSeconds % 60).padStart(2, '0');
+      document.getElementById('timer').textContent = m + ':' + s;
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerSeconds = 0;
+  document.getElementById('timer').textContent = '00:00';
+  document.getElementById('timer').classList.remove('running');
+}
+
+// ── RECORDING ──
+async function togglePaneRecording() {
+  const btn = document.getElementById('pane-rec-btn');
+  if (recorderRunning) {
+    if (paneMediaRecorder && paneMediaRecorder.state !== 'inactive') paneMediaRecorder.stop();
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+    paneMediaRecorder = new MediaRecorder(stream);
+    paneAudioChunks = [];
+    recorderRunning = true;
+    paneMediaRecorder.ondataavailable = e => paneAudioChunks.push(e.data);
+    paneMediaRecorder.onstop = () => {
+      paneAudioBlob = new Blob(paneAudioChunks, {type: 'audio/webm'});
+      sessionData[currentTask].recording = paneAudioBlob;
+      recorderRunning = false;
+      stream.getTracks().forEach(t => t.stop());
+      buildTeacherPanel(currentTask);
+    };
+    paneMediaRecorder.start();
+    btn.className = 'pane-rec-btn recording';
+    btn.textContent = '⏹  // recording — click to stop';
+  } catch(e) { alert('Microphone access required.'); }
+}
+
+function playPaneRecording() {
+  const blob = sessionData[currentTask].recording;
+  if (blob) new Audio(URL.createObjectURL(blob)).play();
+}
+
+// ── SESSION SUMMARY ──
+function buildSummary() {
+  // Aggregate all error + phon counts
+  const totalErrors = {};
+  const totalPhon = {};
+  let totalTagged = 0;
+  let sessionsWithRecordings = 0;
+
+  sessionData.forEach((d, i) => {
+    if (d.recording) sessionsWithRecordings++;
+    Object.entries(d.errorCounts).forEach(([k, v]) => {
+      totalErrors[k] = (totalErrors[k] || 0) + v;
+      totalTagged += v;
+    });
+    Object.entries(d.phonCounts).forEach(([k, v]) => {
+      totalPhon[k] = (totalPhon[k] || 0) + v;
+      totalTagged += v;
+    });
+  });
+
+  // Stats grid
+  const grid = document.getElementById('sum-grid');
+  grid.innerHTML = '';
+  [
+    {label:'Exchanges completed', value: TASKS.filter((_,i) => Object.keys(sessionData[i].errorCounts).length > 0 || sessionData[i].note).length + ' / ' + TASKS.length, detail:'exchanges with logged observations'},
+    {label:'Error tags logged', value: totalTagged, detail:'total observations across session'},
+    {label:'Recordings captured', value: sessionsWithRecordings, detail:'audio files from exchanges'},
+    {label:'Pronunciation flags', value: Object.values(totalPhon).reduce((a,b)=>a+b,0), detail:'phonological observations'},
+  ].forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'sum-card';
+    card.innerHTML = `<div class="sum-card-label">${item.label}</div><div class="sum-card-value">${item.value}</div><div class="sum-card-detail">${item.detail}</div>`;
+    grid.appendChild(card);
+  });
+
+  // Priority list
+  const allCounts = {};
+  ERROR_TAGS.forEach(t => { if (totalErrors[t.id]) allCounts[t.label] = {count: totalErrors[t.id], type: 'grammar'}; });
+  PHON_TAGS.forEach(t => { if (totalPhon[t.id]) allCounts[t.label] = {count: totalPhon[t.id], type: 'pronunciation'}; });
+
+  const sorted = Object.entries(allCounts).sort((a,b) => b[1].count - a[1].count);
+  const maxCount = sorted[0]?.[1]?.count || 1;
+
+  const priorEl = document.getElementById('priority-list');
+  priorEl.innerHTML = '';
+  if (sorted.length === 0) {
+    priorEl.innerHTML = '<li style="padding:14px 18px;border:1px solid var(--gold-border);font-family:var(--mono);font-size:.8rem;color:var(--dim);">No errors logged — use the teacher panel during exchanges.</li>';
+  } else {
+    sorted.forEach(([label, data], i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span class="priority-rank">${i+1}.</span>
+        <span class="priority-tag">${label}</span>
+        <div class="priority-bar-wrap"><div class="priority-bar" style="width:${Math.round((data.count/maxCount)*100)}%"></div></div>
+        <span class="priority-count">×${data.count}</span>
+      `;
+      priorEl.appendChild(li);
+    });
+  }
+
+  // Notes by task
+  const notesEl = document.getElementById('notes-by-task');
+  notesEl.innerHTML = '';
+  sessionData.forEach((d, i) => {
+    if (!d.note && Object.keys(d.errorCounts).length === 0 && Object.keys(d.phonCounts).length === 0) return;
+    const tags = [
+      ...Object.entries(d.errorCounts).map(([k,v]) => `[${k}]×${v}`),
+      ...Object.entries(d.phonCounts).map(([k,v]) => `[${k}]×${v}`)
+    ].join('  ');
+    const div = document.createElement('div');
+    div.className = 'notes-block-item';
+    div.innerHTML = `<strong>${TASKS[i].code} — ${TASKS[i].title}</strong>`;
+    if (tags) div.innerHTML += `<div style="font-family:var(--mono);font-size:.72rem;color:var(--gold-dim);margin-top:4px;">${tags}</div>`;
+    if (d.note) div.innerHTML += `<div style="margin-top:6px;font-style:italic;">"${d.note}"</div>`;
+    notesEl.appendChild(div);
+  });
+}
+
+function resetSession() {
+  sessionData = TASKS.map(() => ({errorCounts:{}, phonCounts:{}, note:'', recording:null}));
+  currentTask = 0;
+  showingPronunciation = false;
+  showingSummary = false;
+  document.getElementById('teacher-pane').style.display = 'flex';
+  renderTask(0);
+  buildTeacherPanel(0);
+  document.getElementById('prev-btn').disabled = true;
+  document.getElementById('next-btn').textContent = 'next →';
+  updateDots();
+}
+</script>
+</body>
+</html>
