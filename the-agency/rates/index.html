@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AGB — Mission Rates</title>
+<meta name="description" content="Agent Gabriel Bourne · Advanced Linguistic Bureau — Private English mentoring rates. VIP, Partner and Squad formats.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AGB — Mission Rates">
+<meta property="og:description" content="Private English mentoring · VIP · Partner · Squad · Rates by Agent Gabriel Bourne">
+<meta property="og:image" content="https://bourne81.github.io/the-agency/rates/preview.png">
+<meta property="og:url" content="https://bourne81.github.io/the-agency/rates/">
+<meta name="theme-color" content="#0d1118">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Marcellus&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+
+body{
+  background:#080705;
+  min-height:100svh;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:0 0 40px;
+  font-family:'Cormorant Garamond',Georgia,serif;
+}
+
+/* ── CARD ── */
+.card{
+  width:100%;max-width:420px;
+  background:linear-gradient(180deg,#0d1118 0%,#090d13 100%);
+  border-left:1px solid rgba(198,168,79,.14);
+  border-right:1px solid rgba(198,168,79,.14);
+  min-height:100svh;position:relative;overflow:hidden;
+}
+.card::before{
+  content:"AGB";position:absolute;top:47%;left:50%;
+  transform:translate(-50%,-50%);font-size:185px;letter-spacing:.06em;line-height:1;
+  color:rgba(198,168,79,.042);pointer-events:none;z-index:0;
+  font-family:'Playfair Display',serif;font-weight:900;white-space:nowrap;
+}
+.card::after{
+  content:"";position:absolute;top:47%;left:50%;
+  transform:translate(-50%,-50%);width:295px;height:295px;
+  border-radius:50%;border:1px solid rgba(198,168,79,.06);
+  box-shadow:0 0 0 12px rgba(198,168,79,.018),0 0 0 24px rgba(198,168,79,.01);
+  pointer-events:none;z-index:0;
+}
+
+/* ── HEADER ── */
+.header{
+  position:relative;z-index:1;
+  display:flex;align-items:center;gap:12px;
+  padding:18px 18px 15px;
+  border-bottom:1px solid rgba(198,168,79,.1);
+}
+.logo{
+  width:46px;height:46px;border-radius:50%;flex-shrink:0;
+  object-fit:cover;filter:drop-shadow(0 0 10px rgba(198,168,79,.45));
+}
+.brand{flex:1;min-width:0}
+.brand-agb{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:30px;letter-spacing:.06em;line-height:.95;
+  background:linear-gradient(180deg,#f0d78a 0%,#c6a84f 42%,#8a6a1a 95%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.brand-name{
+  display:block;font-family:'Marcellus',serif;font-size:9.5px;
+  letter-spacing:2.5px;text-transform:uppercase;color:#ede5d2;margin-top:4px;
+}
+.brand-bureau{
+  display:block;font-family:'Marcellus',serif;font-size:7.5px;
+  letter-spacing:2.5px;text-transform:uppercase;color:#5a4030;margin-top:2px;
+}
+.hamburger{
+  background:none;border:none;color:#4a3820;font-size:22px;
+  cursor:pointer;padding:4px;flex-shrink:0;transition:color .2s;
+}
+.hamburger:hover{color:#c6a84f}
+
+/* ── BODY ── */
+.body{position:relative;z-index:1;padding:0 18px 28px}
+
+/* ── RULER (with text) ── */
+.ruler{display:flex;align-items:center;margin:20px 0 14px}
+.r-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(198,168,79,.5),transparent)}
+.r-gem{color:#c6a84f;font-size:9px;padding:0 5px}
+.r-text{
+  font-family:'Marcellus',serif;font-size:12px;letter-spacing:4px;
+  text-transform:uppercase;color:#c6a84f;padding:0 10px;white-space:nowrap;
+}
+
+/* ── THIN RULER (variable text) ── */
+.t-ruler{display:flex;align-items:center;margin:18px 0 12px}
+.t-ruler .r-line{flex:1}
+.t-label{
+  font-family:'Marcellus',serif;font-size:9px;letter-spacing:3px;
+  text-transform:uppercase;color:#4a3820;padding:0 12px;white-space:nowrap;
+}
+
+/* ── SUB LABEL ── */
+.sub-label{
+  font-family:'Marcellus',serif;font-size:9px;letter-spacing:4px;
+  text-transform:uppercase;color:#4a3820;text-align:center;margin-bottom:12px;
+}
+
+/* ── FORMAT CARDS ── */
+.formats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px}
+.fmt{
+  position:relative;
+  background:#0e1520;border:1px solid rgba(198,168,79,.16);border-radius:10px;
+  padding:16px 6px 14px;text-align:center;cursor:pointer;transition:all .22s;overflow:hidden;
+}
+.fmt::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 90% 70% at 50% 0%,rgba(198,168,79,.08),transparent 65%);
+  opacity:0;transition:opacity .22s;
+}
+.fmt.active{
+  border-color:#c6a84f;background:#0f1822;
+  box-shadow:0 0 24px rgba(198,168,79,.18),inset 0 1px 0 rgba(240,210,120,.1);
+}
+.fmt.active::after{opacity:1}
+.fmt:hover:not(.active){border-color:rgba(198,168,79,.38)}
+.fmt-check{
+  position:absolute;bottom:7px;left:8px;
+  width:16px;height:16px;border-radius:50%;
+  background:rgba(198,168,79,.12);border:1px solid rgba(198,168,79,.4);
+  display:none;align-items:center;justify-content:center;
+  font-size:8px;color:#c6a84f;
+}
+.fmt.active .fmt-check{display:flex}
+.fmt-icon{font-size:26px;display:block;margin:0 auto 8px;line-height:1}
+.fmt-name{
+  font-family:'Playfair Display',serif;font-weight:700;font-size:16px;
+  background:linear-gradient(180deg,#f0d78a,#c6a84f);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1.1;margin-bottom:3px;
+}
+.fmt-desc{
+  font-family:'Marcellus',serif;font-size:7.5px;letter-spacing:1.5px;
+  text-transform:uppercase;color:#4a3020;
+}
+.fmt.active .fmt-desc{color:rgba(198,168,79,.6)}
+
+/* ── PARTNER NOTE ── */
+.partner-note{
+  display:none;text-align:center;font-family:'Cormorant Garamond',serif;
+  font-size:12px;color:#4a3820;font-style:italic;margin-top:8px;
+}
+.partner-note.show{display:block}
+
+/* ── SQUAD SIZE ── */
+.squad-size{display:none;gap:8px;margin-top:10px}
+.squad-size.show{display:flex}
+.sz-btn{
+  flex:1;border:1px solid rgba(198,168,79,.2);border-radius:6px;
+  background:#0e1520;padding:10px 4px;text-align:center;cursor:pointer;transition:all .15s;
+}
+.sz-btn.active{border-color:#c6a84f;background:rgba(198,168,79,.07)}
+.sz-num{
+  font-family:'Playfair Display',serif;font-weight:700;font-size:22px;
+  background:linear-gradient(180deg,#f0d78a,#c6a84f);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  display:block;
+}
+.sz-lbl{font-family:'Marcellus',serif;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:#4a3020}
+.sz-btn.active .sz-lbl{color:rgba(198,168,79,.6)}
+
+/* ── EST LINE ── */
+.est-line{
+  text-align:center;font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:11px;color:#2e2410;letter-spacing:3px;margin:10px 0 2px;
+}
+
+/* ── SESSION BUTTONS ── */
+.sessions{display:flex;gap:8px;justify-content:center;margin-bottom:2px}
+.sess{
+  width:48px;height:48px;border-radius:50%;
+  border:1px solid rgba(198,168,79,.2);background:#0e1520;
+  font-family:'Playfair Display',serif;font-weight:700;font-size:18px;
+  color:#4a3820;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.sess:hover:not(.active){border-color:rgba(198,168,79,.5);color:#c6a84f}
+.sess.active{
+  background:linear-gradient(145deg,#c6a84f,#8a6018 70%);
+  border-color:#f0d78a;color:#0a0808;
+  box-shadow:0 4px 20px rgba(198,168,79,.38);-webkit-text-fill-color:#0a0808;
+}
+
+/* ── MONTHLY OVERVIEW ── */
+.overview{margin:4px 0 2px}
+.ov-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 0;border-bottom:1px solid rgba(198,168,79,.07);
+}
+.ov-row:last-child{border-bottom:none}
+.ov-key{font-family:'Cormorant Garamond',serif;font-size:14px;color:#6a5040;font-style:italic}
+.ov-val{font-family:'Marcellus',serif;font-size:11px;letter-spacing:1px;color:#ede5d2}
+
+/* ── MONTHLY INVESTMENT ── */
+.invest-wrap{text-align:center;padding:4px 0 0}
+.invest-amount{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:clamp(44px,14vw,58px);line-height:1;letter-spacing:-.02em;
+  background:linear-gradient(180deg,#f0d78a 0%,#c6a84f 40%,#8a6a18 90%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 16px rgba(198,168,79,.22));
+}
+.invest-sub{
+  font-family:'Cormorant Garamond',serif;font-size:12px;
+  color:#4a3820;font-style:italic;margin-top:5px;
+}
+
+/* ── LAUREL ── */
+.laurel{
+  display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0 20px;
+}
+.lau-line{flex:1;height:1px}
+.lau-l{background:linear-gradient(90deg,transparent,rgba(198,168,79,.28))}
+.lau-r{background:linear-gradient(270deg,transparent,rgba(198,168,79,.28))}
+.lau-gem{font-size:16px;color:rgba(198,168,79,.45)}
+
+/* ── CTA BUTTON ── */
+.cta{
+  width:100%;padding:0;border:none;border-radius:6px;
+  background:linear-gradient(135deg,#b8902a 0%,#7a5510 48%,#b8902a 100%);
+  cursor:pointer;display:flex;align-items:center;overflow:hidden;
+  box-shadow:0 6px 28px rgba(198,168,79,.28),inset 0 1px 0 rgba(240,210,120,.25);
+  border-top:1px solid rgba(240,210,120,.22);transition:all .22s;
+}
+.cta:hover{
+  background:linear-gradient(135deg,#c6a030 0%,#8a6020 48%,#c6a030 100%);
+  box-shadow:0 8px 36px rgba(198,168,79,.42);transform:translateY(-1px);
+}
+.cta:active{transform:translateY(0)}
+.cta-icon-box{
+  width:52px;height:52px;background:rgba(0,0,0,.25);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  border-right:1px solid rgba(0,0,0,.18);
+}
+.cta-text{flex:1;text-align:center;padding:0 8px}
+.cta-main{
+  display:block;font-family:'Marcellus',serif;font-size:11px;
+  letter-spacing:3px;text-transform:uppercase;color:#0a0808;line-height:1.2;
+}
+.cta-sub{
+  display:block;font-family:'Cormorant Garamond',serif;font-size:10px;
+  color:rgba(10,8,8,.55);margin-top:1px;font-style:italic;letter-spacing:1px;
+}
+.cta-arr{
+  width:44px;height:52px;display:flex;align-items:center;
+  justify-content:center;font-size:18px;color:rgba(10,8,8,.65);flex-shrink:0;
+}
+
+/* ── ALL OPS ── */
+.all-ops{
+  text-align:center;margin-top:14px;font-family:'Marcellus',serif;
+  font-size:8.5px;letter-spacing:3px;text-transform:uppercase;
+  color:#2e2410;cursor:pointer;padding:8px 0;transition:color .2s;
+}
+.all-ops:hover{color:#c6a84f}
+.all-ops::before{content:"← ";font-size:10px;color:#3e2e18}
+
+/* ── FOOTER ── */
+.footer{
+  text-align:center;padding-top:12px;margin-top:6px;
+  border-top:1px solid rgba(198,168,79,.06);
+}
+.footer-dot{color:rgba(198,168,79,.25);font-size:8px;margin-bottom:6px;letter-spacing:3px}
+.footer-disc{
+  font-family:'Marcellus',serif;font-size:7.5px;letter-spacing:3px;
+  text-transform:uppercase;color:#2e2010;margin-bottom:3px;
+}
+.footer-tag{font-family:'Marcellus',serif;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#221a0c}
+
+/* ═══ BRIEFING SHEET ═══ */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,.88);backdrop-filter:blur(5px);
+  align-items:flex-end;justify-content:center;
+}
+.overlay.show{display:flex}
+.sheet{
+  width:100%;max-width:420px;
+  background:
+    linear-gradient(170deg,#0d1118,#090d13) padding-box,
+    linear-gradient(145deg,#f0d78a,#7a5510 40%,#f0d78a) border-box;
+  border:1.5px solid transparent;border-radius:18px 18px 0 0;
+  max-height:92svh;overflow-y:auto;animation:slideUp .28s ease;
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-handle{width:36px;height:4px;border-radius:2px;background:rgba(198,168,79,.2);margin:14px auto 18px}
+.sheet-body{padding:0 20px 28px}
+.sheet-heading{
+  font-family:'Playfair Display',serif;font-weight:700;font-size:20px;
+  color:#ede5d2;margin-bottom:4px;
+}
+.sheet-sub{font-family:'Cormorant Garamond',serif;font-size:13px;color:#4a3820;font-style:italic;margin-bottom:18px}
+.sf-label{
+  display:block;font-family:'Marcellus',serif;font-size:8px;letter-spacing:2px;
+  text-transform:uppercase;color:#4a3820;margin-bottom:5px;
+}
+.sf-input{
+  width:100%;background:#0e1520;border:1px solid rgba(198,168,79,.22);border-radius:5px;
+  padding:11px 13px;font-family:'Cormorant Garamond',serif;font-size:15px;color:#ede5d2;
+  outline:none;transition:border-color .15s;margin-bottom:12px;
+}
+.sf-input::placeholder{color:#2e2410}
+.sf-input:focus{border-color:#c6a84f}
+.sf-input.up{text-transform:uppercase}
+.summary-box{
+  background:#0e1520;border:1px solid rgba(198,168,79,.18);border-radius:8px;
+  padding:12px;margin:14px 0;
+}
+.s-row{
+  display:flex;justify-content:space-between;padding:6px 0;
+  border-bottom:1px solid rgba(198,168,79,.06);font-family:'Cormorant Garamond',serif;font-size:13px;
+}
+.s-row:last-child{border-bottom:none}
+.s-key{color:#4a3820}.s-val{color:#ede5d2;font-weight:600}
+.s-val.gold{
+  font-family:'Playfair Display',serif;font-weight:700;font-size:14px;
+  background:linear-gradient(180deg,#f0d78a,#c6a84f);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.disc-row{display:flex;gap:8px;margin-bottom:4px}
+.disc-input{
+  flex:1;background:#0e1520;border:1px solid rgba(198,168,79,.22);border-radius:5px;
+  padding:10px 12px;font-family:'Cormorant Garamond',serif;font-size:14px;color:#ede5d2;
+  outline:none;text-transform:uppercase;
+}
+.disc-input:focus{border-color:#c6a84f}
+.disc-apply{
+  background:linear-gradient(135deg,#c6a84f,#8a6018);border:none;border-radius:5px;
+  padding:0 16px;font-family:'Marcellus',serif;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:#0a0808;cursor:pointer;white-space:nowrap;
+}
+.disc-msg{font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;min-height:18px;margin-bottom:8px}
+.disc-msg.ok{color:#3aaa6a}.disc-msg.err{color:#c04040}
+.agree{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(198,168,79,.04);border:1px solid rgba(198,168,79,.14);border-radius:5px;
+  padding:11px;cursor:pointer;margin:12px 0;
+  font-family:'Cormorant Garamond',serif;font-size:12px;color:#4a3820;line-height:1.5;
+}
+.agree input[type=checkbox]{width:15px;height:15px;flex-shrink:0;margin-top:1px;accent-color:#c6a84f;cursor:pointer}
+.sheet-cta{
+  width:100%;display:flex;align-items:center;overflow:hidden;border:none;border-radius:6px;
+  background:linear-gradient(135deg,#b8902a,#7a5510 48%,#b8902a);
+  box-shadow:0 6px 24px rgba(198,168,79,.28);cursor:pointer;transition:all .2s;
+  border-top:1px solid rgba(240,210,120,.22);margin-bottom:10px;
+}
+.sheet-cta:hover{background:linear-gradient(135deg,#c6a030,#8a6020 48%,#c6a030)}
+.scta-icon{width:48px;height:50px;background:rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;font-size:18px;border-right:1px solid rgba(0,0,0,.18);flex-shrink:0}
+.scta-text{flex:1;text-align:center;font-family:'Marcellus',serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#0a0808}
+.scta-arr{width:40px;height:50px;display:flex;align-items:center;justify-content:center;font-size:16px;color:rgba(10,8,8,.6);flex-shrink:0}
+.sheet-cancel{
+  width:100%;padding:12px;border:1px solid rgba(198,168,79,.2);border-radius:6px;
+  background:transparent;color:#4a3820;font-family:'Marcellus',serif;font-size:9px;
+  letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;
+}
+.sheet-cancel:hover{border-color:#c6a84f;color:#c6a84f}
+
+/* ═══ DOSSIER RESULT ═══ */
+.result-overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.92);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:16px;
+}
+.result-overlay.show{display:flex}
+.result-card{
+  width:100%;max-width:420px;
+  background:
+    linear-gradient(168deg,#0d1118,#090d13) padding-box,
+    linear-gradient(145deg,#f0d78a,#7a5510 40%,#f0d78a) border-box;
+  border:1.5px solid transparent;border-radius:18px;
+  padding:22px 20px 26px;max-height:92svh;overflow-y:auto;position:relative;
+  animation:scaleFade .3s ease;
+}
+@keyframes scaleFade{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.r-stamp{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-18deg);
+  font-family:'Marcellus',serif;font-size:18px;letter-spacing:5px;text-transform:uppercase;
+  color:rgba(180,50,50,.18);border:2px solid rgba(180,50,50,.14);
+  padding:4px 14px;border-radius:3px;pointer-events:none;white-space:nowrap;
+}
+.r-top{text-align:center;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(198,168,79,.14)}
+.r-bureau{font-family:'Marcellus',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#4a3820;margin-bottom:3px}
+.r-agb{
+  font-family:'Playfair Display',serif;font-weight:900;font-size:28px;letter-spacing:.06em;
+  background:linear-gradient(180deg,#f0d78a,#c6a84f);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.r-bureau2{font-family:'Marcellus',serif;font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:#2e2010;margin-top:2px}
+.r-banner{
+  font-family:'Playfair Display',serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:#c6a84f;border-top:1px solid rgba(198,168,79,.14);border-bottom:1px solid rgba(198,168,79,.14);
+  padding:5px 0;text-align:center;margin:10px 0;
+}
+.r-field{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:6px 0;border-bottom:1px solid rgba(198,168,79,.06);
+  font-family:'Cormorant Garamond',serif;font-size:13px;
+}
+.r-field:last-of-type{border-bottom:none}
+.r-key{color:#4a3820;font-size:10px;font-family:'Marcellus',serif;letter-spacing:1.5px;text-transform:uppercase}
+.r-val{color:#ede5d2;text-align:right;font-weight:600}
+.r-val.gold{
+  font-family:'Playfair Display',serif;font-weight:700;font-size:14px;
+  background:linear-gradient(180deg,#f0d78a,#c6a84f);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.r-invest{
+  text-align:center;padding:14px 0 10px;
+  border-top:1px solid rgba(198,168,79,.12);border-bottom:1px solid rgba(198,168,79,.12);margin:14px 0;
+}
+.ri-lbl{font-family:'Marcellus',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#4a3820;margin-bottom:6px}
+.ri-amt{
+  font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(32px,10vw,44px);line-height:1;
+  background:linear-gradient(180deg,#f0d78a,#c6a84f);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.ri-rate{font-family:'Cormorant Garamond',serif;font-size:12px;color:#4a3820;margin-top:4px}
+.ri-disc{display:none;font-family:'Cormorant Garamond',serif;font-size:12px;color:#3aaa6a;margin-top:6px;padding-top:6px;border-top:1px solid rgba(198,168,79,.1)}
+.r-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.r-action{
+  border:1px solid rgba(198,168,79,.16);border-radius:8px;background:rgba(198,168,79,.04);
+  padding:12px 8px;cursor:pointer;text-align:center;transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+}
+.r-action:hover{background:rgba(198,168,79,.1);border-color:#c6a84f}
+.r-action.wa{background:rgba(37,211,102,.05);border-color:rgba(37,211,102,.26)}
+.r-action.wa:hover{background:rgba(37,211,102,.1)}
+.r-action-icon{font-size:20px}
+.r-action-lbl{font-family:'Marcellus',serif;font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:#4a3820}
+.r-action.wa .r-action-lbl{color:rgba(37,211,102,.75)}
+.r-footer{margin-top:14px;text-align:center;font-family:'Cormorant Garamond',serif;font-size:12px;color:#2e2010;font-style:italic;line-height:1.6}
+.r-sig{margin-top:10px;display:flex;align-items:center;gap:8px;font-family:'Cormorant Garamond',serif;font-size:12px;color:#2e2010;font-style:italic}
+.r-sig-pen{color:#c6a84f;font-size:14px}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ MAIN CARD ══════════════════════ -->
+<div class="card">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="logo.png" class="logo" alt="The Agency">
+    <div class="brand">
+      <span class="brand-agb">AGB</span>
+      <span class="brand-name">Agent Gabriel Bourne</span>
+      <span class="brand-bureau">Advanced Linguistic Bureau</span>
+    </div>
+    <button class="hamburger">≡</button>
+  </div>
+
+  <div class="body">
+
+    <!-- ✦ MISSION RATES ✦ -->
+    <div class="ruler">
+      <div class="r-line"></div>
+      <span class="r-gem">✦</span>
+      <span class="r-text">Mission Rates</span>
+      <span class="r-gem">✦</span>
+      <div class="r-line"></div>
+    </div>
+
+    <!-- SELECT FORMAT -->
+    <div class="sub-label">Select Format</div>
+
+    <div class="formats">
+      <div class="fmt active" id="fmt-vip" onclick="setFormat('vip')">
+        <span class="fmt-check">✓</span>
+        <span class="fmt-icon">♛</span>
+        <div class="fmt-name">VIP</div>
+        <div class="fmt-desc">1 to 1</div>
+      </div>
+      <div class="fmt" id="fmt-partner" onclick="setFormat('partner')">
+        <span class="fmt-check">✓</span>
+        <span class="fmt-icon">🤝</span>
+        <div class="fmt-name">Partner</div>
+        <div class="fmt-desc">2 Persons</div>
+      </div>
+      <div class="fmt" id="fmt-squad" onclick="setFormat('squad')">
+        <span class="fmt-check">✓</span>
+        <span class="fmt-icon">👥</span>
+        <div class="fmt-name">Squad</div>
+        <div class="fmt-desc">3–4 Persons</div>
+      </div>
+    </div>
+
+    <div class="partner-note" id="partner-note">15% off VIP · rate shown per person</div>
+
+    <div class="squad-size" id="squad-size">
+      <div class="sz-btn active" id="sz3" onclick="setSize(3)">
+        <span class="sz-num">3</span><span class="sz-lbl">Members</span>
+      </div>
+      <div class="sz-btn" id="sz4" onclick="setSize(4)">
+        <span class="sz-num">4</span><span class="sz-lbl">Members</span>
+      </div>
+    </div>
+
+    <!-- Est. 2002 -->
+    <div class="est-line">Est. 2002</div>
+
+    <!-- SESSIONS PER WEEK -->
+    <div class="t-ruler" id="sess-ruler">
+      <div class="r-line"></div>
+      <span class="t-label">Sessions per Week</span>
+      <div class="r-line"></div>
+    </div>
+
+    <div class="sessions" id="sess-btns">
+      <button class="sess" onclick="setSess(1)">1</button>
+      <button class="sess" onclick="setSess(2)">2</button>
+      <button class="sess active" onclick="setSess(3)">3</button>
+      <button class="sess" onclick="setSess(4)">4</button>
+      <button class="sess" onclick="setSess(5)">5</button>
+    </div>
+
+    <!-- MONTHLY OVERVIEW -->
+    <div class="t-ruler" style="margin-top:20px">
+      <div class="r-line"></div>
+      <span class="t-label">Monthly Overview</span>
+      <div class="r-line"></div>
+    </div>
+
+    <div class="overview">
+      <div class="ov-row">
+        <span class="ov-key">Sessions per month</span>
+        <span class="ov-val" id="ov-sess">12</span>
+      </div>
+      <div class="ov-row">
+        <span class="ov-key">Rate per session</span>
+        <span class="ov-val" id="ov-rate">R$210</span>
+      </div>
+      <div class="ov-row" id="ov-extra" style="display:none">
+        <span class="ov-key" id="ov-extra-k"></span>
+        <span class="ov-val" id="ov-extra-v"></span>
+      </div>
+    </div>
+
+    <!-- MONTHLY INVESTMENT -->
+    <div class="t-ruler" style="margin-top:18px">
+      <div class="r-line"></div>
+      <span class="t-label" style="color:#2e2010;font-size:8px;letter-spacing:3px">Monthly Investment</span>
+      <div class="r-line"></div>
+    </div>
+
+    <div class="invest-wrap">
+      <div class="invest-amount" id="invest-amount">R$2.520</div>
+      <div class="invest-sub" id="invest-sub">12 classes · R$210 / session</div>
+    </div>
+
+    <!-- laurel -->
+    <div class="laurel">
+      <div class="lau-line lau-l"></div>
+      <span class="lau-gem">🌿</span>
+      <div class="lau-line lau-r"></div>
+    </div>
+
+    <!-- SCHEDULE BRIEFING -->
+    <button class="cta" onclick="openSheet()">
+      <div class="cta-icon-box">📋</div>
+      <div class="cta-text">
+        <span class="cta-main">Schedule Briefing</span>
+        <span class="cta-sub">Lock in your mission</span>
+      </div>
+      <div class="cta-arr">→</div>
+    </button>
+
+    <div class="all-ops" onclick="history.back()">All Operations</div>
+
+    <div class="footer">
+      <div class="footer-dot">· · ·</div>
+      <div class="footer-disc">Discretion · Precision · Results</div>
+      <div class="footer-tag">Language · Impact · Excellence</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════ BRIEFING SHEET ══════════════════ -->
+<div class="overlay" id="sheet-overlay" onclick="bgClose(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-body">
+      <div class="sheet-heading">Schedule Briefing</div>
+      <div class="sheet-sub">Your confidential mission dossier</div>
+      <span class="sf-label">Operative Name</span>
+      <input class="sf-input" id="s-name" type="text" placeholder="Full name">
+      <span class="sf-label">Choose a Codename</span>
+      <input class="sf-input up" id="s-codename" type="text" placeholder="e.g. FALCON">
+      <span class="sf-label">Availability</span>
+      <input class="sf-input" id="s-avail" type="text" placeholder="e.g. Mon + Wed · 18h00">
+      <div class="summary-box" id="sheet-sum"></div>
+      <span class="sf-label" style="margin-bottom:5px">Discount Code (optional)</span>
+      <div class="disc-row">
+        <input class="disc-input" id="disc-code" type="text" placeholder="ENTER CODE">
+        <button class="disc-apply" onclick="applyCode()">Apply</button>
+      </div>
+      <div class="disc-msg" id="disc-msg"></div>
+      <label class="agree">
+        <input type="checkbox" id="agree-box">
+        I acknowledge this quotation is confidential and subject to exclusive availability. Payment due before day 10 of each month. Classes are not replaced.
+      </label>
+      <button class="sheet-cta" onclick="generate()">
+        <div class="scta-icon">📋</div>
+        <span class="scta-text">Compile Dossier</span>
+        <div class="scta-arr">→</div>
+      </button>
+      <button class="sheet-cancel" onclick="closeSheet()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════ DOSSIER RESULT ══════════════════ -->
+<div class="result-overlay" id="res-overlay">
+  <div class="result-card">
+    <div class="r-stamp">CLASSIFIED</div>
+    <div class="r-top">
+      <div class="r-bureau">The Agency · Advanced Linguistic Bureau</div>
+      <div class="r-agb">AGB</div>
+      <div class="r-bureau2">Agent Gabriel Bourne · Director</div>
+    </div>
+    <div class="r-banner">✦ Confidential Mission Dossier ✦</div>
+    <div class="r-field"><span class="r-key">Operative</span><span class="r-val" id="r-name">—</span></div>
+    <div class="r-field"><span class="r-key">Codename</span><span class="r-val gold" id="r-codename">—</span></div>
+    <div class="r-field"><span class="r-key">Dossier Ref.</span><span class="r-val" id="r-ref">—</span></div>
+    <div class="r-field"><span class="r-key">Date Issued</span><span class="r-val" id="r-date">—</span></div>
+    <div class="r-field"><span class="r-key">Mission Profile</span><span class="r-val" id="r-profile">—</span></div>
+    <div class="r-field"><span class="r-key">Weekly Sessions</span><span class="r-val" id="r-freq">—</span></div>
+    <div class="r-field"><span class="r-key">Monthly Sessions</span><span class="r-val" id="r-sessions">—</span></div>
+    <div class="r-field" id="r-avail-row" style="display:none"><span class="r-key">Availability</span><span class="r-val" id="r-avail">—</span></div>
+    <div class="r-invest">
+      <div class="ri-lbl">Monthly Investment</div>
+      <div class="ri-amt" id="ri-amt">—</div>
+      <div class="ri-rate" id="ri-rate">—</div>
+      <div class="ri-disc" id="ri-disc">—</div>
+    </div>
+    <div class="r-actions">
+      <div class="r-action wa" onclick="sendWA()"><span class="r-action-icon">📲</span><span class="r-action-lbl">Transmit via WhatsApp</span></div>
+      <div class="r-action" onclick="window.print()"><span class="r-action-icon">📄</span><span class="r-action-lbl">Download PDF</span></div>
+      <div class="r-action" onclick="backToSheet()"><span class="r-action-icon">↺</span><span class="r-action-lbl">Revise</span></div>
+      <div class="r-action" onclick="closeAll()"><span class="r-action-icon">⟵</span><span class="r-action-lbl">Back to Rates</span></div>
+    </div>
+    <div class="r-footer">Payment in advance · Due before day 10<br>No enrolment fee · No material costs · Classes not replaced</div>
+    <div class="r-sig"><span class="r-sig-pen">✒</span>Agent Gabriel Bourne · Director, The Agency</div>
+  </div>
+</div>
+
+
+<script>
+const S={fmt:'vip',sess:3,members:3,code:null,codeAmt:0};
+const VIP={1:{r:220,mo:4},2:{r:215,mo:8},3:{r:210,mo:12},4:{r:205,mo:16},5:{r:200,mo:20}};
+const CODES={'DENTE600':{label:'Dental Credit',amt:600},'REFER200':{label:'Referral Reward',amt:200},'FIRST100':{label:'New Operative',amt:100}};
+const f=n=>n.toLocaleString('pt-BR');
+const $=id=>document.getElementById(id);
+
+function setFormat(v){
+  S.fmt=v;
+  ['vip','partner','squad'].forEach(x=>$('fmt-'+x).classList.toggle('active',x===v));
+  $('squad-size').classList.toggle('show',v==='squad');
+  $('partner-note').classList.toggle('show',v==='partner');
+  const sq=v==='squad';
+  ['sess-ruler','sess-btns'].forEach(id=>{$(id).style.opacity=sq?'.35':'1';$(id).style.pointerEvents=sq?'none':'auto'});
+  update();
+}
+function setSess(n){
+  S.sess=n;
+  document.querySelectorAll('.sess').forEach((b,i)=>b.classList.toggle('active',i+1===n));
+  update();
+}
+function setSize(n){
+  S.members=n;[3,4].forEach(x=>$('sz'+x).classList.toggle('active',x===n));update();
+}
+function calc(){
+  const{fmt,sess,members}=S;
+  if(fmt==='vip'){const{r,mo}=VIP[sess];return{rate:r,mo,monthly:r*mo,label:'VIP (1-to-1)',extra:null}}
+  if(fmt==='partner'){
+    const{r,mo}=VIP[sess];const st=Math.round(r*2*.85);const pp=Math.round(st/2);
+    return{rate:pp,mo,monthly:pp*mo,label:'Partner (per person)',extra:{k:'Session total (2 people)',v:`R$${f(st)}`}};
+  }
+  const pp=Math.round(400/members);
+  return{rate:pp,mo:null,monthly:null,label:`Squad · ${members} members`,extra:{k:'Fixed session rate',v:'R$400'}};
+}
+function update(){
+  const p=calc();
+  $('ov-sess').textContent=p.mo?`${p.mo} classes`:'Variable';
+  $('ov-rate').textContent=`R$${f(p.rate)} / session`;
+  if(p.extra){$('ov-extra').style.display='flex';$('ov-extra-k').textContent=p.extra.k;$('ov-extra-v').textContent=p.extra.v}
+  else{$('ov-extra').style.display='none'}
+  if(p.monthly){$('invest-amount').textContent=`R$${f(p.monthly)}`;$('invest-sub').textContent=`${p.mo} classes · R$${f(p.rate)} / session`}
+  else{$('invest-amount').textContent='R$400';$('invest-sub').textContent=`per session (fixed) · R$${f(p.rate)} per person`}
+}
+function openSheet(){
+  const p=calc();const fl=S.fmt==='squad'?'Variable':`${S.sess}× / week`;
+  const ml=p.mo?`${p.mo} classes`:'Variable';const inv=p.monthly?`R$${f(p.monthly)}`:'R$400 / session';
+  $('sheet-sum').innerHTML=`<div class="s-row"><span class="s-key">Profile</span><span class="s-val">${p.label}</span></div><div class="s-row"><span class="s-key">Frequency</span><span class="s-val">${fl}</span></div><div class="s-row"><span class="s-key">Monthly sessions</span><span class="s-val">${ml}</span></div><div class="s-row"><span class="s-key">Monthly investment</span><span class="s-val gold">${inv}</span></div>`;
+  $('sheet-overlay').classList.add('show');document.body.style.overflow='hidden';
+}
+function closeSheet(){$('sheet-overlay').classList.remove('show');document.body.style.overflow=''}
+function bgClose(e){if(e.target===$('sheet-overlay'))closeSheet()}
+function applyCode(){
+  const c=$('disc-code').value.trim().toUpperCase();const m=$('disc-msg');
+  if(CODES[c]){S.code=c;S.codeAmt=CODES[c].amt;m.className='disc-msg ok';m.textContent=`✓ ${CODES[c].label} — R$${CODES[c].amt} off Month 1`}
+  else if(!c){S.code=null;S.codeAmt=0;m.className='disc-msg';m.textContent=''}
+  else{S.code=null;S.codeAmt=0;m.className='disc-msg err';m.textContent='Code not recognised · Try DENTE600 · REFER200 · FIRST100'}
+}
+function generate(){
+  const name=$('s-name').value.trim()||'Operative';
+  const cn=$('s-codename').value.trim().toUpperCase()||'CLASSIFIED';
+  const avail=$('s-avail').value.trim();
+  if(!$('agree-box').checked){alert('Please confirm the Confidential Agreement.');return}
+  const now=new Date();
+  const ref=`COS-${String(now.getFullYear()).slice(2)}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${String(Math.floor(Math.random()*89)+10)}`;
+  const dateStr=now.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'}).toUpperCase();
+  const p=calc();const fl=S.fmt==='squad'?'Variable':`${S.sess}× / week`;
+  const ml=p.mo?`${p.mo} classes`:'Variable';const inv=p.monthly?`R$${f(p.monthly)}`:'R$400 / session';
+  $('r-name').textContent=name;$('r-codename').textContent=cn;$('r-ref').textContent=ref;
+  $('r-date').textContent=dateStr;$('r-profile').textContent=p.label;
+  $('r-freq').textContent=fl;$('r-sessions').textContent=ml;
+  $('ri-amt').textContent=inv;
+  $('ri-rate').textContent=p.monthly?`R$${f(p.rate)} / session`:`R$${f(p.rate)} per person / session`;
+  if(avail){$('r-avail-row').style.display='flex';$('r-avail').textContent=avail}else{$('r-avail-row').style.display='none'}
+  const d=$('ri-disc');
+  if(S.code){d.style.display='block';d.textContent=`✓ ${CODES[S.code].label} — R$${S.codeAmt} off Month 1`}else{d.style.display='none'}
+  S._d={name,cn,ref,dateStr,profile:p.label,freq:fl,sessions:ml,inv,rate:`R$${f(p.rate)}`,avail};
+  $('sheet-overlay').classList.remove('show');$('res-overlay').classList.add('show');
+}
+function sendWA(){
+  const d=S._d||{};
+  const disc=S.code?`\n🏷 Discount: ${CODES[S.code].label} — R$${S.codeAmt} off Month 1`:'';
+  const avail=d.avail?`\n📅 Availability: ${d.avail}`:'';
+  const msg=`📋 AGB — MISSION DOSSIER\nAgent Gabriel Bourne | Advanced Linguistic Bureau\n\n🎖 OPERATIVE\nName: ${d.name}\nCodename: ${d.cn}\nRef: ${d.ref} · ${d.dateStr}\n\n🎯 MISSION PROFILE\nTier: ${d.profile}\nFrequency: ${d.freq}\nMonthly Sessions: ${d.sessions}\n\n💰 MONTHLY INVESTMENT\n${d.inv}${disc}${avail}\n\n📌 TERMS\nPayment in advance · Due before day 10\nNo enrolment fee · No material costs\nClasses not replaced\n\nAUTHORISED BY: Agent Gabriel Bourne\nlondonbourne81@gmail.com\n\nLANGUAGE · IMPACT · EXCELLENCE`;
+  window.open(`https://wa.me/5548999415884?text=${encodeURIComponent(msg)}`,'_blank');
+}
+function backToSheet(){$('res-overlay').classList.remove('show');$('sheet-overlay').classList.add('show')}
+function closeAll(){$('res-overlay').classList.remove('show');document.body.style.overflow=''}
+update();
+</script>
+</body>
+</html>
