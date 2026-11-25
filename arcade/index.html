@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>The Arcade — Gabriel Bourne</title>
+<meta name="description" content="Interactive English games and creative experiments by Gabriel Bourne, The Agency (AGB)."/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%;background:#050A0F;color:#F4EFE7;font-family:'Inter',sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:72px 32px 120px}
+a{color:inherit;text-decoration:none}
+.back{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;color:rgba(198,161,91,.6);text-transform:uppercase}
+.back:hover{color:#C6A15B}
+header{margin:40px 0 56px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.35em;color:rgba(198,161,91,.55);text-transform:uppercase;margin-bottom:14px}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(40px,7vw,72px);line-height:1.05}
+h1 em{font-style:italic;color:#C6A15B}
+.sub{margin-top:16px;max-width:560px;color:rgba(244,239,231,.55);line-height:1.7;font-size:15px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px}
+.filters button{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:rgba(244,239,231,.6);border:1px solid rgba(198,161,91,.25);padding:8px 14px;cursor:pointer}
+.filters button.on,.filters button:hover{background:#C6A15B;color:#050A0F;border-color:#C6A15B}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:flex;flex-direction:column;background:#0C1B2A;border:1px solid rgba(198,161,91,.12);padding:26px 24px 22px;min-height:200px;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:rgba(198,161,91,.6)}
+.icon{font-size:30px;margin-bottom:16px}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:#C6A15B;margin-bottom:8px}
+.card h2{font-family:'Playfair Display',Georgia,serif;font-size:21px;line-height:1.2;margin-bottom:8px}
+.card p{font-size:13px;line-height:1.6;color:rgba(244,239,231,.5);flex:1}
+.play{margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#C6A15B}
+footer{margin-top:72px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(244,239,231,.3);line-height:1.9}
+footer a{color:rgba(198,161,91,.7)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← HQ</a>
+  <header>
+    <div class="eyebrow">AGB · The Agency · Field Kit</div>
+    <h1>The <em>Arcade</em></h1>
+    <p class="sub">Games and drills I build for my English students, plus creative experiments made with AI. Tap any card and play. No sign-up.</p>
+  </header>
+
+  <div class="filters" id="filters">
+    <button class="on" data-f="all">All</button>
+    <button data-f="game">Games</button>
+    <button data-f="grammar">Grammar drills</button>
+    <button data-f="creative">Creative</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    Built by Gabriel Bourne — English coach, 20+ years.<br/>
+    Classes: <a href="https://wa.me/5548999415884">WhatsApp</a> · <a href="mailto:londonbourne81@gmail.com">Email</a>
+  </footer>
+</div>
+<script>
+const A='https://claude.ai/artifact/';
+const items=[
+ ['🎾','game','Bourne Street Tennis','Fast-reflex question-forming game. Rally or lose the point.','47GQnh1K2yZz9k3j3Mp4f3'],
+ ['🎾','game','The Tennis Method','16-bit tennis: tap the right return as the courts speed up from morning to night.','KBzQ1kJ6fWs1MguWdDM1AS'],
+ ['🎾','game','Bourne Takes the Court','The story mission behind the tennis series.','DQAsKDN2B6keviJLJZfdDo'],
+ ['🏹','game','Bourne Archery','Robin Hood meets cyberpunk. Hit the right statement.','Sjq6WCVd9irzafqReYMdus'],
+ ['🍔','game','BEM BAH Burger Builder','Build-a-burger game made for a local burger bar.','VUhTh321ff78kxEJ9ydDAj'],
+ ['🎵','game','Inglês com Música','Music word search: each word unlocks a dossier card with audio.','VoUSzBgDuYfjug1ZjNAf1d'],
+ ['🕵️','game','Operação Preposições','A spy mission built around prepositions.','21PuyQzZ2ZLjrzMBGGoB6D'],
+ ['🕵️','game','Operação Fim de Semana','Weekend-talk mission for beginners.','SkREXmJyF63axtsBNkiMno'],
+ ['⭐','game','Operação 10 Minutos','A ten-minute speaking mission.','X71zFmhK1C3PFuecByVK72'],
+ ['🔵','grammar','Prepositions 1: AT · IN · ON','The three hardest little words, finally clear.','Pqq8aU7hVR9KVioeQUgNS2'],
+ ['🔵','grammar','Prepositions: Space and Time','Where and when, mapped visually.','JT1ZJs8YYyXmC2zupJ3S4n'],
+ ['⚖️','grammar','Comparatives & Superlatives','Bigger, better, the best — drilled.','3Vyr6H2XXuAN8RkRqMDXru'],
+ ['⏱️','grammar','Frequency Adverbs','Always, usually, never — and where they go.','GyR4PD3WkTXpFfXckwQhTo'],
+ ['🔁','grammar','Phrasal Verbs','The verbs natives use and textbooks skip.','NaPTPeDgYdXfchwJ1j57Fj'],
+ ['☕','grammar','Have Expressions','Have a coffee, have a go, have fun.','7hiT2BEfUELWdPydpCRhb4'],
+ ['🧩','grammar','Do, Have, Make','The three verbs Brazilians mix up most.','EnUaiA2ZRsHRdNeA7fppKj'],
+ ['📖','grammar','Verb Word Search','Find the verbs, learn the verbs.','NX3EAPBKjzAwf4dkcPv8dR'],
+ ['🔤','grammar','Irregular Verb Word Search','Past forms hidden in the grid.','9XeJq2oFF3di8foseHnCMt'],
+ ['🏛️','grammar','Four Pillars Builder','Build sentences on the four pillars of English tense.','Y9qUxaRN1wk2sQzbAsAhrC'],
+ ['📐','grammar','The Second Column Rule','One rule that fixes the past tense.','P9DqkKL51hvreSkvbEcrGT'],
+ ['🏮','creative','Yūji Yanase Tribute','A paper-collage homage to the animator, in English and Portuguese.','33NrUrVQF5T3MD5ego3NNm'],
+ ['⏳','creative','A Geometria do Tempo','An interactive essay on how English sees time.','Yc62gPGNeXRLJSTSiJg8mp']
+];
+const grid=document.getElementById('grid');
+const label={game:'Game',grammar:'Grammar drill',creative:'Creative'};
+grid.innerHTML=items.map(([i,c,t,d,id])=>`<a class="card" data-c="${c}" href="${A+id}" target="_blank" rel="noopener"><div class="icon">${i}</div><div class="tag">${label[c]}</div><h2>${t}</h2><p>${d}</p><div class="play">Play →</div></a>`).join('');
+document.getElementById('filters').addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('on',x===b));
+ const f=b.dataset.f;
+ grid.querySelectorAll('.card').forEach(el=>el.style.display=(f==='all'||el.dataset.c===f)?'':'none');
+});
+</script>
+</body>
+</html>
